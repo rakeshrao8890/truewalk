@@ -1,0 +1,2140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>TRUE WALK - Login</title>
+
+  <link rel="stylesheet" href="css/style.css">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #020617;
+      --bg2: #071126;
+
+      --glass: rgba(9, 17, 38, 0.72);
+      --glass-light: rgba(255, 255, 255, 0.055);
+      --border: rgba(255, 255, 255, 0.105);
+
+      --white: #ffffff;
+      --muted: #8e9ab3;
+      --muted2: #65708a;
+
+      --blue: #19baff;
+      --blue2: #536dff;
+      --purple: #9b4dff;
+      --pink: #ff3fb4;
+
+      --orange: #ff8a18;
+      --orange2: #ffc04d;
+
+      --danger: #ff5c78;
+      --success: #43e39a;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--white);
+
+      background:
+        radial-gradient(
+          circle at 10% 5%,
+          rgba(25, 186, 255, .16),
+          transparent 28%
+        ),
+        radial-gradient(
+          circle at 90% 20%,
+          rgba(155, 77, 255, .16),
+          transparent 28%
+        ),
+        radial-gradient(
+          circle at 80% 90%,
+          rgba(255, 63, 180, .10),
+          transparent 28%
+        ),
+        linear-gradient(
+          145deg,
+          #020617,
+          #04091b 50%,
+          #020617
+        );
+
+      overflow-x: hidden;
+    }
+
+
+    /* =====================================================
+       BACKGROUND
+    ===================================================== */
+
+    .background-glow {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .background-glow::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+
+      background:
+        linear-gradient(
+          120deg,
+          transparent 0%,
+          rgba(25, 186, 255, .025) 45%,
+          transparent 46%
+        );
+
+      background-size: 260px 260px;
+
+      animation: gridMove 18s linear infinite;
+    }
+
+    @keyframes gridMove {
+      from {
+        transform: translate3d(0, 0, 0);
+      }
+
+      to {
+        transform: translate3d(260px, 260px, 0);
+      }
+    }
+
+    .glow {
+      position: absolute;
+
+      width: 280px;
+      height: 280px;
+
+      border-radius: 50%;
+
+      filter: blur(80px);
+
+      opacity: .32;
+
+      animation:
+        floatingGlow 10s ease-in-out infinite;
+    }
+
+    .glow-one {
+      top: -100px;
+      left: -100px;
+
+      background:
+        rgba(25, 186, 255, .28);
+    }
+
+    .glow-two {
+      right: -120px;
+      bottom: -100px;
+
+      background:
+        rgba(155, 77, 255, .28);
+
+      animation-delay: 2.5s;
+    }
+
+    .glow-three {
+      width: 180px;
+      height: 180px;
+
+      top: 42%;
+      left: 45%;
+
+      background:
+        rgba(255, 63, 180, .16);
+
+      opacity: .5;
+
+      animation-delay: 4s;
+    }
+
+    @keyframes floatingGlow {
+
+      0%, 100% {
+        transform:
+          translate3d(0, 0, 0)
+          scale(1);
+      }
+
+      50% {
+        transform:
+          translate3d(35px, -40px, 0)
+          scale(1.15);
+      }
+    }
+
+
+    /* =====================================================
+       PAGE
+    ===================================================== */
+
+    .login-page {
+      min-height: 100vh;
+      width: 100%;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      padding: 28px 16px;
+
+      position: relative;
+      z-index: 1;
+    }
+
+
+    /* =====================================================
+       LOGIN CARD
+    ===================================================== */
+
+    .login-box {
+      position: relative;
+
+      width: 100%;
+      max-width: 440px;
+
+      padding: 36px 25px 27px;
+
+      background:
+        linear-gradient(
+          145deg,
+          rgba(12, 23, 48, .82),
+          rgba(4, 10, 27, .74)
+        );
+
+      border:
+        1px solid
+        rgba(255,255,255,.105);
+
+      border-radius: 32px;
+
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+
+      box-shadow:
+        0 35px 100px rgba(0,0,0,.62),
+        0 0 70px rgba(25,186,255,.055),
+        inset 0 1px 0 rgba(255,255,255,.075);
+
+      overflow: hidden;
+
+      animation:
+        cardEntrance .85s
+        cubic-bezier(.2,.8,.2,1);
+    }
+
+    .login-box::before {
+      content: "";
+
+      position: absolute;
+
+      top: 0;
+      left: 12%;
+      right: 12%;
+
+      height: 1px;
+
+      background:
+        linear-gradient(
+          90deg,
+          transparent,
+          rgba(25,186,255,.75),
+          rgba(155,77,255,.75),
+          transparent
+        );
+
+      filter:
+        drop-shadow(
+          0 0 8px rgba(25,186,255,.55)
+        );
+    }
+
+    .login-box::after {
+      content: "";
+
+      position: absolute;
+
+      width: 180px;
+      height: 180px;
+
+      right: -100px;
+      top: 25%;
+
+      border-radius: 50%;
+
+      background:
+        rgba(25,186,255,.055);
+
+      filter: blur(45px);
+
+      pointer-events: none;
+    }
+
+    @keyframes cardEntrance {
+
+      from {
+        opacity: 0;
+        transform:
+          translateY(40px)
+          scale(.95);
+      }
+
+      to {
+        opacity: 1;
+        transform:
+          translateY(0)
+          scale(1);
+      }
+    }
+
+
+    /* =====================================================
+       LOGO
+    ===================================================== */
+
+    .logo-area {
+      text-align: center;
+      margin-bottom: 30px;
+
+      position: relative;
+      z-index: 2;
+    }
+
+    .logo-frame {
+      position: relative;
+
+      width: 104px;
+      height: 104px;
+
+      padding: 3px;
+
+      margin:
+        0 auto 18px;
+
+      border-radius: 29px;
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--blue),
+          var(--purple),
+          var(--pink),
+          var(--orange)
+        );
+
+      background-size: 300% 300%;
+
+      box-shadow:
+        0 0 35px rgba(25,186,255,.18),
+        0 0 65px rgba(155,77,255,.10);
+
+      animation:
+        logoGradient 7s ease infinite,
+        logoFloat 4s ease-in-out infinite;
+    }
+
+    @keyframes logoGradient {
+
+      0%, 100% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+    }
+
+    .logo-frame::before {
+      content: "";
+
+      position: absolute;
+      inset: -7px;
+
+      border-radius: 35px;
+
+      border:
+        1px solid
+        rgba(25,186,255,.16);
+
+      animation:
+        logoRing 3s ease-out infinite;
+    }
+
+    @keyframes logoRing {
+
+      0% {
+        opacity: .75;
+        transform: scale(.94);
+      }
+
+      100% {
+        opacity: 0;
+        transform: scale(1.12);
+      }
+    }
+
+    .logo-frame img {
+      width: 100%;
+      height: 100%;
+
+      display: block;
+
+      object-fit: contain;
+
+      background:
+        linear-gradient(
+          145deg,
+          #071126,
+          #020617
+        );
+
+      border-radius: 26px;
+    }
+
+    @keyframes logoFloat {
+
+      0%, 100% {
+        transform:
+          translateY(0);
+      }
+
+      50% {
+        transform:
+          translateY(-7px);
+      }
+    }
+
+    .logo-area h1 {
+      font-size: 31px;
+      line-height: 1;
+
+      font-weight: 900;
+
+      letter-spacing: 2px;
+
+      background:
+        linear-gradient(
+          90deg,
+          #ffffff,
+          #69d8ff,
+          #b77cff,
+          #ffffff
+        );
+
+      background-size: 250% auto;
+
+      -webkit-background-clip: text;
+      background-clip: text;
+
+      -webkit-text-fill-color: transparent;
+
+      animation:
+        titleShine 5s linear infinite;
+    }
+
+    @keyframes titleShine {
+
+      to {
+        background-position:
+          250% center;
+      }
+    }
+
+    .logo-area p {
+      margin-top: 11px;
+
+      color: var(--muted);
+
+      font-size: 13px;
+    }
+
+
+    /* =====================================================
+       FORM
+    ===================================================== */
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-group label {
+      display: block;
+
+      margin-bottom: 8px;
+
+      color: #d7def0;
+
+      font-size: 12px;
+      font-weight: 800;
+
+      letter-spacing: .3px;
+    }
+
+    .input-wrap {
+      position: relative;
+    }
+
+    .input-icon {
+      position: absolute;
+
+      left: 16px;
+      top: 50%;
+
+      transform:
+        translateY(-50%);
+
+      width: 20px;
+
+      text-align: center;
+
+      color: #6e7b96;
+
+      font-size: 15px;
+
+      pointer-events: none;
+
+      transition:
+        color .25s ease,
+        transform .25s ease;
+    }
+
+    .form-group input {
+      width: 100%;
+      height: 56px;
+
+      padding:
+        0 15px 0 47px;
+
+      border:
+        1px solid
+        rgba(255,255,255,.095);
+
+      border-radius: 16px;
+
+      outline: none;
+
+      background:
+        rgba(255,255,255,.045);
+
+      color: #fff;
+
+      font-size: 14px;
+
+      transition:
+        border-color .25s ease,
+        background .25s ease,
+        box-shadow .25s ease,
+        transform .25s ease;
+    }
+
+    .form-group input::placeholder {
+      color: #58647c;
+    }
+
+    .form-group input:focus {
+      border-color:
+        rgba(25,186,255,.65);
+
+      background:
+        rgba(25,186,255,.045);
+
+      box-shadow:
+        0 0 0 4px
+        rgba(25,186,255,.07),
+        0 0 25px
+        rgba(25,186,255,.07);
+
+      transform:
+        translateY(-1px);
+    }
+
+    .input-wrap:focus-within .input-icon {
+      color: var(--blue);
+
+      transform:
+        translateY(-50%)
+        scale(1.08);
+    }
+
+
+    /* =====================================================
+       PASSWORD
+    ===================================================== */
+
+    .password-toggle {
+      position: absolute;
+
+      right: 12px;
+      top: 50%;
+
+      transform:
+        translateY(-50%);
+
+      border: 0;
+
+      background:
+        rgba(255,255,255,.035);
+
+      color: #77839b;
+
+      cursor: pointer;
+
+      font-size: 10px;
+      font-weight: 800;
+
+      letter-spacing: .5px;
+
+      padding: 8px 9px;
+
+      border-radius: 8px;
+
+      transition:
+        color .2s ease,
+        background .2s ease,
+        transform .2s ease;
+    }
+
+    .password-toggle:hover {
+      color: #fff;
+
+      background:
+        rgba(25,186,255,.10);
+
+      transform:
+        translateY(-50%)
+        scale(1.04);
+    }
+
+    #password {
+      padding-right: 62px;
+    }
+
+
+    /* =====================================================
+       LOGIN BUTTON
+    ===================================================== */
+
+    .login-btn {
+      position: relative;
+
+      width: 100%;
+      height: 56px;
+
+      border: none;
+      border-radius: 16px;
+
+      background:
+        linear-gradient(
+          110deg,
+          var(--blue),
+          var(--blue2),
+          var(--purple),
+          var(--pink)
+        );
+
+      background-size: 250% 250%;
+
+      color: #fff;
+
+      font-size: 14px;
+      font-weight: 900;
+
+      letter-spacing: 1.2px;
+
+      cursor: pointer;
+
+      overflow: hidden;
+
+      box-shadow:
+        0 15px 35px
+        rgba(25,186,255,.17),
+        0 5px 20px
+        rgba(155,77,255,.12);
+
+      transition:
+        transform .22s ease,
+        box-shadow .22s ease,
+        opacity .22s ease;
+
+      animation:
+        buttonGradient 6s ease infinite;
+    }
+
+    @keyframes buttonGradient {
+
+      0%, 100% {
+        background-position:
+          0% 50%;
+      }
+
+      50% {
+        background-position:
+          100% 50%;
+      }
+    }
+
+    .login-btn::before {
+      content: "";
+
+      position: absolute;
+
+      top: 0;
+      left: -120%;
+
+      width: 65%;
+      height: 100%;
+
+      background:
+        linear-gradient(
+          90deg,
+          transparent,
+          rgba(255,255,255,.42),
+          transparent
+        );
+
+      transform:
+        skewX(-20deg);
+
+      animation:
+        buttonShine 3.2s infinite;
+    }
+
+    @keyframes buttonShine {
+
+      0% {
+        left: -120%;
+      }
+
+      45%, 100% {
+        left: 150%;
+      }
+    }
+
+    .login-btn span {
+      position: relative;
+      z-index: 1;
+    }
+
+    .login-btn:hover {
+      transform:
+        translateY(-3px);
+
+      box-shadow:
+        0 20px 42px
+        rgba(25,186,255,.22),
+        0 10px 30px
+        rgba(155,77,255,.18);
+    }
+
+    .login-btn:active {
+      transform:
+        scale(.97);
+    }
+
+    .login-btn:disabled {
+      opacity: .62;
+
+      cursor: not-allowed;
+
+      transform: none;
+    }
+
+
+    /* =====================================================
+       MESSAGE
+    ===================================================== */
+
+    .message {
+      display: none;
+
+      margin-top: 15px;
+
+      padding: 12px 13px;
+
+      border-radius: 13px;
+
+      text-align: center;
+
+      font-size: 12px;
+
+      line-height: 1.4;
+
+      animation:
+        messageIn .3s ease;
+    }
+
+    @keyframes messageIn {
+
+      from {
+        opacity: 0;
+        transform:
+          translateY(-6px);
+      }
+
+      to {
+        opacity: 1;
+        transform:
+          translateY(0);
+      }
+    }
+
+    .message.error {
+      display: block;
+
+      background:
+        rgba(255,70,100,.075);
+
+      border:
+        1px solid
+        rgba(255,70,100,.20);
+
+      color: #ff8297;
+    }
+
+    .message.success {
+      display: block;
+
+      background:
+        rgba(67,227,154,.075);
+
+      border:
+        1px solid
+        rgba(67,227,154,.20);
+
+      color: #6ee6ad;
+    }
+
+
+    /* =====================================================
+       LINKS
+    ===================================================== */
+
+    .register-text {
+      text-align: center;
+
+      margin-top: 25px;
+
+      color: #69748b;
+
+      font-size: 13px;
+    }
+
+    .register-text a {
+      color: #63d5ff;
+
+      font-weight: 800;
+
+      text-decoration: none;
+
+      transition:
+        color .2s ease,
+        text-shadow .2s ease;
+    }
+
+    .register-text a:hover {
+      color: #fff;
+
+      text-shadow:
+        0 0 12px
+        rgba(25,186,255,.55);
+    }
+
+    .back-home {
+      display: block;
+
+      text-align: center;
+
+      margin-top: 18px;
+
+      color: #667188;
+
+      text-decoration: none;
+
+      font-size: 12px;
+
+      transition:
+        color .2s ease,
+        transform .2s ease;
+    }
+
+    .back-home:hover {
+      color: #fff;
+
+      transform:
+        translateY(-2px);
+    }
+
+    .security-note {
+      margin-top: 23px;
+
+      text-align: center;
+
+      color: #414c63;
+
+      font-size: 9px;
+
+      letter-spacing: 1px;
+    }
+
+
+    /* =====================================================
+       WELCOME POPUP
+    ===================================================== */
+
+    .welcome-overlay {
+      position: fixed;
+
+      inset: 0;
+
+      display: none;
+
+      align-items: center;
+      justify-content: center;
+
+      padding: 16px;
+
+      background:
+        rgba(1,4,14,.84);
+
+      z-index: 99999;
+
+      backdrop-filter:
+        blur(16px);
+
+      -webkit-backdrop-filter:
+        blur(16px);
+    }
+
+    .welcome-overlay.show {
+      display: flex;
+
+      animation:
+        overlayIn .25s ease;
+    }
+
+    @keyframes overlayIn {
+
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    .welcome-popup {
+      position: relative;
+
+      width: 100%;
+      max-width: 420px;
+
+      max-height: 92vh;
+
+      overflow-y: auto;
+
+      padding: 28px 19px 20px;
+
+      background:
+        linear-gradient(
+          145deg,
+          rgba(10,24,50,.98),
+          rgba(3,8,22,.99)
+        );
+
+      border:
+        1px solid
+        rgba(25,186,255,.20);
+
+      border-radius: 28px;
+
+      box-shadow:
+        0 40px 110px
+        rgba(0,0,0,.76),
+        0 0 55px
+        rgba(25,186,255,.07),
+        inset 0 1px 0
+        rgba(255,255,255,.065);
+
+      animation:
+        popupShow .45s
+        cubic-bezier(.2,.8,.2,1);
+    }
+
+    .welcome-popup::before {
+      content: "";
+
+      position: absolute;
+
+      top: 0;
+      left: 15%;
+      right: 15%;
+
+      height: 1px;
+
+      background:
+        linear-gradient(
+          90deg,
+          transparent,
+          var(--blue),
+          var(--purple),
+          transparent
+        );
+    }
+
+    .welcome-popup::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .welcome-popup::-webkit-scrollbar-thumb {
+      background:
+        #25314a;
+
+      border-radius: 20px;
+    }
+
+    @keyframes popupShow {
+
+      from {
+        opacity: 0;
+
+        transform:
+          translateY(28px)
+          scale(.92);
+      }
+
+      to {
+        opacity: 1;
+
+        transform:
+          translateY(0)
+          scale(1);
+      }
+    }
+
+
+    /* =====================================================
+       POPUP HEADER
+    ===================================================== */
+
+    .popup-header {
+      text-align: center;
+
+      margin-bottom: 20px;
+    }
+
+    .popup-icon {
+      position: relative;
+
+      width: 65px;
+      height: 65px;
+
+      margin:
+        0 auto 14px;
+
+      border-radius: 50%;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--blue),
+          var(--purple)
+        );
+
+      color: #fff;
+
+      font-size: 27px;
+      font-weight: 900;
+
+      box-shadow:
+        0 0 35px
+        rgba(25,186,255,.22);
+
+      animation:
+        popupIcon 2.4s
+        ease-in-out infinite;
+    }
+
+    .popup-icon::after {
+      content: "";
+
+      position: absolute;
+
+      inset: -7px;
+
+      border:
+        1px solid
+        rgba(25,186,255,.25);
+
+      border-radius: 50%;
+
+      animation:
+        iconRing 2s ease-out infinite;
+    }
+
+    @keyframes popupIcon {
+
+      0%, 100% {
+        transform:
+          translateY(0);
+      }
+
+      50% {
+        transform:
+          translateY(-4px);
+      }
+    }
+
+    @keyframes iconRing {
+
+      0% {
+        opacity: .8;
+
+        transform:
+          scale(.85);
+      }
+
+      100% {
+        opacity: 0;
+
+        transform:
+          scale(1.3);
+      }
+    }
+
+    .popup-header h2 {
+      font-size: 24px;
+
+      font-weight: 900;
+
+      background:
+        linear-gradient(
+          90deg,
+          #fff,
+          #67d7ff,
+          #b783ff,
+          #fff
+        );
+
+      background-size:
+        220% auto;
+
+      -webkit-background-clip: text;
+      background-clip: text;
+
+      -webkit-text-fill-color: transparent;
+
+      animation:
+        titleShine 5s linear infinite;
+    }
+
+    .popup-header p {
+      margin-top: 6px;
+
+      color: #75829a;
+
+      font-size: 12px;
+    }
+
+
+    /* =====================================================
+       POPUP INFO
+    ===================================================== */
+
+    .popup-info {
+      display: flex;
+
+      flex-direction: column;
+
+      gap: 9px;
+
+      margin-bottom: 17px;
+    }
+
+    .popup-item {
+      display: flex;
+
+      align-items: center;
+
+      gap: 11px;
+
+      padding: 10px;
+
+      background:
+        rgba(255,255,255,.035);
+
+      border:
+        1px solid
+        rgba(255,255,255,.065);
+
+      border-radius: 14px;
+
+      transition:
+        transform .2s ease,
+        background .2s ease,
+        border-color .2s ease;
+    }
+
+    .popup-item:hover {
+      transform:
+        translateX(3px);
+
+      background:
+        rgba(25,186,255,.055);
+
+      border-color:
+        rgba(25,186,255,.18);
+    }
+
+    .popup-item-icon {
+      width: 37px;
+      height: 37px;
+
+      min-width: 37px;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 11px;
+
+      background:
+        linear-gradient(
+          135deg,
+          rgba(25,186,255,.12),
+          rgba(155,77,255,.10)
+        );
+
+      color: #67d7ff;
+
+      font-size: 15px;
+
+      font-weight: 800;
+    }
+
+    .popup-item-text {
+      flex: 1;
+
+      min-width: 0;
+    }
+
+    .popup-item-title {
+      color: #63708a;
+
+      font-size: 10px;
+
+      margin-bottom: 3px;
+    }
+
+    .popup-item-value {
+      color: #e7ecf7;
+
+      font-size: 12px;
+
+      font-weight: 700;
+
+      line-height: 1.3;
+    }
+
+
+    /* =====================================================
+       TELEGRAM
+    ===================================================== */
+
+    .telegram-btn {
+      width: 100%;
+      height: 51px;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      gap: 8px;
+
+      margin-bottom: 10px;
+
+      background:
+        linear-gradient(
+          135deg,
+          #168dcc,
+          #27a9df
+        );
+
+      color: #fff;
+
+      text-decoration: none;
+
+      border-radius: 14px;
+
+      font-size: 13px;
+
+      font-weight: 800;
+
+      box-shadow:
+        0 10px 25px
+        rgba(34,158,217,.13);
+
+      transition:
+        transform .2s ease,
+        box-shadow .2s ease;
+    }
+
+    .telegram-btn:hover {
+      transform:
+        translateY(-2px);
+
+      box-shadow:
+        0 15px 30px
+        rgba(34,158,217,.22);
+    }
+
+
+    /* =====================================================
+       START BUTTON
+    ===================================================== */
+
+    .start-btn {
+      width: 100%;
+      height: 52px;
+
+      border: none;
+
+      border-radius: 14px;
+
+      background:
+        linear-gradient(
+          110deg,
+          var(--blue),
+          var(--blue2),
+          var(--purple)
+        );
+
+      background-size:
+        220% 220%;
+
+      color: #fff;
+
+      font-size: 13px;
+
+      font-weight: 900;
+
+      cursor: pointer;
+
+      transition:
+        transform .2s ease,
+        box-shadow .2s ease;
+
+      animation:
+        buttonGradient 6s ease infinite;
+    }
+
+    .start-btn:hover {
+      transform:
+        translateY(-2px);
+
+      box-shadow:
+        0 12px 30px
+        rgba(25,186,255,.18);
+    }
+
+    .start-btn:active {
+      transform:
+        scale(.97);
+    }
+
+    .popup-note {
+      text-align: center;
+
+      color: #48546b;
+
+      font-size: 9px;
+
+      line-height: 1.5;
+
+      margin-top: 12px;
+    }
+
+
+    /* =====================================================
+       MOBILE
+    ===================================================== */
+
+    @media (max-width: 480px) {
+
+      .login-page {
+        padding:
+          18px 11px;
+      }
+
+      .login-box {
+        padding:
+          29px 18px 24px;
+
+        border-radius: 27px;
+      }
+
+      .logo-frame {
+        width: 92px;
+        height: 92px;
+
+        border-radius: 25px;
+      }
+
+      .logo-frame img {
+        border-radius: 22px;
+      }
+
+      .logo-area h1 {
+        font-size: 28px;
+      }
+
+      .welcome-overlay {
+        padding: 10px;
+      }
+
+      .welcome-popup {
+        padding:
+          24px 14px 17px;
+
+        border-radius: 25px;
+      }
+
+      .popup-header h2 {
+        font-size: 22px;
+      }
+    }
+
+
+    @media (max-height: 700px) {
+
+      .login-page {
+        align-items: flex-start;
+
+        padding-top: 20px;
+      }
+
+      .login-box {
+        margin:
+          10px 0;
+      }
+    }
+
+
+    /* =====================================================
+       REDUCED MOTION
+    ===================================================== */
+
+    @media (prefers-reduced-motion: reduce) {
+
+      *,
+      *::before,
+      *::after {
+        animation-duration:
+          .01ms !important;
+
+        animation-iteration-count:
+          1 !important;
+
+        transition-duration:
+          .01ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Animated Background -->
+  <div class="background-glow">
+    <div class="glow glow-one"></div>
+    <div class="glow glow-two"></div>
+    <div class="glow glow-three"></div>
+  </div>
+
+
+  <!-- =========================
+       LOGIN PAGE
+  ========================= -->
+
+  <main class="login-page">
+
+    <div class="login-box">
+
+      <!-- Logo -->
+      <div class="logo-area">
+
+        <div class="logo-frame">
+          <img
+            src="assets/logo.png"
+            alt="TRUE WALK Logo"
+          >
+        </div>
+
+        <h1>TRUE WALK</h1>
+
+        <p>
+          Welcome back! Login to your account
+        </p>
+
+      </div>
+
+
+      <!-- Login Form -->
+      <form id="loginForm">
+
+        <!-- Mobile -->
+        <div class="form-group">
+
+          <label for="phone">
+            Mobile Number
+          </label>
+
+          <div class="input-wrap">
+
+            <span class="input-icon">
+              ☎
+            </span>
+
+            <input
+              type="tel"
+              id="phone"
+              placeholder="Enter 10-digit mobile number"
+              maxlength="10"
+              inputmode="numeric"
+              autocomplete="tel"
+              required
+            >
+
+          </div>
+
+        </div>
+
+
+        <!-- Password -->
+        <div class="form-group">
+
+          <label for="password">
+            Password
+          </label>
+
+          <div class="input-wrap">
+
+            <span class="input-icon">
+              🔒
+            </span>
+
+            <input
+              type="password"
+              id="password"
+              placeholder="Enter your password"
+              autocomplete="current-password"
+              required
+            >
+
+            <button
+              type="button"
+              class="password-toggle"
+              id="passwordToggle"
+              aria-label="Show password"
+            >
+              SHOW
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <!-- Login -->
+        <button
+          type="submit"
+          class="login-btn"
+          id="loginBtn"
+        >
+          <span id="loginBtnText">
+            LOGIN
+          </span>
+        </button>
+
+
+        <!-- Message -->
+        <div
+          id="message"
+          class="message"
+        ></div>
+
+      </form>
+
+
+      <!-- Register -->
+      <div class="register-text">
+
+        Don't have an account?
+
+        <a href="register.html">
+          Register
+        </a>
+
+      </div>
+
+
+      <!-- Home -->
+      <a
+        href="index.html"
+        class="back-home"
+      >
+        ← Back to Home
+      </a>
+
+
+      <div class="security-note">
+        TRUE WALK • SECURE LOGIN
+      </div>
+
+    </div>
+
+  </main>
+
+
+  <!-- =====================================================
+       WELCOME POPUP
+  ===================================================== -->
+
+  <div
+    class="welcome-overlay"
+    id="welcomeOverlay"
+  >
+
+    <div class="welcome-popup">
+
+      <!-- Header -->
+      <div class="popup-header">
+
+        <div class="popup-icon">
+          ✓
+        </div>
+
+        <h2>
+          Tuborg Invest
+        </h2>
+
+        <p>
+          Investment Platform
+        </p>
+
+      </div>
+
+
+      <!-- Information -->
+      <div class="popup-info">
+
+        <div class="popup-item">
+
+          <div class="popup-item-icon">
+            ₹
+          </div>
+
+          <div class="popup-item-text">
+
+            <div class="popup-item-title">
+              Min. Withdrawal
+            </div>
+
+            <div class="popup-item-value">
+              ₹120.00 minimum
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="popup-item">
+
+          <div class="popup-item-icon">
+            ⏱
+          </div>
+
+          <div class="popup-item-text">
+
+            <div class="popup-item-title">
+              Withdrawal Time
+            </div>
+
+            <div class="popup-item-value">
+              Processed within 24 hours
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="popup-item">
+
+          <div class="popup-item-icon">
+            %
+          </div>
+
+          <div class="popup-item-text">
+
+            <div class="popup-item-title">
+              Daily Income
+            </div>
+
+            <div class="popup-item-value">
+              Earn &amp; withdraw every day
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="popup-item">
+
+          <div class="popup-item-icon">
+            %
+          </div>
+
+          <div class="popup-item-text">
+
+            <div class="popup-item-title">
+              Withdrawal Tax
+            </div>
+
+            <div class="popup-item-value">
+              10% maintenance fee
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="popup-item">
+
+          <div class="popup-item-icon">
+            ✓
+          </div>
+
+          <div class="popup-item-text">
+
+            <div class="popup-item-title">
+              Safe &amp; Secure
+            </div>
+
+            <div class="popup-item-value">
+              Platform security information
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- Telegram -->
+      <a
+        href="https://t.me/officialApllication"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="telegram-btn"
+      >
+        ✈️ Join Our Telegram
+      </a>
+
+
+      <!-- Continue -->
+      <button
+        type="button"
+        class="start-btn"
+        id="startBtn"
+      >
+        Got It, Let's Start!
+      </button>
+
+
+      <div class="popup-note">
+        Please review the applicable platform terms and
+        conditions before using financial features.
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =====================================================
+       JAVASCRIPT
+       BACKEND LOGIN LOGIC PRESERVED
+  ===================================================== -->
+
+  <script>
+
+    const loginForm =
+      document.getElementById("loginForm");
+
+    const loginBtn =
+      document.getElementById("loginBtn");
+
+    const loginBtnText =
+      document.getElementById("loginBtnText");
+
+    const message =
+      document.getElementById("message");
+
+    const welcomeOverlay =
+      document.getElementById("welcomeOverlay");
+
+    const startBtn =
+      document.getElementById("startBtn");
+
+    const passwordInput =
+      document.getElementById("password");
+
+    const passwordToggle =
+      document.getElementById("passwordToggle");
+
+
+    /* =========================
+       PASSWORD SHOW / HIDE
+    ========================= */
+
+    passwordToggle.addEventListener(
+      "click",
+      function () {
+
+        if (
+          passwordInput.type === "password"
+        ) {
+
+          passwordInput.type = "text";
+
+          passwordToggle.textContent = "HIDE";
+
+          passwordToggle.setAttribute(
+            "aria-label",
+            "Hide password"
+          );
+
+        } else {
+
+          passwordInput.type = "password";
+
+          passwordToggle.textContent = "SHOW";
+
+          passwordToggle.setAttribute(
+            "aria-label",
+            "Show password"
+          );
+
+        }
+
+      }
+    );
+
+
+    /* =========================
+       SHOW POPUP
+    ========================= */
+
+    function showWelcomePopup() {
+
+      welcomeOverlay.classList.add("show");
+
+      document.body.style.overflow = "hidden";
+
+    }
+
+
+    /* =========================
+       GOT IT → HOME
+    ========================= */
+
+    startBtn.addEventListener(
+      "click",
+      function () {
+
+        welcomeOverlay.classList.remove("show");
+
+        document.body.style.overflow = "";
+
+        window.location.href = "home.html";
+
+      }
+    );
+
+
+    /* =========================
+       LOGIN
+    ========================= */
+
+    loginForm.addEventListener(
+      "submit",
+      async function (e) {
+
+        e.preventDefault();
+
+
+        const phone =
+          document
+            .getElementById("phone")
+            .value
+            .trim();
+
+
+        const password =
+          document
+            .getElementById("password")
+            .value;
+
+
+        message.className = "message";
+
+        message.textContent = "";
+
+
+        /* PHONE VALIDATION */
+
+        if (
+          !/^[0-9]{10}$/.test(phone)
+        ) {
+
+          message.textContent =
+            "Please enter a valid 10-digit mobile number.";
+
+          message.className =
+            "message error";
+
+          return;
+
+        }
+
+
+        /* PASSWORD VALIDATION */
+
+        if (
+          password.length === 0
+        ) {
+
+          message.textContent =
+            "Please enter your password.";
+
+          message.className =
+            "message error";
+
+          return;
+
+        }
+
+
+        /* LOADING */
+
+        loginBtn.disabled = true;
+
+        loginBtnText.textContent =
+          "LOGIN...";
+
+
+        try {
+
+          /* =========================
+             SAME BACKEND API
+          ========================= */
+
+          const response =
+            await fetch(
+              "/api/login",
+              {
+
+                method: "POST",
+
+                headers: {
+                  "Content-Type":
+                    "application/json"
+                },
+
+                credentials: "include",
+
+                body: JSON.stringify({
+
+                  phone: phone,
+
+                  password: password
+
+                })
+
+              }
+            );
+
+
+          /*
+           * IMPORTANT:
+           * Read response as TEXT first.
+           * This preserves the existing
+           * non-JSON protection.
+           */
+
+          const contentType =
+            response.headers.get(
+              "content-type"
+            ) || "";
+
+
+          const rawResponse =
+            await response.text();
+
+
+          let data = {};
+
+
+          if (
+            contentType.includes(
+              "application/json"
+            )
+          ) {
+
+            try {
+
+              data =
+                JSON.parse(
+                  rawResponse
+                );
+
+            } catch (parseError) {
+
+              console.error(
+                "Invalid JSON response:",
+                rawResponse
+              );
+
+              throw new Error(
+                "Server returned an invalid response."
+              );
+
+            }
+
+          } else {
+
+            console.error(
+              "Non-JSON server response:",
+              rawResponse
+            );
+
+            throw new Error(
+              rawResponse ||
+              "Server returned an unexpected response."
+            );
+
+          }
+
+
+          /* SERVER ERROR */
+
+          if (!response.ok) {
+
+            throw new Error(
+              data.message ||
+              "Invalid mobile number or password."
+            );
+
+          }
+
+
+          /* =========================
+             LOGIN SUCCESS
+          ========================= */
+
+          message.textContent =
+            "Login successful!";
+
+          message.className =
+            "message success";
+
+
+          /*
+           * Popup appears before
+           * home page.
+           */
+
+          setTimeout(
+            function () {
+
+              showWelcomePopup();
+
+            },
+            300
+          );
+
+
+        } catch (error) {
+
+          console.error(
+            "Login error:",
+            error
+          );
+
+
+          message.textContent =
+            error.message ||
+            "Unable to connect to the server.";
+
+
+          message.className =
+            "message error";
+
+
+        } finally {
+
+          /*
+           * Keep button disabled while
+           * popup is waiting for user.
+           */
+
+          if (
+            !welcomeOverlay.classList.contains(
+              "show"
+            )
+          ) {
+
+            loginBtn.disabled = false;
+
+            loginBtnText.textContent =
+              "LOGIN";
+
+          }
+
+        }
+
+      }
+    );
+
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,1906 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#050714">
+
+  <title>TRUE WALK - Profile</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #050714;
+      --bg2: #080b1d;
+
+      --card: rgba(14, 18, 42, .72);
+      --card2: rgba(19, 24, 55, .58);
+
+      --blue: #39bfff;
+      --blue2: #7b61ff;
+      --purple: #9b5cff;
+      --pink: #ff4fd8;
+      --orange: #ff9b3d;
+
+      --white: #ffffff;
+      --text: #e9ecff;
+      --muted: #858ba8;
+
+      --border: rgba(255,255,255,.09);
+
+      --green: #40f2a1;
+      --red: #ff617c;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      overflow-x: hidden;
+
+      font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
+
+      color: var(--white);
+
+      background:
+        radial-gradient(
+          circle at 5% 0%,
+          rgba(57,191,255,.13),
+          transparent 29%
+        ),
+        radial-gradient(
+          circle at 96% 12%,
+          rgba(155,92,255,.16),
+          transparent 30%
+        ),
+        radial-gradient(
+          circle at 50% 100%,
+          rgba(255,79,216,.07),
+          transparent 32%
+        ),
+        linear-gradient(
+          145deg,
+          #03040c,
+          #080b1d 52%,
+          #04050d
+        );
+    }
+
+    body::before,
+    body::after {
+      content: "";
+
+      position: fixed;
+
+      width: 330px;
+      height: 330px;
+
+      border-radius: 50%;
+
+      pointer-events: none;
+
+      filter: blur(100px);
+
+      opacity: .14;
+
+      z-index: -1;
+
+      animation:
+        orbMove 13s ease-in-out infinite alternate;
+    }
+
+    body::before {
+      background: var(--blue);
+      left: -190px;
+      top: 100px;
+    }
+
+    body::after {
+      background: var(--purple);
+      right: -190px;
+      bottom: 80px;
+
+      animation-delay: -5s;
+    }
+
+    @keyframes orbMove {
+      from {
+        transform: translate3d(0,0,0) scale(1);
+      }
+
+      to {
+        transform: translate3d(55px,35px,0) scale(1.08);
+      }
+    }
+
+    /* =========================
+       TOP BAR
+    ========================= */
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+
+      height: 70px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      padding: 0 18px;
+
+      background:
+        rgba(4,6,18,.76);
+
+      border-bottom:
+        1px solid
+        rgba(255,255,255,.07);
+
+      backdrop-filter: blur(22px);
+      -webkit-backdrop-filter: blur(22px);
+
+      box-shadow:
+        0 10px 35px
+        rgba(0,0,0,.22);
+    }
+
+    .topbar::after {
+      content: "";
+
+      position: absolute;
+
+      left: 0;
+      right: 0;
+      bottom: -1px;
+
+      height: 1px;
+
+      background:
+        linear-gradient(
+          90deg,
+          transparent,
+          rgba(57,191,255,.5),
+          rgba(155,92,255,.55),
+          transparent
+        );
+
+      opacity: .65;
+    }
+
+    .back {
+      width: 42px;
+      height: 42px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      color: #fff;
+
+      text-decoration: none;
+
+      font-size: 23px;
+
+      border-radius: 14px;
+
+      background:
+        rgba(255,255,255,.055);
+
+      border:
+        1px solid
+        rgba(255,255,255,.09);
+
+      transition:
+        transform .25s ease,
+        background .25s ease,
+        border-color .25s ease,
+        box-shadow .25s ease;
+    }
+
+    .back:hover {
+      transform: translateX(-3px);
+
+      background:
+        rgba(57,191,255,.09);
+
+      border-color:
+        rgba(57,191,255,.35);
+
+      box-shadow:
+        0 0 22px
+        rgba(57,191,255,.12);
+    }
+
+    .brand {
+      position: absolute;
+      left: 50%;
+
+      transform:
+        translateX(-50%);
+
+      display: flex;
+      align-items: center;
+
+      gap: 9px;
+    }
+
+    .brand img {
+      width: 37px;
+      height: 37px;
+
+      object-fit: contain;
+
+      border-radius: 50%;
+
+      filter:
+        drop-shadow(
+          0 0 14px
+          rgba(57,191,255,.4)
+        );
+
+      animation:
+        logoFloat 3.8s ease-in-out infinite;
+    }
+
+    @keyframes logoFloat {
+      0%, 100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-3px);
+      }
+    }
+
+    .brand span {
+      font-size: 13px;
+
+      font-weight: 950;
+
+      letter-spacing: 1.8px;
+
+      background:
+        linear-gradient(
+          90deg,
+          #fff,
+          #7edcff,
+          #a87cff,
+          #fff
+        );
+
+      background-size: 250% auto;
+
+      -webkit-background-clip: text;
+      background-clip: text;
+
+      color: transparent;
+
+      animation:
+        textShine 5s linear infinite;
+    }
+
+    @keyframes textShine {
+      to {
+        background-position: 250% center;
+      }
+    }
+
+    .top-space {
+      width: 42px;
+    }
+
+    /* =========================
+       CONTAINER
+    ========================= */
+
+    .container {
+      width: min(100% - 24px, 680px);
+
+      margin: auto;
+
+      padding:
+        27px 0 55px;
+    }
+
+    /* =========================
+       HERO
+    ========================= */
+
+    .hero {
+      margin-bottom: 21px;
+
+      animation:
+        fadeUp .65s ease both;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+
+      padding: 7px 12px;
+
+      margin-bottom: 13px;
+
+      border-radius: 999px;
+
+      color: #9edfff;
+
+      background:
+        rgba(57,191,255,.07);
+
+      border:
+        1px solid
+        rgba(57,191,255,.18);
+
+      font-size: 10px;
+
+      font-weight: 900;
+
+      letter-spacing: 1px;
+
+      text-transform: uppercase;
+
+      box-shadow:
+        inset 0 0 18px
+        rgba(57,191,255,.025);
+    }
+
+    .hero-badge::before {
+      content: "";
+
+      width: 6px;
+      height: 6px;
+
+      border-radius: 50%;
+
+      background: var(--blue);
+
+      box-shadow:
+        0 0 12px
+        rgba(57,191,255,.9);
+
+      animation:
+        pulse 1.8s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%,100% {
+        opacity: .6;
+        transform: scale(.85);
+      }
+
+      50% {
+        opacity: 1;
+        transform: scale(1.15);
+      }
+    }
+
+    .hero h1 {
+      font-size:
+        clamp(31px, 8vw, 44px);
+
+      line-height: 1;
+
+      font-weight: 950;
+
+      letter-spacing: -1.7px;
+    }
+
+    .hero h1 span {
+      background:
+        linear-gradient(
+          90deg,
+          #fff,
+          #6dd6ff,
+          #9d72ff,
+          #ff63d8
+        );
+
+      -webkit-background-clip: text;
+      background-clip: text;
+
+      color: transparent;
+
+      background-size: 180% auto;
+
+      animation:
+        gradientText 5s ease infinite;
+    }
+
+    @keyframes gradientText {
+      0%,100% {
+        background-position: 0% center;
+      }
+
+      50% {
+        background-position: 100% center;
+      }
+    }
+
+    .hero p {
+      margin-top: 10px;
+
+      color: var(--muted);
+
+      font-size: 13px;
+
+      line-height: 1.55;
+    }
+
+    /* =========================
+       PROFILE CARD
+    ========================= */
+
+    .profile-card {
+      position: relative;
+
+      overflow: hidden;
+
+      padding: 22px 19px;
+
+      margin-bottom: 15px;
+
+      border-radius: 23px;
+
+      background:
+        linear-gradient(
+          145deg,
+          rgba(22,28,62,.76),
+          rgba(10,13,31,.62)
+        );
+
+      border:
+        1px solid
+        var(--border);
+
+      box-shadow:
+        0 20px 65px
+        rgba(0,0,0,.34),
+
+        inset 0 1px 0
+        rgba(255,255,255,.035);
+
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+
+      animation:
+        fadeUp .55s ease both;
+
+      transition:
+        transform .3s ease,
+        border-color .3s ease,
+        box-shadow .3s ease;
+    }
+
+    .profile-card:hover {
+      transform:
+        translateY(-3px);
+
+      border-color:
+        rgba(57,191,255,.2);
+
+      box-shadow:
+        0 25px 75px
+        rgba(0,0,0,.44),
+
+        0 0 35px
+        rgba(57,191,255,.035);
+    }
+
+    .profile-card::before {
+      content: "";
+
+      position: absolute;
+
+      width: 190px;
+      height: 190px;
+
+      right: -110px;
+      top: -110px;
+
+      border-radius: 50%;
+
+      background:
+        rgba(57,191,255,.13);
+
+      filter: blur(40px);
+
+      pointer-events: none;
+    }
+
+    .profile-card::after {
+      content: "";
+
+      position: absolute;
+
+      width: 140px;
+      height: 140px;
+
+      left: -100px;
+      bottom: -100px;
+
+      border-radius: 50%;
+
+      background:
+        rgba(155,92,255,.09);
+
+      filter: blur(38px);
+
+      pointer-events: none;
+    }
+
+    /* =========================
+       AVATAR
+    ========================= */
+
+    .avatar {
+      position: relative;
+
+      width: 92px;
+      height: 92px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      margin:
+        2px auto 17px;
+
+      border-radius: 50%;
+
+      color: #060713;
+
+      font-size: 32px;
+
+      font-weight: 950;
+
+      background:
+        linear-gradient(
+          135deg,
+          #fff,
+          #6bd8ff 42%,
+          #8e63ff 72%,
+          #ff55d8
+        );
+
+      box-shadow:
+        0 0 0 6px
+          rgba(57,191,255,.055),
+
+        0 0 0 12px
+          rgba(155,92,255,.025),
+
+        0 0 42px
+          rgba(57,191,255,.2);
+
+      animation:
+        avatarFloat 4s ease-in-out infinite;
+    }
+
+    .avatar::before {
+      content: "";
+
+      position: absolute;
+
+      inset: -2px;
+
+      border-radius: inherit;
+
+      border:
+        1px solid
+        rgba(255,255,255,.5);
+
+      opacity: .45;
+    }
+
+    .avatar::after {
+      content: "";
+
+      position: absolute;
+
+      width: 17px;
+      height: 17px;
+
+      right: 1px;
+      bottom: 4px;
+
+      border-radius: 50%;
+
+      background: var(--green);
+
+      border: 4px solid #0c1025;
+
+      box-shadow:
+        0 0 15px
+        rgba(64,242,161,.65);
+    }
+
+    @keyframes avatarFloat {
+      0%,100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-4px);
+      }
+    }
+
+    .user-name {
+      position: relative;
+
+      text-align: center;
+
+      font-size: 23px;
+
+      font-weight: 950;
+
+      letter-spacing: -.5px;
+    }
+
+    .user-mobile {
+      position: relative;
+
+      text-align: center;
+
+      color: #858ba8;
+
+      margin-top: 7px;
+
+      font-size: 12px;
+    }
+
+    .verified {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      width: 19px;
+      height: 19px;
+
+      margin-left: 5px;
+
+      border-radius: 50%;
+
+      color: #07101c;
+
+      background:
+        linear-gradient(
+          135deg,
+          #55dcff,
+          #7e70ff
+        );
+
+      font-size: 10px;
+
+      vertical-align: 2px;
+
+      box-shadow:
+        0 0 13px
+        rgba(57,191,255,.3);
+    }
+
+    /* =========================
+       SECTION TITLE
+    ========================= */
+
+    .section-title {
+      position: relative;
+
+      margin-bottom: 8px;
+
+      font-size: 16px;
+
+      font-weight: 900;
+
+      letter-spacing: -.2px;
+    }
+
+    .section-subtitle {
+      margin-bottom: 5px;
+
+      color: #707792;
+
+      font-size: 11px;
+    }
+
+    /* =========================
+       INFO ROW
+    ========================= */
+
+    .info-row {
+      position: relative;
+
+      display: flex;
+      justify-content: space-between;
+
+      gap: 15px;
+
+      padding: 14px 0;
+
+      border-bottom:
+        1px solid
+        rgba(255,255,255,.055);
+    }
+
+    .info-row:last-child {
+      border-bottom: none;
+    }
+
+    .label {
+      color: #727994;
+
+      font-size: 11px;
+
+      font-weight: 700;
+    }
+
+    .value {
+      max-width: 62%;
+
+      color: #e3e7ff;
+
+      font-size: 12px;
+
+      text-align: right;
+
+      word-break: break-all;
+    }
+
+    /* =========================
+       REFERRAL
+    ========================= */
+
+    .referral-box {
+      position: relative;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 10px;
+
+      padding: 12px;
+
+      margin-top: 13px;
+
+      border-radius: 15px;
+
+      background:
+        linear-gradient(
+          135deg,
+          rgba(57,191,255,.045),
+          rgba(155,92,255,.045)
+        );
+
+      border:
+        1px solid
+        rgba(255,255,255,.08);
+
+      transition:
+        border-color .25s ease,
+        background .25s ease,
+        box-shadow .25s ease;
+    }
+
+    .referral-box:hover {
+      border-color:
+        rgba(57,191,255,.25);
+
+      background:
+        linear-gradient(
+          135deg,
+          rgba(57,191,255,.07),
+          rgba(155,92,255,.07)
+        );
+
+      box-shadow:
+        0 0 25px
+        rgba(57,191,255,.045);
+    }
+
+    .referral-code {
+      min-width: 0;
+
+      color: #fff;
+
+      font-size: 15px;
+
+      font-weight: 950;
+
+      letter-spacing: 1.3px;
+
+      word-break: break-all;
+    }
+
+    .copy-btn {
+      position: relative;
+
+      overflow: hidden;
+
+      flex-shrink: 0;
+
+      min-width: 72px;
+
+      padding: 10px 14px;
+
+      border: none;
+
+      border-radius: 11px;
+
+      background:
+        linear-gradient(
+          135deg,
+          #39bfff,
+          #7664ff 55%,
+          #a854ff
+        );
+
+      color: #050714;
+
+      font-size: 11px;
+
+      font-weight: 950;
+
+      cursor: pointer;
+
+      box-shadow:
+        0 8px 24px
+        rgba(57,191,255,.14);
+
+      transition:
+        transform .25s ease,
+        box-shadow .25s ease;
+    }
+
+    .copy-btn::before {
+      content: "";
+
+      position: absolute;
+
+      top: 0;
+      left: -100%;
+
+      width: 60%;
+      height: 100%;
+
+      background:
+        linear-gradient(
+          90deg,
+          transparent,
+          rgba(255,255,255,.55),
+          transparent
+        );
+
+      transform: skewX(-20deg);
+
+      transition: left .55s ease;
+    }
+
+    .copy-btn:hover::before {
+      left: 140%;
+    }
+
+    .copy-btn:hover {
+      transform: translateY(-2px);
+
+      box-shadow:
+        0 13px 30px
+        rgba(57,191,255,.23);
+    }
+
+    .copy-btn:active {
+      transform: scale(.96);
+    }
+
+    .message {
+      min-height: 18px;
+
+      text-align: center;
+
+      margin-top: 10px;
+
+      font-size: 11px;
+    }
+
+    .success {
+      color: var(--green);
+    }
+
+    /* =========================
+       MENU
+    ========================= */
+
+    .menu {
+      overflow: hidden;
+
+      margin-bottom: 17px;
+
+      border-radius: 21px;
+
+      background:
+        linear-gradient(
+          145deg,
+          rgba(22,28,62,.72),
+          rgba(10,13,31,.6)
+        );
+
+      border:
+        1px solid
+        var(--border);
+
+      box-shadow:
+        0 18px 55px
+        rgba(0,0,0,.3);
+
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+
+      animation:
+        fadeUp .65s ease both;
+    }
+
+    .menu a {
+      position: relative;
+
+      display: flex;
+      align-items: center;
+
+      min-height: 62px;
+
+      padding: 0 17px;
+
+      color: #eee;
+
+      text-decoration: none;
+
+      border-bottom:
+        1px solid
+        rgba(255,255,255,.055);
+
+      transition:
+        background .25s ease,
+        padding-left .25s ease;
+    }
+
+    .menu a:last-child {
+      border-bottom: none;
+    }
+
+    .menu a::after {
+      content: "›";
+
+      position: absolute;
+
+      right: 18px;
+
+      color: #626a89;
+
+      font-size: 22px;
+
+      transition:
+        .25s ease;
+    }
+
+    .menu a:hover {
+      padding-left: 21px;
+
+      background:
+        linear-gradient(
+          90deg,
+          rgba(57,191,255,.055),
+          rgba(155,92,255,.035),
+          transparent
+        );
+    }
+
+    .menu a:hover::after {
+      right: 14px;
+
+      color: var(--blue);
+
+      text-shadow:
+        0 0 12px
+        rgba(57,191,255,.7);
+    }
+
+    .menu-icon {
+      width: 39px;
+      height: 39px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      margin-right: 12px;
+
+      border-radius: 12px;
+
+      background:
+        linear-gradient(
+          135deg,
+          rgba(57,191,255,.09),
+          rgba(155,92,255,.09)
+        );
+
+      border:
+        1px solid
+        rgba(255,255,255,.08);
+
+      font-size: 17px;
+
+      transition:
+        transform .25s ease,
+        box-shadow .25s ease;
+    }
+
+    .menu a:hover .menu-icon {
+      transform:
+        translateY(-1px)
+        scale(1.04);
+
+      box-shadow:
+        0 0 18px
+        rgba(57,191,255,.1);
+    }
+
+    .menu-text {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .menu-title {
+      font-size: 13px;
+      font-weight: 850;
+    }
+
+    .menu-sub {
+      color: #666e8c;
+
+      font-size: 9px;
+    }
+
+    /* =========================
+       LOGOUT
+    ========================= */
+
+    .logout-btn {
+      position: relative;
+
+      overflow: hidden;
+
+      width: 100%;
+
+      padding: 15px;
+
+      border:
+        1px solid
+        rgba(255,97,124,.3);
+
+      border-radius: 15px;
+
+      background:
+        linear-gradient(
+          135deg,
+          rgba(255,97,124,.045),
+          rgba(255,70,100,.015)
+        );
+
+      color: #ff718a;
+
+      font-size: 13px;
+
+      font-weight: 950;
+
+      letter-spacing: .5px;
+
+      cursor: pointer;
+
+      transition:
+        .25s ease;
+
+      animation:
+        fadeUp .7s ease both;
+    }
+
+    .logout-btn:hover {
+      background:
+        rgba(255,80,100,.09);
+
+      border-color:
+        rgba(255,97,124,.52);
+
+      box-shadow:
+        0 14px 35px
+        rgba(255,70,90,.09);
+
+      transform:
+        translateY(-2px);
+    }
+
+    .logout-btn:active {
+      transform: scale(.985);
+    }
+
+    .logout-btn:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* =========================
+       LOADING / ERROR
+    ========================= */
+
+    .loading {
+      padding: 45px 20px;
+
+      text-align: center;
+
+      color: #777f9c;
+
+      font-size: 12px;
+    }
+
+    .loading::after {
+      content: "";
+
+      display: block;
+
+      width: 25px;
+      height: 25px;
+
+      margin: 14px auto 0;
+
+      border-radius: 50%;
+
+      border:
+        2px solid
+        rgba(255,255,255,.08);
+
+      border-top-color:
+        var(--blue);
+
+      border-right-color:
+        var(--purple);
+
+      animation:
+        spin .8s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .error {
+      padding: 17px;
+
+      border-radius: 16px;
+
+      text-align: center;
+
+      color: #ff8096;
+
+      background:
+        rgba(255,80,100,.06);
+
+      border:
+        1px solid
+        rgba(255,80,100,.17);
+
+      font-size: 12px;
+
+      line-height: 1.5;
+    }
+
+    /* =========================
+       ANIMATION
+    ========================= */
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(18px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media (max-width: 480px) {
+
+      .topbar {
+        height: 66px;
+        padding: 0 13px;
+      }
+
+      .brand img {
+        width: 34px;
+        height: 34px;
+      }
+
+      .brand span {
+        font-size: 11px;
+        letter-spacing: 1.4px;
+      }
+
+      .container {
+        width: min(100% - 18px, 680px);
+        padding-top: 21px;
+      }
+
+      .hero h1 {
+        font-size: 32px;
+      }
+
+      .profile-card {
+        padding: 20px 17px;
+        border-radius: 20px;
+      }
+
+      .avatar {
+        width: 82px;
+        height: 82px;
+        font-size: 29px;
+      }
+
+      .user-name {
+        font-size: 21px;
+      }
+
+      .value {
+        max-width: 58%;
+      }
+
+      .referral-code {
+        font-size: 14px;
+      }
+
+      .menu a {
+        min-height: 59px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      *,
+      *::before,
+      *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+      }
+
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- TOP BAR -->
+
+  <header class="topbar">
+
+    <a
+      href="home.html"
+      class="back"
+      aria-label="Back"
+    >
+      ←
+    </a>
+
+    <div class="brand">
+
+      <img
+        src="assets/logo.png"
+        alt="TRUE WALK Logo"
+      >
+
+      <span>TRUE WALK</span>
+
+    </div>
+
+    <div class="top-space"></div>
+
+  </header>
+
+
+  <main class="container">
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+      <div class="hero-badge">
+        Account Center
+      </div>
+
+      <h1>
+        My <span>Profile</span>
+      </h1>
+
+      <p>
+        Manage your account details,
+        referral code and account options.
+      </p>
+
+    </section>
+
+
+    <!-- PROFILE -->
+
+    <div id="profileArea">
+
+      <div class="loading">
+        Loading profile...
+      </div>
+
+    </div>
+
+
+    <!-- MENU -->
+
+    <div class="menu">
+
+      <a href="orders.html">
+
+        <div class="menu-icon">
+          📋
+        </div>
+
+        <div class="menu-text">
+
+          <div class="menu-title">
+            My Orders
+          </div>
+
+          <div class="menu-sub">
+            View payment history
+          </div>
+
+        </div>
+
+      </a>
+
+
+      <a href="refer.html">
+
+        <div class="menu-icon">
+          👥
+        </div>
+
+        <div class="menu-text">
+
+          <div class="menu-title">
+            Referral
+          </div>
+
+          <div class="menu-sub">
+            Manage your referrals
+          </div>
+
+        </div>
+
+      </a>
+
+
+      <a href="deposit.html">
+
+        <div class="menu-icon">
+          💳
+        </div>
+
+        <div class="menu-text">
+
+          <div class="menu-title">
+            Deposit
+          </div>
+
+          <div class="menu-sub">
+            Add money to wallet
+          </div>
+
+        </div>
+
+      </a>
+
+
+      <a href="withdraw.html">
+
+        <div class="menu-icon">
+          💸
+        </div>
+
+        <div class="menu-text">
+
+          <div class="menu-title">
+            Withdraw
+          </div>
+
+          <div class="menu-sub">
+            Withdraw available balance
+          </div>
+
+        </div>
+
+      </a>
+
+    </div>
+
+
+    <!-- LOGOUT -->
+
+    <button
+      id="logoutBtn"
+      class="logout-btn"
+    >
+      LOGOUT
+    </button>
+
+
+    <div
+      id="logoutMessage"
+      class="message"
+    ></div>
+
+  </main>
+
+
+<script>
+
+  /* =========================
+     LOAD PROFILE
+  ========================= */
+
+  async function loadProfile() {
+
+    const profileArea =
+      document.getElementById(
+        "profileArea"
+      );
+
+
+    try {
+
+      const response =
+        await fetch(
+          "/api/me",
+          {
+            credentials: "include"
+          }
+        );
+
+
+      if (response.status === 401) {
+
+        window.location.href =
+          "login.html";
+
+        return;
+
+      }
+
+
+      const data =
+        await response.json();
+
+
+      if (!response.ok) {
+
+        throw new Error(
+          data.message ||
+          "Unable to load profile."
+        );
+
+      }
+
+
+      /*
+        Backend response में user object
+        हो तो उसे use करेंगे.
+      */
+
+      const user =
+        data.user ||
+        data;
+
+
+      const name =
+        user.name ||
+        user.full_name ||
+        "User";
+
+
+      const mobile =
+        user.mobile ||
+        user.phone ||
+        user.phone_number ||
+        "-";
+
+
+      const referralCode =
+        user.referral_code ||
+        user.referralCode ||
+        "-";
+
+
+      /*
+        Name का पहला letter avatar में
+      */
+
+      const firstLetter =
+        name
+          .trim()
+          .charAt(0)
+          .toUpperCase();
+
+
+      profileArea.innerHTML = `
+
+        <!-- PROFILE CARD -->
+
+        <div class="profile-card">
+
+          <div class="avatar">
+            ${escapeHtml(firstLetter)}
+          </div>
+
+
+          <div class="user-name">
+
+            ${escapeHtml(name)}
+
+            <span class="verified">
+              ✓
+            </span>
+
+          </div>
+
+
+          <div class="user-mobile">
+            ${escapeHtml(mobile)}
+          </div>
+
+        </div>
+
+
+        <!-- ACCOUNT INFORMATION -->
+
+        <div class="profile-card">
+
+          <div class="section-title">
+            Account Information
+          </div>
+
+          <div class="section-subtitle">
+            Your registered account details
+          </div>
+
+
+          <div class="info-row">
+
+            <div class="label">
+              Name
+            </div>
+
+            <div class="value">
+              ${escapeHtml(name)}
+            </div>
+
+          </div>
+
+
+          <div class="info-row">
+
+            <div class="label">
+              Mobile Number
+            </div>
+
+            <div class="value">
+              ${escapeHtml(mobile)}
+            </div>
+
+          </div>
+
+
+          <div class="info-row">
+
+            <div class="label">
+              Referral Code
+            </div>
+
+            <div class="value">
+              ${escapeHtml(referralCode)}
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- REFERRAL -->
+
+        <div class="profile-card">
+
+          <div class="section-title">
+            Your Referral Code
+          </div>
+
+          <div class="section-subtitle">
+            Share your code with your friends
+          </div>
+
+
+          <div class="referral-box">
+
+            <div
+              id="referralCode"
+              class="referral-code"
+            >
+              ${escapeHtml(referralCode)}
+            </div>
+
+
+            <button
+              class="copy-btn"
+              onclick="copyReferral()"
+            >
+              COPY
+            </button>
+
+          </div>
+
+
+          <div
+            id="copyMessage"
+            class="message"
+          ></div>
+
+        </div>
+
+      `;
+
+
+    } catch (error) {
+
+      console.error(error);
+
+
+      profileArea.innerHTML = `
+
+        <div class="error">
+
+          ${escapeHtml(
+            error.message ||
+            "Unable to load profile."
+          )}
+
+        </div>
+
+      `;
+
+    }
+
+  }
+
+
+  /* =========================
+     COPY REFERRAL
+  ========================= */
+
+  async function copyReferral() {
+
+    const codeElement =
+      document.getElementById(
+        "referralCode"
+      );
+
+
+    const message =
+      document.getElementById(
+        "copyMessage"
+      );
+
+
+    if (!codeElement) {
+      return;
+    }
+
+
+    const code =
+      codeElement.textContent.trim();
+
+
+    if (
+      !code ||
+      code === "-"
+    ) {
+
+      message.className =
+        "message";
+
+      message.textContent =
+        "Referral code not available.";
+
+      return;
+
+    }
+
+
+    try {
+
+      await navigator.clipboard.writeText(
+        code
+      );
+
+
+      message.className =
+        "message success";
+
+
+      message.textContent =
+        "Referral code copied.";
+
+
+    } catch (error) {
+
+      message.className =
+        "message";
+
+
+      message.textContent =
+        "Unable to copy referral code.";
+
+    }
+
+  }
+
+
+  /* =========================
+     LOGOUT
+  ========================= */
+
+  document
+    .getElementById("logoutBtn")
+    .addEventListener(
+      "click",
+      async function() {
+
+        const button =
+          this;
+
+
+        const message =
+          document.getElementById(
+            "logoutMessage"
+          );
+
+
+        button.disabled = true;
+
+
+        button.textContent =
+          "LOGGING OUT...";
+
+
+        try {
+
+          const response =
+            await fetch(
+              "/api/logout",
+              {
+                method: "POST",
+                credentials: "include"
+              }
+            );
+
+
+          if (!response.ok) {
+
+            throw new Error(
+              "Logout failed."
+            );
+
+          }
+
+
+          window.location.href =
+            "login.html";
+
+
+        } catch (error) {
+
+          console.error(error);
+
+
+          message.className =
+            "message";
+
+
+          message.textContent =
+            error.message ||
+            "Logout failed.";
+
+
+          button.disabled = false;
+
+
+          button.textContent =
+            "LOGOUT";
+
+        }
+
+      }
+    );
+
+
+  /* =========================
+     HTML ESCAPE
+  ========================= */
+
+  function escapeHtml(value) {
+
+    return String(value)
+
+      .replace(
+        /&/g,
+        "&amp;"
+      )
+
+      .replace(
+        /</g,
+        "&lt;"
+      )
+
+      .replace(
+        />/g,
+        "&gt;"
+      )
+
+      .replace(
+        /"/g,
+        "&quot;"
+      )
+
+      .replace(
+        /'/g,
+        "&#039;"
+      );
+
+  }
+
+
+  /* =========================
+     START
+  ========================= */
+
+  loadProfile();
+
+</script>
+
+</body>
+</html>

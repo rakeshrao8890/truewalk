@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>TRUE WALK - Admin Login</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#f4f7fb;
+  font-family:Arial,Helvetica,sans-serif;
+  padding:20px;
+}
+
+.login-box{
+  width:100%;
+  max-width:400px;
+  background:#fff;
+  padding:30px;
+  border-radius:16px;
+  box-shadow:0 5px 25px rgba(0,0,0,.08);
+}
+
+.logo{
+  text-align:center;
+  font-size:28px;
+  font-weight:800;
+  margin-bottom:8px;
+  color:#111827;
+}
+
+.logo span{
+  color:#22c55e;
+}
+
+.subtitle{
+  text-align:center;
+  color:#6b7280;
+  font-size:14px;
+  margin-bottom:25px;
+}
+
+.form-group{
+  margin-bottom:16px;
+}
+
+label{
+  display:block;
+  font-size:13px;
+  font-weight:700;
+  margin-bottom:7px;
+  color:#172033;
+}
+
+input{
+  width:100%;
+  padding:13px;
+  border:1px solid #d1d5db;
+  border-radius:8px;
+  outline:none;
+  font-size:14px;
+}
+
+input:focus{
+  border-color:#22c55e;
+}
+
+.login-btn{
+  width:100%;
+  padding:14px;
+  border:0;
+  border-radius:8px;
+  background:#16a34a;
+  color:#fff;
+  font-size:15px;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.login-btn:disabled{
+  opacity:.7;
+  cursor:not-allowed;
+}
+
+.error{
+  display:none;
+  background:#fef2f2;
+  color:#b91c1c;
+  border:1px solid #fecaca;
+  padding:12px;
+  border-radius:8px;
+  margin-bottom:16px;
+  font-size:13px;
+}
+
+.error.show{
+  display:block;
+}
+</style>
+</head>
+
+<body>
+
+<div class="login-box">
+
+  <div class="logo">
+    TRUE <span>WALK</span>
+  </div>
+
+  <div class="subtitle">
+    Admin Panel Login
+  </div>
+
+  <div id="errorBox" class="error"></div>
+
+  <form id="loginForm">
+
+    <div class="form-group">
+
+      <label for="username">
+        Admin Username
+      </label>
+
+      <input
+        id="username"
+        type="text"
+        autocomplete="username"
+        placeholder="Enter username"
+        required
+      >
+
+    </div>
+
+
+    <div class="form-group">
+
+      <label for="password">
+        Admin Password
+      </label>
+
+      <input
+        id="password"
+        type="password"
+        autocomplete="current-password"
+        placeholder="Enter password"
+        required
+      >
+
+    </div>
+
+
+    <button
+      id="loginButton"
+      class="login-btn"
+      type="submit"
+    >
+      Login
+    </button>
+
+  </form>
+
+</div>
+
+
+<script>
+
+const form =
+  document.getElementById("loginForm");
+
+const username =
+  document.getElementById("username");
+
+const password =
+  document.getElementById("password");
+
+const loginButton =
+  document.getElementById("loginButton");
+
+const errorBox =
+  document.getElementById("errorBox");
+
+
+function showError(message){
+
+  errorBox.textContent =
+    message || "Login failed.";
+
+  errorBox.classList.add("show");
+
+}
+
+
+function hideError(){
+
+  errorBox.textContent = "";
+
+  errorBox.classList.remove("show");
+
+}
+
+
+/* =========================================================
+   ADMIN LOGIN
+========================================================= */
+
+form.addEventListener(
+  "submit",
+  async function(event){
+
+    event.preventDefault();
+
+    hideError();
+
+    const user =
+      username.value.trim();
+
+    const pass =
+      password.value;
+
+
+    if(!user || !pass){
+
+      showError(
+        "Please enter username and password."
+      );
+
+      return;
+    }
+
+
+    loginButton.disabled = true;
+
+    loginButton.textContent =
+      "Logging in...";
+
+
+    try{
+
+      const response =
+        await fetch(
+          "/api/admin/login",
+          {
+            method:"POST",
+
+            credentials:"include",
+
+            headers:{
+              "Content-Type":
+                "application/json",
+
+              "Accept":
+                "application/json"
+            },
+
+            body:JSON.stringify({
+              username:user,
+              password:pass
+            })
+          }
+        );
+
+
+      const contentType =
+        response.headers.get(
+          "content-type"
+        ) || "";
+
+
+      let data = null;
+
+
+      if(
+        contentType.includes(
+          "application/json"
+        )
+      ){
+
+        data =
+          await response.json();
+
+      }else{
+
+        const text =
+          await response.text();
+
+        throw new Error(
+          text ||
+          "Server returned an invalid response."
+        );
+
+      }
+
+
+      if(!response.ok){
+
+        throw new Error(
+          data?.message ||
+          "Invalid admin credentials."
+        );
+
+      }
+
+
+      if(
+        data &&
+        data.success === true &&
+        data.isAdmin === true
+      ){
+
+        /*
+         * Session save ke baad dashboard open
+         */
+
+        await new Promise(
+          resolve =>
+            setTimeout(
+              resolve,
+              500
+            )
+        );
+
+
+        /*
+         * Dashboard open
+         */
+
+        window.location.replace(
+          "/admin-dashboard.html"
+        );
+
+        return;
+      }
+
+
+      throw new Error(
+        data?.message ||
+        "Admin login was not successful."
+      );
+
+
+    }catch(error){
+
+      console.error(
+        "ADMIN LOGIN ERROR:",
+        error
+      );
+
+
+      showError(
+        error.message ||
+        "Unable to login."
+      );
+
+
+    }finally{
+
+      loginButton.disabled =
+        false;
+
+      loginButton.textContent =
+        "Login";
+
+    }
+
+  }
+);
+
+</script>
+
+</body>
+</html>

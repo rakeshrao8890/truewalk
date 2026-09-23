@@ -1,0 +1,1897 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>TRUE WALK - Recharge</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #05060b;
+      --bg2: #090b14;
+      --card: rgba(13, 16, 28, .82);
+      --card-soft: rgba(255,255,255,.045);
+      --border: rgba(255,255,255,.09);
+
+      --blue: #4da3ff;
+      --cyan: #5de7ff;
+      --purple: #8b5cf6;
+      --pink: #ec4899;
+      --orange: #ff8a3d;
+
+      --text: #fff;
+      --muted: #8d94a7;
+      --muted2: #646b7d;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      color: var(--text);
+      font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+      background:
+        radial-gradient(
+          circle at 10% 0%,
+          rgba(77,163,255,.15),
+          transparent 30%
+        ),
+        radial-gradient(
+          circle at 90% 15%,
+          rgba(139,92,246,.13),
+          transparent 30%
+        ),
+        radial-gradient(
+          circle at 70% 100%,
+          rgba(236,72,153,.09),
+          transparent 30%
+        ),
+        linear-gradient(
+          145deg,
+          #04050a,
+          #080a12 45%,
+          #05060b
+        );
+
+      overflow-x: hidden;
+    }
+
+    /* ==============================
+       AMBIENT BACKGROUND
+    ============================== */
+
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      filter: blur(100px);
+      pointer-events: none;
+      z-index: -2;
+      opacity: .65;
+      animation: floatingOrb 11s ease-in-out infinite alternate;
+    }
+
+    body::before {
+      left: -160px;
+      top: 12%;
+      background:
+        linear-gradient(
+          135deg,
+          rgba(77,163,255,.18),
+          rgba(139,92,246,.12)
+        );
+    }
+
+    body::after {
+      right: -160px;
+      bottom: 5%;
+      background:
+        linear-gradient(
+          135deg,
+          rgba(236,72,153,.12),
+          rgba(255,138,61,.10)
+        );
+      animation-delay: -5s;
+    }
+
+    @keyframes floatingOrb {
+      from {
+        transform: translate3d(0,0,0) scale(1);
+      }
+
+      to {
+        transform: translate3d(35px,-25px,0) scale(1.12);
+      }
+    }
+
+    /* ==============================
+       PAGE
+    ============================== */
+
+    .page {
+      width: 100%;
+      max-width: 560px;
+      min-height: 100vh;
+      margin: auto;
+      padding: 18px 16px 40px;
+    }
+
+    /* ==============================
+       HEADER
+    ============================== */
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+
+      animation:
+        headerIn .7s cubic-bezier(.2,.8,.2,1) both;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+
+      padding: 10px 14px;
+
+      color: #e9edf8;
+      text-decoration: none;
+
+      font-size: 13px;
+      font-weight: 800;
+
+      border-radius: 14px;
+
+      background:
+        rgba(255,255,255,.045);
+
+      border:
+        1px solid rgba(255,255,255,.09);
+
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+
+      box-shadow:
+        inset 0 1px rgba(255,255,255,.04),
+        0 10px 25px rgba(0,0,0,.15);
+
+      transition:
+        transform .25s ease,
+        border-color .25s ease,
+        background .25s ease,
+        box-shadow .25s ease;
+    }
+
+    .back-btn:hover {
+      transform: translateX(-3px);
+      border-color: rgba(93,231,255,.38);
+
+      background:
+        rgba(77,163,255,.08);
+
+      box-shadow:
+        0 0 24px rgba(77,163,255,.10);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .brand img {
+      width: 40px;
+      height: 40px;
+      object-fit: contain;
+      border-radius: 12px;
+
+      filter:
+        drop-shadow(0 0 12px rgba(77,163,255,.25));
+
+      animation:
+        logoFloat 4s ease-in-out infinite;
+    }
+
+    .brand-name {
+      font-size: 15px;
+      font-weight: 950;
+      letter-spacing: .9px;
+
+      background:
+        linear-gradient(
+          90deg,
+          #fff,
+          #bcdcff,
+          #8b5cf6
+        );
+
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    @keyframes logoFloat {
+      0%,100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-3px);
+      }
+    }
+
+    /* ==============================
+       PAYMENT CARD
+    ============================== */
+
+    .payment-card {
+      position: relative;
+      overflow: hidden;
+
+      padding: 25px;
+
+      border-radius: 29px;
+
+      background:
+        linear-gradient(
+          145deg,
+          rgba(17,21,36,.90),
+          rgba(7,9,16,.88)
+        );
+
+      border:
+        1px solid rgba(255,255,255,.085);
+
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+
+      box-shadow:
+        0 35px 90px rgba(0,0,0,.50),
+        inset 0 1px rgba(255,255,255,.055);
+
+      animation:
+        cardIn .8s cubic-bezier(.2,.8,.2,1) both;
+    }
+
+    .payment-card::before {
+      content: "";
+      position: absolute;
+
+      width: 260px;
+      height: 260px;
+
+      top: -150px;
+      right: -100px;
+
+      border-radius: 50%;
+
+      background:
+        radial-gradient(
+          circle,
+          rgba(77,163,255,.20),
+          transparent 68%
+        );
+
+      filter: blur(10px);
+      pointer-events: none;
+    }
+
+    .payment-card::after {
+      content: "";
+      position: absolute;
+
+      width: 180px;
+      height: 180px;
+
+      bottom: -100px;
+      left: -80px;
+
+      border-radius: 50%;
+
+      background:
+        radial-gradient(
+          circle,
+          rgba(139,92,246,.12),
+          transparent 70%
+        );
+
+      pointer-events: none;
+    }
+
+    /* ==============================
+       TITLE
+    ============================== */
+
+    .page-title {
+      position: relative;
+      z-index: 1;
+
+      font-size: 28px;
+      line-height: 1.12;
+      font-weight: 950;
+
+      letter-spacing: -.8px;
+
+      margin-bottom: 8px;
+    }
+
+    .page-title span {
+      background:
+        linear-gradient(
+          90deg,
+          #5de7ff,
+          #4da3ff,
+          #8b5cf6,
+          #ec4899
+        );
+
+      background-size: 220% 100%;
+
+      -webkit-background-clip: text;
+      background-clip: text;
+
+      color: transparent;
+
+      animation:
+        titleGradient 5s ease infinite;
+    }
+
+    @keyframes titleGradient {
+      0%,100% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+    }
+
+    .page-subtitle {
+      position: relative;
+      z-index: 1;
+
+      color: var(--muted);
+
+      font-size: 13px;
+      line-height: 1.6;
+
+      margin-bottom: 22px;
+    }
+
+    /* ==============================
+       MINIMUM RECHARGE
+    ============================== */
+
+    .minimum-box {
+      position: relative;
+      z-index: 1;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+
+      padding: 14px 15px;
+      margin-bottom: 21px;
+
+      border-radius: 16px;
+
+      background:
+        linear-gradient(
+          100deg,
+          rgba(77,163,255,.09),
+          rgba(139,92,246,.06)
+        );
+
+      border:
+        1px solid rgba(77,163,255,.17);
+
+      box-shadow:
+        inset 0 1px rgba(255,255,255,.035);
+    }
+
+    .minimum-label {
+      color: #9ca4b6;
+
+      font-size: 12px;
+      font-weight: 750;
+    }
+
+    .minimum-value {
+      color: #68dfff;
+
+      font-size: 15px;
+      font-weight: 950;
+
+      text-shadow:
+        0 0 15px rgba(93,231,255,.22);
+    }
+
+    /* ==============================
+       SECTION TITLE
+    ============================== */
+
+    .section-title {
+      position: relative;
+      z-index: 1;
+
+      margin-bottom: 12px;
+
+      color: #eef2ff;
+
+      font-size: 14px;
+      font-weight: 900;
+      letter-spacing: .1px;
+    }
+
+    /* ==============================
+       AMOUNT GRID
+    ============================== */
+
+    .amount-grid {
+      position: relative;
+      z-index: 1;
+
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+
+      gap: 10px;
+
+      margin-bottom: 21px;
+    }
+
+    .amount-option {
+      position: relative;
+      overflow: hidden;
+
+      min-height: 59px;
+
+      border:
+        1px solid rgba(255,255,255,.085);
+
+      border-radius: 16px;
+
+      background:
+        linear-gradient(
+          145deg,
+          rgba(255,255,255,.055),
+          rgba(255,255,255,.025)
+        );
+
+      color: #f7f9ff;
+
+      font-size: 14px;
+      font-weight: 900;
+
+      cursor: pointer;
+
+      box-shadow:
+        inset 0 1px rgba(255,255,255,.025);
+
+      transition:
+        transform .25s cubic-bezier(.2,.8,.2,1),
+        border-color .25s ease,
+        background .25s ease,
+        box-shadow .25s ease;
+    }
+
+    .amount-option::after {
+      content: "";
+
+      position: absolute;
+
+      top: 0;
+      left: -120%;
+
+      width: 65%;
+      height: 100%;
+
+      background:
+        linear-gradient(
+          90deg,
+          transparent,
+          rgba(255,255,255,.10),
+          transparent
+        );
+
+      transform: skewX(-20deg);
+
+      transition:
+        left .65s ease;
+    }
+
+    .amount-option:hover:not(:disabled) {
+      transform: translateY(-4px);
+
+      border-color:
+        rgba(77,163,255,.45);
+
+      background:
+        linear-gradient(
+          145deg,
+          rgba(77,163,255,.09),
+          rgba(139,92,246,.07)
+        );
+
+      box-shadow:
+        0 12px 28px rgba(0,0,0,.24),
+        0 0 22px rgba(77,163,255,.08);
+    }
+
+    .amount-option:hover:not(:disabled)::after {
+      left: 145%;
+    }
+
+    .amount-option.active {
+      color: #fff;
+
+      background:
+        linear-gradient(
+          135deg,
+          rgba(77,163,255,.20),
+          rgba(139,92,246,.17),
+          rgba(236,72,153,.08)
+        );
+
+      border-color:
+        rgba(93,231,255,.75);
+
+      box-shadow:
+        0 0 0 1px rgba(77,163,255,.10),
+        0 10px 30px rgba(77,163,255,.12),
+        inset 0 1px rgba(255,255,255,.09);
+    }
+
+    .amount-option.active::before {
+      content: "✓";
+
+      position: absolute;
+
+      top: 5px;
+      right: 6px;
+
+      width: 17px;
+      height: 17px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 50%;
+
+      background:
+        linear-gradient(
+          135deg,
+          #4da3ff,
+          #8b5cf6
+        );
+
+      color: #fff;
+
+      font-size: 10px;
+      font-weight: 950;
+
+      box-shadow:
+        0 0 13px rgba(77,163,255,.35);
+    }
+
+    .amount-option:disabled {
+      opacity: .28;
+      cursor: not-allowed;
+      text-decoration: line-through;
+    }
+
+    /* ==============================
+       SELECTED BOX
+    ============================== */
+
+    .selected-box {
+      position: relative;
+      z-index: 1;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      padding: 17px;
+
+      margin-bottom: 21px;
+
+      border-radius: 19px;
+
+      background:
+        linear-gradient(
+          135deg,
+          rgba(77,163,255,.105),
+          rgba(139,92,246,.075),
+          rgba(255,255,255,.025)
+        );
+
+      border:
+        1px solid rgba(77,163,255,.19);
+
+      box-shadow:
+        inset 0 1px rgba(255,255,255,.035);
+    }
+
+    .selected-label {
+      color: #737b8e;
+
+      font-size: 11px;
+      font-weight: 700;
+
+      margin-bottom: 5px;
+      text-transform: uppercase;
+      letter-spacing: .6px;
+    }
+
+    .selected-plan {
+      color: #dce2f0;
+
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .selected-amount {
+      color: #67ddff;
+
+      font-size: 25px;
+      font-weight: 950;
+
+      text-shadow:
+        0 0 20px rgba(93,231,255,.20);
+    }
+
+    /* ==============================
+       PAYMENT METHOD
+    ============================== */
+
+    .upi-option {
+      position: relative;
+      z-index: 1;
+
+      display: flex;
+      align-items: center;
+      gap: 13px;
+
+      padding: 15px;
+
+      margin-bottom: 20px;
+
+      border-radius: 18px;
+
+      background:
+        linear-gradient(
+          135deg,
+          rgba(255,255,255,.055),
+          rgba(255,255,255,.025)
+        );
+
+      border:
+        1px solid rgba(255,255,255,.085);
+
+      transition:
+        transform .25s ease,
+        border-color .25s ease,
+        box-shadow .25s ease;
+    }
+
+    .upi-option:hover {
+      transform: translateY(-2px);
+
+      border-color:
+        rgba(139,92,246,.30);
+
+      box-shadow:
+        0 12px 28px rgba(0,0,0,.18);
+    }
+
+    .upi-icon {
+      width: 48px;
+      height: 48px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      flex-shrink: 0;
+
+      border-radius: 15px;
+
+      background:
+        linear-gradient(
+          135deg,
+          #4da3ff,
+          #8b5cf6 65%,
+          #ec4899
+        );
+
+      color: #fff;
+
+      font-size: 19px;
+      font-weight: 950;
+
+      box-shadow:
+        0 10px 28px rgba(77,163,255,.20);
+
+      animation:
+        paymentIconPulse 3.5s ease-in-out infinite;
+    }
+
+    @keyframes paymentIconPulse {
+      0%,100% {
+        box-shadow:
+          0 10px 28px rgba(77,163,255,.18);
+      }
+
+      50% {
+        box-shadow:
+          0 10px 34px rgba(139,92,246,.30);
+      }
+    }
+
+    .upi-text {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .upi-title {
+      font-size: 15px;
+      font-weight: 900;
+
+      margin-bottom: 4px;
+    }
+
+    .upi-desc {
+      color: #777f91;
+
+      font-size: 11px;
+      line-height: 1.5;
+    }
+
+    .selected {
+      width: 23px;
+      height: 23px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      flex-shrink: 0;
+
+      border-radius: 50%;
+
+      background:
+        linear-gradient(
+          135deg,
+          #4da3ff,
+          #8b5cf6
+        );
+
+      color: #fff;
+
+      font-size: 11px;
+      font-weight: 950;
+
+      box-shadow:
+        0 0 15px rgba(77,163,255,.25);
+    }
+
+    /* ==============================
+       RECHARGE BUTTON
+    ============================== */
+
+    .pay-btn {
+      position: relative;
+      z-index: 1;
+
+      width: 100%;
+
+      border: none;
+      outline: none;
+
+      overflow: hidden;
+
+      padding: 17px;
+
+      border-radius: 18px;
+
+      color: #fff;
+
+      font-size: 15px;
+      font-weight: 950;
+      letter-spacing: .2px;
+
+      cursor: pointer;
+
+      background:
+        linear-gradient(
+          110deg,
+          #2778ff,
+          #5c5bea,
+          #8b5cf6,
+          #d946ef
+        );
+
+      background-size: 250% 100%;
+
+      box-shadow:
+        0 16px 38px rgba(77,92,246,.24),
+        inset 0 1px rgba(255,255,255,.24);
+
+      animation:
+        buttonGradient 5s ease infinite;
+
+      transition:
+        transform .25s ease,
+        box-shadow .25s ease;
+    }
+
+    .pay-btn::before {
+      content: "";
+
+      position: absolute;
+
+      inset: 1px;
+
+      border-radius: 17px;
+
+      background:
+        linear-gradient(
+          180deg,
+          rgba(255,255,255,.08),
+          transparent 45%
+        );
+
+      pointer-events: none;
+    }
+
+    .pay-btn::after {
+      content: "";
+
+      position: absolute;
+
+      top: 0;
+      left: -100%;
+
+      width: 55%;
+      height: 100%;
+
+      background:
+        linear-gradient(
+          90deg,
+          transparent,
+          rgba(255,255,255,.28),
+          transparent
+        );
+
+      transform: skewX(-20deg);
+
+      animation:
+        buttonShine 4s ease-in-out infinite;
+    }
+
+    .pay-btn:hover:not(:disabled) {
+      transform: translateY(-3px);
+
+      box-shadow:
+        0 20px 45px rgba(77,92,246,.34),
+        0 0 25px rgba(139,92,246,.13),
+        inset 0 1px rgba(255,255,255,.25);
+    }
+
+    .pay-btn:active:not(:disabled) {
+      transform:
+        translateY(0)
+        scale(.985);
+    }
+
+    .pay-btn:disabled {
+      opacity: .55;
+      cursor: not-allowed;
+
+      animation: none;
+
+      transform: none;
+    }
+
+    @keyframes buttonGradient {
+      0%,100% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+    }
+
+    @keyframes buttonShine {
+      0%, 45% {
+        left: -100%;
+      }
+
+      70%,100% {
+        left: 150%;
+      }
+    }
+
+    /* ==============================
+       SECURITY
+    ============================== */
+
+    .security-box {
+      position: relative;
+      z-index: 1;
+
+      margin-top: 17px;
+
+      padding: 14px;
+
+      border-radius: 15px;
+
+      background:
+        rgba(255,255,255,.025);
+
+      border:
+        1px solid rgba(255,255,255,.055);
+
+      color: #686f80;
+
+      font-size: 11px;
+      line-height: 1.65;
+
+      text-align: center;
+    }
+
+    .security-box strong {
+      color: #aeb6c7;
+    }
+
+    /* ==============================
+       ERROR
+    ============================== */
+
+    .error-box {
+      position: relative;
+      z-index: 2;
+
+      display: none;
+
+      margin-bottom: 17px;
+
+      padding: 13px 14px;
+
+      border-radius: 14px;
+
+      background:
+        linear-gradient(
+          135deg,
+          rgba(255,60,90,.11),
+          rgba(255,80,80,.055)
+        );
+
+      border:
+        1px solid rgba(255,90,110,.23);
+
+      color: #ffadb8;
+
+      font-size: 12px;
+      line-height: 1.55;
+    }
+
+    .error-box.show {
+      display: block;
+
+      animation:
+        errorIn .3s ease both;
+    }
+
+    /* ==============================
+       LOADING
+    ============================== */
+
+    .loading {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+    }
+
+    .spinner {
+      width: 17px;
+      height: 17px;
+
+      border:
+        2px solid rgba(255,255,255,.25);
+
+      border-top-color:
+        #fff;
+
+      border-radius: 50%;
+
+      animation:
+        spin .7s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* ==============================
+       ENTRANCE ANIMATIONS
+    ============================== */
+
+    @keyframes cardIn {
+      from {
+        opacity: 0;
+        transform:
+          translateY(24px)
+          scale(.985);
+      }
+
+      to {
+        opacity: 1;
+        transform:
+          translateY(0)
+          scale(1);
+      }
+    }
+
+    @keyframes headerIn {
+      from {
+        opacity: 0;
+        transform:
+          translateY(-12px);
+      }
+
+      to {
+        opacity: 1;
+        transform:
+          translateY(0);
+      }
+    }
+
+    @keyframes errorIn {
+      from {
+        opacity: 0;
+        transform:
+          translateY(-6px);
+      }
+
+      to {
+        opacity: 1;
+        transform:
+          translateY(0);
+      }
+    }
+
+    /* ==============================
+       MOBILE
+    ============================== */
+
+    @media (max-width: 430px) {
+
+      .page {
+        padding:
+          14px
+          12px
+          30px;
+      }
+
+      .header {
+        margin-bottom: 17px;
+      }
+
+      .payment-card {
+        padding: 19px;
+        border-radius: 24px;
+      }
+
+      .page-title {
+        font-size: 24px;
+      }
+
+      .page-subtitle {
+        font-size: 12px;
+      }
+
+      .amount-grid {
+        gap: 8px;
+      }
+
+      .amount-option {
+        min-height: 55px;
+        border-radius: 14px;
+        font-size: 13px;
+      }
+
+      .selected-box {
+        padding: 15px;
+      }
+
+      .selected-amount {
+        font-size: 22px;
+      }
+
+      .upi-option {
+        padding: 13px;
+      }
+
+      .upi-icon {
+        width: 44px;
+        height: 44px;
+      }
+
+      .pay-btn {
+        padding: 16px;
+      }
+    }
+
+    @media (max-width: 350px) {
+
+      .payment-card {
+        padding: 16px;
+      }
+
+      .amount-option {
+        font-size: 12px;
+      }
+
+      .brand-name {
+        font-size: 13px;
+      }
+
+      .back-btn {
+        padding:
+          9px
+          11px;
+      }
+    }
+
+    /* ==============================
+       REDUCED MOTION
+    ============================== */
+
+    @media (prefers-reduced-motion: reduce) {
+
+      *,
+      *::before,
+      *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="page">
+
+    <!-- HEADER -->
+    <div class="header">
+
+      <a href="plans.html" class="back-btn">
+        ← Back
+      </a>
+
+      <div class="brand">
+
+        <img
+          src="assets/logo.png"
+          alt="TRUE WALK Logo"
+          onerror="this.style.display='none'"
+        >
+
+        <div class="brand-name">
+          TRUE WALK
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- MAIN -->
+    <div class="payment-card">
+
+      <h1 class="page-title">
+        Recharge <span>Wallet</span>
+      </h1>
+
+      <p class="page-subtitle">
+        Select your recharge amount and continue to the secure payment gateway.
+      </p>
+
+
+      <!-- ERROR -->
+      <div
+        class="error-box"
+        id="errorBox">
+      </div>
+
+
+      <!-- MINIMUM -->
+      <div class="minimum-box">
+
+        <div class="minimum-label">
+          Minimum Recharge
+        </div>
+
+        <div class="minimum-value">
+          ₹300
+        </div>
+
+      </div>
+
+
+      <!-- AMOUNTS -->
+      <div class="section-title">
+        Select Recharge Amount
+      </div>
+
+      <div class="amount-grid">
+
+        <button
+          type="button"
+          class="amount-option active"
+          data-amount="900">
+          ₹900
+        </button>
+
+        <button
+          type="button"
+          class="amount-option"
+          data-amount="295"
+          disabled
+          title="Minimum recharge is ₹300">
+          ₹295
+        </button>
+
+        <button
+          type="button"
+          class="amount-option"
+          data-amount="550">
+          ₹550
+        </button>
+
+        <button
+          type="button"
+          class="amount-option"
+          data-amount="1100">
+          ₹1,100
+        </button>
+
+        <button
+          type="button"
+          class="amount-option"
+          data-amount="1500">
+          ₹1,500
+        </button>
+
+        <button
+          type="button"
+          class="amount-option"
+          data-amount="2500">
+          ₹2,500
+        </button>
+
+        <button
+          type="button"
+          class="amount-option"
+          data-amount="3000">
+          ₹3,000
+        </button>
+
+        <button
+          type="button"
+          class="amount-option"
+          data-amount="4999">
+          ₹4,999
+        </button>
+
+        <button
+          type="button"
+          class="amount-option"
+          data-amount="6000">
+          ₹6,000
+        </button>
+
+      </div>
+
+
+      <!-- SELECTED -->
+      <div class="selected-box">
+
+        <div>
+
+          <div class="selected-label">
+            Selected Recharge
+          </div>
+
+          <div
+            class="selected-plan"
+            id="planName">
+            Wallet Recharge
+          </div>
+
+        </div>
+
+        <div
+          class="selected-amount"
+          id="amount">
+          ₹900
+        </div>
+
+      </div>
+
+
+      <!-- PAYMENT METHOD -->
+      <div class="section-title">
+        Payment Method
+      </div>
+
+      <div class="upi-option">
+
+        <div class="upi-icon">
+          ₹
+        </div>
+
+        <div class="upi-text">
+
+          <div class="upi-title">
+            UPI Payment
+          </div>
+
+          <div class="upi-desc">
+            Continue to the available secure payment gateway.
+          </div>
+
+        </div>
+
+        <div class="selected">
+          ✓
+        </div>
+
+      </div>
+
+
+      <!-- RECHARGE NOW -->
+      <button
+        type="button"
+        class="pay-btn"
+        id="payBtn">
+
+        RECHARGE NOW →
+
+      </button>
+
+
+      <!-- SECURITY -->
+      <div class="security-box">
+
+        🔒 <strong>Secure Payment</strong><br>
+
+        Payment is processed securely through WatchPays.
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <script>
+
+    /*
+      ==========================================
+      PLAN URL SUPPORT
+      ==========================================
+    */
+
+    const params =
+      new URLSearchParams(
+        window.location.search
+      );
+
+    const planFromUrl =
+      params.get("plan") || "";
+
+
+    /*
+      ==========================================
+      ELEMENTS
+      ==========================================
+    */
+
+    const planName =
+      document.getElementById("planName");
+
+    const amount =
+      document.getElementById("amount");
+
+    const payBtn =
+      document.getElementById("payBtn");
+
+    const errorBox =
+      document.getElementById("errorBox");
+
+    const amountButtons =
+      document.querySelectorAll(
+        ".amount-option:not(:disabled)"
+      );
+
+
+    /*
+      ==========================================
+      DEFAULT SELECTED AMOUNT
+      ==========================================
+    */
+
+    let selectedAmount = 900;
+
+
+    /*
+      ==========================================
+      FORMAT INR
+      ==========================================
+    */
+
+    function formatAmount(value) {
+
+      return new Intl.NumberFormat(
+        "en-IN",
+        {
+          style: "currency",
+          currency: "INR",
+          maximumFractionDigits: 0
+        }
+      ).format(value);
+
+    }
+
+
+    /*
+      ==========================================
+      SHOW ERROR
+      ==========================================
+    */
+
+    function showError(message) {
+
+      errorBox.textContent =
+        message;
+
+      errorBox.classList.add(
+        "show"
+      );
+
+    }
+
+
+    /*
+      ==========================================
+      HIDE ERROR
+      ==========================================
+    */
+
+    function hideError() {
+
+      errorBox.textContent = "";
+
+      errorBox.classList.remove(
+        "show"
+      );
+
+    }
+
+
+    /*
+      ==========================================
+      UPDATE SELECTED AMOUNT
+      ==========================================
+    */
+
+    function updateAmount(value) {
+
+      const numericValue =
+        Number(value);
+
+      if (
+        !Number.isFinite(numericValue) ||
+        numericValue < 300
+      ) {
+
+        return;
+
+      }
+
+      selectedAmount =
+        numericValue;
+
+      amount.textContent =
+        formatAmount(
+          selectedAmount
+        );
+
+      hideError();
+
+    }
+
+
+    /*
+      ==========================================
+      AMOUNT BUTTONS
+      ==========================================
+    */
+
+    amountButtons.forEach(
+      function(button) {
+
+        button.addEventListener(
+          "click",
+          function() {
+
+            amountButtons.forEach(
+              function(item) {
+
+                item.classList.remove(
+                  "active"
+                );
+
+              }
+            );
+
+            button.classList.add(
+              "active"
+            );
+
+            updateAmount(
+              button.dataset.amount
+            );
+
+          }
+        );
+
+      }
+    );
+
+
+    /*
+      ==========================================
+      PLAN NAME
+      ==========================================
+    */
+
+    if (planFromUrl) {
+
+      planName.textContent =
+        planFromUrl;
+
+    } else {
+
+      planName.textContent =
+        "Wallet Recharge";
+
+    }
+
+
+    /*
+      ==========================================
+      BUTTON LOADING
+      ==========================================
+    */
+
+    function setLoading(
+      loading
+    ) {
+
+      if (loading) {
+
+        payBtn.disabled = true;
+
+        payBtn.innerHTML = `
+          <span class="loading">
+            <span class="spinner"></span>
+            Opening Payment...
+          </span>
+        `;
+
+      } else {
+
+        payBtn.disabled = false;
+
+        payBtn.textContent =
+          "RECHARGE NOW →";
+
+      }
+
+    }
+
+
+    /*
+      ==========================================
+      SAFE JSON RESPONSE
+      ==========================================
+    */
+
+    async function readJson(
+      response
+    ) {
+
+      const text =
+        await response.text();
+
+      let data;
+
+      try {
+
+        data =
+          JSON.parse(text);
+
+      } catch (error) {
+
+        console.error(
+          "Server response:",
+          text
+        );
+
+        throw new Error(
+          "Server returned an invalid response. Please try again."
+        );
+
+      }
+
+      return data;
+
+    }
+
+
+    /*
+      ==========================================
+      OPEN WATCHPAYS PAYMENT
+      ==========================================
+    */
+
+    async function openRSPayment() {
+
+      hideError();
+
+
+      /*
+        Minimum recharge validation
+      */
+
+      if (
+        !Number.isFinite(
+          selectedAmount
+        ) ||
+        selectedAmount < 300
+      ) {
+
+        showError(
+          "Minimum recharge amount is ₹300."
+        );
+
+        return;
+
+      }
+
+
+      setLoading(true);
+
+
+      try {
+
+        /*
+          ======================================
+          IMPORTANT BACKEND ROUTE
+          ======================================
+
+          server.js contains:
+
+          POST /api/payment/create
+
+          NOT:
+
+          /api/payment/create-order
+        */
+
+        const response =
+          await fetch(
+            "/api/payment/create",
+            {
+
+              method: "POST",
+
+              headers: {
+                "Content-Type":
+                  "application/json"
+              },
+
+              credentials:
+                "same-origin",
+
+              body: JSON.stringify({
+
+                /*
+                  Preserve plan information
+                */
+
+                plan:
+                  planFromUrl ||
+                  "Wallet Recharge",
+
+                /*
+                  Selected recharge amount
+                */
+
+                amount:
+                  selectedAmount
+
+              })
+
+            }
+          );
+
+
+        /*
+          Read backend response
+        */
+
+        const data =
+          await readJson(
+            response
+          );
+
+
+        console.log(
+          "WatchPays payment response:",
+          data
+        );
+
+
+        /*
+          ======================================
+          CHECK RESPONSE
+          ======================================
+        */
+
+        if (
+          !response.ok ||
+          !data.success
+        ) {
+
+          throw new Error(
+            data.message ||
+            "Unable to create payment."
+          );
+
+        }
+
+
+        /*
+          ======================================
+          GET PAYMENT URL
+          ======================================
+
+          Backend response:
+
+          {
+            success: true,
+            payment: {
+              paymentUrl: "..."
+            }
+          }
+        */
+
+        const payUrl =
+          data.payment &&
+          data.payment.paymentUrl;
+
+
+        /*
+          ======================================
+          PAYMENT URL VALIDATION
+          ======================================
+        */
+
+        if (
+          !payUrl ||
+          typeof payUrl !== "string"
+        ) {
+
+          console.error(
+            "WatchPays response:",
+            data
+          );
+
+          throw new Error(
+            "Payment URL was not received from WatchPays."
+          );
+
+        }
+
+
+        /*
+          ======================================
+          REDIRECT
+          ======================================
+        */
+
+        window.location.href =
+          payUrl;
+
+
+      } catch (error) {
+
+        console.error(
+          "WatchPays payment error:",
+          error
+        );
+
+        showError(
+          error.message ||
+          "Unable to open payment gateway. Please try again."
+        );
+
+        setLoading(false);
+
+      }
+
+    }
+
+
+    /*
+      ==========================================
+      RECHARGE NOW BUTTON
+      ==========================================
+    */
+
+    payBtn.addEventListener(
+      "click",
+      function() {
+
+        openRSPayment();
+
+      }
+    );
+
+
+    /*
+      ==========================================
+      INITIAL AMOUNT
+      ==========================================
+    */
+
+    updateAmount(900);
+
+  </script>
+
+</body>
+</html>
