@@ -1,16 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
 
 <title>TRUE WALK - Admin Dashboard</title>
 
 <style>
+
 *{
   box-sizing:border-box;
   margin:0;
   padding:0;
+}
+
+html{
+  scroll-behavior:smooth;
 }
 
 body{
@@ -24,12 +34,25 @@ button{
   border:0;
 }
 
+button:disabled{
+  cursor:not-allowed;
+}
+
+
+/* =========================================================
+   LAYOUT
+========================================================= */
+
 .layout{
   display:flex;
   min-height:100vh;
 }
 
-/* SIDEBAR */
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
 .sidebar{
   width:250px;
   background:#111827;
@@ -82,7 +105,15 @@ button{
   color:#fff;
 }
 
-/* MAIN */
+.logout-btn:hover{
+  background:#b91c1c;
+}
+
+
+/* =========================================================
+   MAIN
+========================================================= */
+
 .main{
   margin-left:250px;
   width:calc(100% - 250px);
@@ -111,7 +142,15 @@ button{
   border-radius:8px;
 }
 
-/* STATS */
+.refresh-btn:hover{
+  background:#1f2937;
+}
+
+
+/* =========================================================
+   STATS
+========================================================= */
+
 .stats{
   display:grid;
   grid-template-columns:repeat(5,1fr);
@@ -137,7 +176,11 @@ button{
   font-weight:800;
 }
 
-/* SECTION */
+
+/* =========================================================
+   SECTION
+========================================================= */
+
 .section{
   background:#fff;
   border-radius:14px;
@@ -157,7 +200,11 @@ button{
   font-size:19px;
 }
 
-/* TABLE */
+
+/* =========================================================
+   TABLE
+========================================================= */
+
 .table-wrap{
   width:100%;
   overflow-x:auto;
@@ -169,7 +216,8 @@ table{
   min-width:1150px;
 }
 
-th,td{
+th,
+td{
   padding:13px 10px;
   border-bottom:1px solid #e5e7eb;
   text-align:left;
@@ -185,7 +233,11 @@ th{
   font-weight:700;
 }
 
-/* STATUS */
+
+/* =========================================================
+   STATUS
+========================================================= */
+
 .status{
   display:inline-block;
   padding:6px 9px;
@@ -214,7 +266,11 @@ th{
   color:#b91c1c;
 }
 
-/* ACTIONS */
+
+/* =========================================================
+   ACTIONS
+========================================================= */
+
 .actions{
   display:flex;
   gap:6px;
@@ -245,7 +301,11 @@ th{
   background:#7c3aed;
 }
 
-/* USER ACTIONS */
+
+/* =========================================================
+   USER ACTIONS
+========================================================= */
+
 .ban-btn{
   background:#dc2626;
 }
@@ -258,7 +318,11 @@ th{
   background:#2563eb;
 }
 
-/* VIP 5 */
+
+/* =========================================================
+   VIP 5
+========================================================= */
+
 .vip5-btn{
   background:#f59e0b;
   color:#fff;
@@ -289,14 +353,22 @@ th{
   background:#fff7f7;
 }
 
-/* EMPTY */
+
+/* =========================================================
+   EMPTY
+========================================================= */
+
 .empty{
   text-align:center;
   padding:30px;
   color:#6b7280;
 }
 
-/* MODAL */
+
+/* =========================================================
+   MODAL
+========================================================= */
+
 .modal{
   display:none;
   position:fixed;
@@ -369,6 +441,11 @@ th{
   font-size:14px;
 }
 
+.form-group input:focus,
+.form-group select:focus{
+  border-color:#22c55e;
+}
+
 .save-btn{
   width:100%;
   padding:13px;
@@ -379,14 +456,21 @@ th{
   margin-top:5px;
 }
 
-/* MOBILE */
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
 @media(max-width:1100px){
+
   .stats{
     grid-template-columns:repeat(3,1fr);
   }
+
 }
 
 @media(max-width:800px){
+
   .sidebar{
     width:210px;
   }
@@ -400,9 +484,11 @@ th{
   .stats{
     grid-template-columns:repeat(2,1fr);
   }
+
 }
 
 @media(max-width:600px){
+
   .sidebar{
     position:relative;
     width:100%;
@@ -430,7 +516,9 @@ th{
   .topbar h1{
     font-size:18px;
   }
+
 }
+
 </style>
 </head>
 
@@ -438,275 +526,450 @@ th{
 
 <div class="layout">
 
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
 
-    <div class="logo">
-      TRUE <span>WALK</span>
+<!-- =======================================================
+     SIDEBAR
+======================================================= -->
+
+<aside class="sidebar">
+
+  <div class="logo">
+    TRUE <span>WALK</span>
+  </div>
+
+  <div class="nav-title">
+    Main
+  </div>
+
+  <button
+    class="nav-btn active"
+    onclick="scrollToSection('dashboardSection')"
+  >
+    📊 Dashboard
+  </button>
+
+  <button
+    class="nav-btn"
+    onclick="scrollToSection('usersSection')"
+  >
+    👥 Users
+  </button>
+
+  <button
+    class="nav-btn"
+    onclick="scrollToSection('withdrawalsSection')"
+  >
+    💸 Withdrawals
+  </button>
+
+  <div class="nav-title">
+    Management
+  </div>
+
+  <button
+    class="nav-btn"
+    onclick="scrollToSection('walletSection')"
+  >
+    💰 Wallet Management
+  </button>
+
+  <button
+    class="nav-btn"
+    onclick="refreshAll()"
+  >
+    🔄 Refresh Data
+  </button>
+
+  <button
+    class="nav-btn logout-btn"
+    onclick="logoutAdmin()"
+  >
+    🚪 Logout
+  </button>
+
+</aside>
+
+
+<!-- =======================================================
+     MAIN
+======================================================= -->
+
+<main class="main">
+
+  <div class="topbar">
+
+    <div>
+
+      <h1>
+        Admin Dashboard
+      </h1>
+
+      <div
+        style="
+          font-size:12px;
+          color:#6b7280;
+          margin-top:5px;
+        "
+      >
+        TRUE WALK Administration
+      </div>
+
     </div>
 
-    <div class="nav-title">Main</div>
-
-    <button class="nav-btn active"
-      onclick="scrollToSection('dashboardSection')">
-      📊 Dashboard
+    <button
+      class="refresh-btn"
+      onclick="refreshAll()"
+    >
+      🔄 Refresh
     </button>
 
-    <button class="nav-btn"
-      onclick="scrollToSection('usersSection')">
-      👥 Users
-    </button>
-
-    <button class="nav-btn"
-      onclick="scrollToSection('withdrawalsSection')">
-      💸 Withdrawals
-    </button>
-
-    <div class="nav-title">Management</div>
-
-    <button class="nav-btn"
-      onclick="scrollToSection('walletSection')">
-      💰 Wallet Management
-    </button>
-
-    <button class="nav-btn"
-      onclick="refreshAll()">
-      🔄 Refresh Data
-    </button>
-
-    <button class="nav-btn logout-btn"
-      onclick="logoutAdmin()">
-      🚪 Logout
-    </button>
-
-  </aside>
+  </div>
 
 
-  <!-- MAIN -->
-  <main class="main">
+  <!-- =====================================================
+       STATS
+  ====================================================== -->
 
-    <div class="topbar">
+  <section
+    class="stats"
+    id="dashboardSection"
+  >
+
+    <div class="card">
+
+      <div class="stat-title">
+        Total Users
+      </div>
+
+      <div
+        class="stat-value"
+        id="totalUsers"
+      >
+        0
+      </div>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="stat-title">
+        Total Balance
+      </div>
+
+      <div
+        class="stat-value"
+        id="totalBalance"
+      >
+        ₹0
+      </div>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="stat-title">
+        Total Withdrawn
+      </div>
+
+      <div
+        class="stat-value"
+        id="totalWithdrawn"
+      >
+        ₹0
+      </div>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="stat-title">
+        Pending / Processing
+      </div>
+
+      <div
+        class="stat-value"
+        id="pendingWithdrawals"
+      >
+        0
+      </div>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="stat-title">
+        Total Payments
+      </div>
+
+      <div
+        class="stat-value"
+        id="totalPayments"
+      >
+        ₹0
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =====================================================
+       WITHDRAWALS
+  ====================================================== -->
+
+  <section
+    class="section"
+    id="withdrawalsSection"
+  >
+
+    <div class="section-head">
+
+      <h2>
+        💸 Withdrawal Management
+      </h2>
+
+    </div>
+
+    <div class="table-wrap">
+
+      <table>
+
+        <thead>
+
+          <tr>
+            <th>ID</th>
+            <th>User</th>
+            <th>Amount</th>
+            <th>Method</th>
+            <th>Destination</th>
+            <th>Status</th>
+            <th>Date</th>
+            <th>Action</th>
+          </tr>
+
+        </thead>
+
+        <tbody id="withdrawalsBody">
+
+          <tr>
+
+            <td
+              colspan="8"
+              class="empty"
+            >
+              Loading withdrawals...
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </section>
+
+
+  <!-- =====================================================
+       WALLET MANAGEMENT
+  ====================================================== -->
+
+  <section
+    class="section"
+    id="walletSection"
+  >
+
+    <div class="section-head">
 
       <div>
-        <h1>Admin Dashboard</h1>
 
-        <div style="font-size:12px;color:#6b7280;margin-top:5px;">
-          TRUE WALK Administration
+        <h2>
+          💰 Wallet Management
+        </h2>
+
+        <div
+          style="
+            font-size:12px;
+            color:#6b7280;
+            margin-top:5px;
+          "
+        >
+          Manage authorised user wallet adjustments
         </div>
-      </div>
 
-      <button class="refresh-btn"
-        onclick="refreshAll()">
-        🔄 Refresh
-      </button>
+      </div>
 
     </div>
 
+    <div class="table-wrap">
 
-    <!-- STATS -->
-    <section class="stats" id="dashboardSection">
+      <table>
 
-      <div class="card">
-        <div class="stat-title">Total Users</div>
-        <div class="stat-value" id="totalUsers">0</div>
-      </div>
+        <thead>
 
-      <div class="card">
-        <div class="stat-title">Total Balance</div>
-        <div class="stat-value" id="totalBalance">₹0</div>
-      </div>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>Balance</th>
+            <th>Registered</th>
+            <th>Action</th>
+          </tr>
 
-      <div class="card">
-        <div class="stat-title">Total Withdrawn</div>
-        <div class="stat-value" id="totalWithdrawn">₹0</div>
-      </div>
+        </thead>
 
-      <div class="card">
-        <div class="stat-title">Pending / Processing</div>
-        <div class="stat-value" id="pendingWithdrawals">0</div>
-      </div>
+        <tbody id="walletUsersBody">
 
-      <div class="card">
-        <div class="stat-title">Total Payments</div>
-        <div class="stat-value" id="totalPayments">₹0</div>
-      </div>
+          <tr>
 
-    </section>
+            <td
+              colspan="6"
+              class="empty"
+            >
+              Loading users...
+            </td>
 
+          </tr>
 
-    <!-- WITHDRAWALS -->
-    <section class="section" id="withdrawalsSection">
+        </tbody>
 
-      <div class="section-head">
-        <h2>💸 Withdrawal Management</h2>
-      </div>
+      </table>
 
-      <div class="table-wrap">
+    </div>
 
-        <table>
-
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>User</th>
-              <th>Amount</th>
-              <th>Method</th>
-              <th>Destination</th>
-              <th>Status</th>
-              <th>Date</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-
-          <tbody id="withdrawalsBody">
-
-            <tr>
-              <td colspan="8" class="empty">
-                Loading withdrawals...
-              </td>
-            </tr>
-
-          </tbody>
-
-        </table>
-
-      </div>
-
-    </section>
+  </section>
 
 
-    <!-- WALLET MANAGEMENT -->
-    <section class="section" id="walletSection">
+  <!-- =====================================================
+       USERS
+  ====================================================== -->
 
-      <div class="section-head">
+  <section
+    class="section"
+    id="usersSection"
+  >
 
-        <div>
+    <div class="section-head">
 
-          <h2>💰 Wallet Management</h2>
+      <h2>
+        👥 Users
+      </h2>
 
-          <div style="font-size:12px;color:#6b7280;margin-top:5px;">
-            Manage authorised user wallet adjustments
-          </div>
+    </div>
 
-        </div>
+    <div class="table-wrap">
 
-      </div>
+      <table>
 
-      <div class="table-wrap">
+        <thead>
 
-        <table>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>Balance</th>
+            <th>Registered</th>
+            <th>Wallet</th>
+            <th>VIP 5</th>
+            <th>Account</th>
+            <th>Login</th>
+          </tr>
 
-          <thead>
+        </thead>
 
-            <tr>
-              <th>ID</th>
-              <th>Name</th>
-              <th>Phone</th>
-              <th>Balance</th>
-              <th>Registered</th>
-              <th>Action</th>
-            </tr>
+        <tbody id="usersBody">
 
-          </thead>
+          <tr>
 
-          <tbody id="walletUsersBody">
+            <td
+              colspan="9"
+              class="empty"
+            >
+              Loading users...
+            </td>
 
-            <tr>
-              <td colspan="6" class="empty">
-                Loading users...
-              </td>
-            </tr>
+          </tr>
 
-          </tbody>
+        </tbody>
 
-        </table>
+      </table>
 
-      </div>
+    </div>
 
-    </section>
+  </section>
 
-
-    <!-- USERS -->
-    <section class="section" id="usersSection">
-
-      <div class="section-head">
-        <h2>👥 Users</h2>
-      </div>
-
-      <div class="table-wrap">
-
-        <table>
-
-          <thead>
-
-            <tr>
-              <th>ID</th>
-              <th>Name</th>
-              <th>Phone</th>
-              <th>Balance</th>
-              <th>Registered</th>
-              <th>Wallet</th>
-              <th>VIP 5</th>
-              <th>Account</th>
-              <th>Login</th>
-            </tr>
-
-          </thead>
-
-          <tbody id="usersBody">
-
-            <tr>
-              <td colspan="9" class="empty">
-                Loading users...
-              </td>
-            </tr>
-
-          </tbody>
-
-        </table>
-
-      </div>
-
-    </section>
-
-  </main>
+</main>
 
 </div>
 
 
-<!-- WALLET MODAL -->
-<div class="modal" id="walletModal">
+<!-- =======================================================
+     WALLET MODAL
+======================================================= -->
+
+<div
+  class="modal"
+  id="walletModal"
+>
 
   <div class="modal-box">
 
     <div class="modal-head">
 
-      <h2>Wallet Management</h2>
+      <h2>
+        Wallet Management
+      </h2>
 
-      <button class="close"
-        onclick="closeWalletModal()">
+      <button
+        class="close"
+        onclick="closeWalletModal()"
+      >
         ×
       </button>
 
     </div>
 
+
     <div class="user-info">
 
-      <div style="font-size:13px;color:#6b7280;">
+      <div
+        style="
+          font-size:13px;
+          color:#6b7280;
+        "
+      >
         User
       </div>
 
-      <div id="walletUserName"
-        style="font-weight:700;margin-top:3px;">
+      <div
+        id="walletUserName"
+        style="
+          font-weight:700;
+          margin-top:3px;
+        "
+      >
         -
       </div>
 
-      <div style="font-size:13px;color:#6b7280;margin-top:12px;">
+      <div
+        style="
+          font-size:13px;
+          color:#6b7280;
+          margin-top:12px;
+        "
+      >
         Current Balance
       </div>
 
-      <div class="current-balance"
-        id="walletCurrentBalance">
+      <div
+        class="current-balance"
+        id="walletCurrentBalance"
+      >
         ₹0
       </div>
 
@@ -720,11 +983,17 @@ th{
         id="walletUserId"
       >
 
+
       <div class="form-group">
 
-        <label>Adjustment Type</label>
+        <label>
+          Adjustment Type
+        </label>
 
-        <select id="adjustmentType" required>
+        <select
+          id="adjustmentType"
+          required
+        >
 
           <option value="credit">
             Credit / Add Balance
@@ -741,7 +1010,9 @@ th{
 
       <div class="form-group">
 
-        <label>Amount</label>
+        <label>
+          Amount
+        </label>
 
         <input
           type="number"
@@ -757,7 +1028,9 @@ th{
 
       <div class="form-group">
 
-        <label>Reason</label>
+        <label>
+          Reason
+        </label>
 
         <input
           type="text"
@@ -771,7 +1044,8 @@ th{
 
       <button
         class="save-btn"
-        type="submit">
+        type="submit"
+      >
         Save Wallet Adjustment
       </button>
 
@@ -784,6 +1058,11 @@ th{
 
 <script>
 
+
+/* =========================================================
+   HELPER
+========================================================= */
+
 const $ = (id) =>
   document.getElementById(id);
 
@@ -794,13 +1073,14 @@ const $ = (id) =>
 
 async function api(url, options = {}) {
 
-  const response = await fetch(url, {
-
-    credentials: "include",
-
-    ...options
-
-  });
+  const response =
+    await fetch(
+      url,
+      {
+        credentials:"include",
+        ...options
+      }
+    );
 
 
   let data = null;
@@ -811,14 +1091,16 @@ async function api(url, options = {}) {
 
   try {
 
-    if (
-      contentType.includes("application/json")
-    ) {
+    if(
+      contentType.includes(
+        "application/json"
+      )
+    ){
 
       data =
         await response.json();
 
-    } else {
+    }else{
 
       const text =
         await response.text();
@@ -835,9 +1117,9 @@ async function api(url, options = {}) {
       throw error;
     }
 
-  } catch (error) {
+  }catch(error){
 
-    if (error.status) {
+    if(error.status){
       throw error;
     }
 
@@ -853,7 +1135,7 @@ async function api(url, options = {}) {
   }
 
 
-  if (!response.ok) {
+  if(!response.ok){
 
     const error =
       new Error(
@@ -873,25 +1155,31 @@ async function api(url, options = {}) {
 
 
 /* =========================================================
-   FORMAT
+   FORMAT MONEY
 ========================================================= */
 
-function money(value) {
+function money(value){
 
   const amount =
     Number(value || 0);
 
   return "₹" +
-    amount.toLocaleString("en-IN", {
-      maximumFractionDigits:2
-    });
+    amount.toLocaleString(
+      "en-IN",
+      {
+        maximumFractionDigits:2
+      }
+    );
 }
 
 
-function escapeHtml(value) {
+/* =========================================================
+   ESCAPE HTML
+========================================================= */
+
+function escapeHtml(value){
 
   return String(value ?? "")
-
     .replace(/&/g,"&amp;")
     .replace(/</g,"&lt;")
     .replace(/>/g,"&gt;")
@@ -901,15 +1189,17 @@ function escapeHtml(value) {
 
 
 /* =========================================================
-   ADMIN CHECK
+   ADMIN SESSION CHECK
 ========================================================= */
 
-async function checkAdmin() {
+async function checkAdmin(){
 
-  try {
+  try{
 
     const result =
-      await api("/api/admin/me");
+      await api(
+        "/api/admin/me"
+      );
 
 
     console.log(
@@ -918,14 +1208,25 @@ async function checkAdmin() {
     );
 
 
-    if (
+    /*
+      SERVER RESPONSE:
+
+      {
+        success: true,
+        admin: true
+      }
+
+      IMPORTANT:
+      Server uses "admin", not "isAdmin".
+    */
+
+    if(
       result &&
       result.success === true &&
-      result.isAdmin === true
-    ) {
+      result.admin === true
+    ){
 
       return true;
-
     }
 
 
@@ -933,15 +1234,34 @@ async function checkAdmin() {
       "Admin session is not active. Please login again."
     );
 
+
     return false;
 
 
-  } catch (error) {
+  }catch(error){
 
     console.error(
       "ADMIN SESSION ERROR:",
       error
     );
+
+
+    /*
+      If session expired, return to login.
+    */
+
+    if(error.status === 401){
+
+      alert(
+        "Admin session expired. Please login again."
+      );
+
+      window.location.replace(
+        "/admin.html"
+      );
+
+      return false;
+    }
 
 
     alert(
@@ -959,7 +1279,7 @@ async function checkAdmin() {
    SUMMARY
 ========================================================= */
 
-async function loadSummary() {
+async function loadSummary(){
 
   const result =
     await api(
@@ -1030,7 +1350,7 @@ async function loadSummary() {
    USERS
 ========================================================= */
 
-async function loadUsers() {
+async function loadUsers(){
 
   const result =
     await api(
@@ -1058,28 +1378,23 @@ async function loadUsers() {
    RENDER USERS
 ========================================================= */
 
-function renderUsers(users) {
+function renderUsers(users){
 
   const body =
     $("usersBody");
 
 
-  if (!users.length) {
+  if(!users.length){
 
     body.innerHTML = `
-
       <tr>
-
         <td
           colspan="9"
-          class="empty">
-
+          class="empty"
+        >
           No users found.
-
         </td>
-
       </tr>
-
     `;
 
     return;
@@ -1126,13 +1441,17 @@ function renderUsers(users) {
           name,
           phone,
           balance
-        })
-        .replace(/'/g,"&#039;");
+        }).replace(
+          /'/g,
+          "&#039;"
+        );
 
 
       return `
 
-        <tr class="${banned ? "banned-row" : ""}">
+        <tr
+          class="${banned ? "banned-row" : ""}"
+        >
 
           <td>
             ${escapeHtml(id)}
@@ -1147,11 +1466,14 @@ function renderUsers(users) {
             ${
               banned
                 ? `
-                  <div style="
-                    color:#dc2626;
-                    font-size:10px;
-                    font-weight:700;
-                    margin-top:4px;">
+                  <div
+                    style="
+                      color:#dc2626;
+                      font-size:10px;
+                      font-weight:700;
+                      margin-top:4px;
+                    "
+                  >
                     BANNED
                   </div>
                 `
@@ -1174,20 +1496,18 @@ function renderUsers(users) {
             )}
           </td>
 
-          <!-- WALLET -->
 
           <td>
 
             <button
               class="action wallet-btn"
-              onclick='openWalletModal(${userData})'>
+              onclick='openWalletModal(${userData})'
+            >
               💰 Manage Wallet
             </button>
 
           </td>
 
-
-          <!-- VIP 5 -->
 
           <td>
 
@@ -1206,7 +1526,8 @@ function renderUsers(users) {
                     <button
                       class="action vip5-off"
                       style="margin-top:6px;"
-                      onclick="setVip5('${escapeHtml(id)}', false)">
+                      onclick="setVip5('${escapeHtml(id)}', false)"
+                    >
                       Disable
                     </button>
 
@@ -1217,7 +1538,8 @@ function renderUsers(users) {
 
                   <button
                     class="action vip5-btn"
-                    onclick="setVip5('${escapeHtml(id)}', true)">
+                    onclick="setVip5('${escapeHtml(id)}', true)"
+                  >
                     ⭐ Enable VIP 5
                   </button>
 
@@ -1227,8 +1549,6 @@ function renderUsers(users) {
           </td>
 
 
-          <!-- ACCOUNT -->
-
           <td>
 
             <div class="actions">
@@ -1236,18 +1556,24 @@ function renderUsers(users) {
               ${
                 banned
                   ? `
+
                     <button
                       class="action unban-btn"
-                      onclick="unbanUser('${escapeHtml(id)}')">
+                      onclick="unbanUser('${escapeHtml(id)}')"
+                    >
                       🟢 Unban
                     </button>
+
                   `
                   : `
+
                     <button
                       class="action ban-btn"
-                      onclick="banUser('${escapeHtml(id)}')">
+                      onclick="banUser('${escapeHtml(id)}')"
+                    >
                       🔴 Ban
                     </button>
+
                   `
               }
 
@@ -1256,14 +1582,17 @@ function renderUsers(users) {
           </td>
 
 
-          <!-- LOGIN -->
-
           <td>
 
             <button
               class="action login-btn"
               onclick="loginAsUser('${escapeHtml(id)}')"
-              ${banned ? "disabled style='opacity:.5;cursor:not-allowed;'" : ""}>
+              ${
+                banned
+                  ? "disabled style='opacity:.5;cursor:not-allowed;'"
+                  : ""
+              }
+            >
               🔐 Login
             </button>
 
@@ -1281,13 +1610,13 @@ function renderUsers(users) {
    WALLET USERS
 ========================================================= */
 
-function renderWalletUsers(users) {
+function renderWalletUsers(users){
 
   const body =
     $("walletUsersBody");
 
 
-  if (!users.length) {
+  if(!users.length){
 
     body.innerHTML = `
 
@@ -1295,10 +1624,9 @@ function renderWalletUsers(users) {
 
         <td
           colspan="6"
-          class="empty">
-
+          class="empty"
+        >
           No users found.
-
         </td>
 
       </tr>
@@ -1335,6 +1663,15 @@ function renderWalletUsers(users) {
         );
 
 
+      const walletData =
+        JSON.stringify({
+          id,
+          name,
+          phone,
+          balance
+        });
+
+
       return `
 
         <tr>
@@ -1367,12 +1704,7 @@ function renderWalletUsers(users) {
 
             <button
               class="action wallet-btn"
-              onclick='openWalletModal(${JSON.stringify({
-                id,
-                name,
-                phone,
-                balance
-              })})'
+              onclick='openWalletModal(${walletData})'
             >
               Manage Wallet
             </button>
@@ -1388,10 +1720,13 @@ function renderWalletUsers(users) {
 
 
 /* =========================================================
-   VIP 5 MANAGEMENT
+   VIP 5
 ========================================================= */
 
-async function setVip5(userId, enabled) {
+async function setVip5(
+  userId,
+  enabled
+){
 
   const confirmed =
     confirm(
@@ -1401,18 +1736,17 @@ async function setVip5(userId, enabled) {
     );
 
 
-  if (!confirmed) {
+  if(!confirmed){
     return;
   }
 
 
-  try {
+  try{
 
     const result =
       await api(
         `/api/admin/users/${encodeURIComponent(userId)}/vip5`,
         {
-
           method:"POST",
 
           headers:{
@@ -1427,18 +1761,16 @@ async function setVip5(userId, enabled) {
             JSON.stringify({
               enabled
             })
-
         }
       );
 
 
-    if (!result.success) {
+    if(!result.success){
 
       throw new Error(
         result.message ||
         "Unable to update VIP 5."
       );
-
     }
 
 
@@ -1452,7 +1784,7 @@ async function setVip5(userId, enabled) {
     await refreshAll();
 
 
-  } catch (error) {
+  }catch(error){
 
     console.error(
       "VIP 5 ERROR:",
@@ -1464,7 +1796,6 @@ async function setVip5(userId, enabled) {
       error.message ||
       "Unable to update VIP 5."
     );
-
   }
 }
 
@@ -1473,7 +1804,7 @@ async function setVip5(userId, enabled) {
    BAN USER
 ========================================================= */
 
-async function banUser(userId) {
+async function banUser(userId){
 
   const confirmed =
     confirm(
@@ -1481,12 +1812,12 @@ async function banUser(userId) {
     );
 
 
-  if (!confirmed) {
+  if(!confirmed){
     return;
   }
 
 
-  try {
+  try{
 
     const result =
       await api(
@@ -1497,13 +1828,12 @@ async function banUser(userId) {
       );
 
 
-    if (!result.success) {
+    if(!result.success){
 
       throw new Error(
         result.message ||
         "Unable to ban user."
       );
-
     }
 
 
@@ -1516,7 +1846,7 @@ async function banUser(userId) {
     await refreshAll();
 
 
-  } catch (error) {
+  }catch(error){
 
     console.error(
       "BAN USER ERROR:",
@@ -1528,7 +1858,6 @@ async function banUser(userId) {
       error.message ||
       "Unable to ban user."
     );
-
   }
 }
 
@@ -1537,7 +1866,7 @@ async function banUser(userId) {
    UNBAN USER
 ========================================================= */
 
-async function unbanUser(userId) {
+async function unbanUser(userId){
 
   const confirmed =
     confirm(
@@ -1545,12 +1874,12 @@ async function unbanUser(userId) {
     );
 
 
-  if (!confirmed) {
+  if(!confirmed){
     return;
   }
 
 
-  try {
+  try{
 
     const result =
       await api(
@@ -1561,13 +1890,12 @@ async function unbanUser(userId) {
       );
 
 
-    if (!result.success) {
+    if(!result.success){
 
       throw new Error(
         result.message ||
         "Unable to unban user."
       );
-
     }
 
 
@@ -1580,7 +1908,7 @@ async function unbanUser(userId) {
     await refreshAll();
 
 
-  } catch (error) {
+  }catch(error){
 
     console.error(
       "UNBAN USER ERROR:",
@@ -1592,16 +1920,15 @@ async function unbanUser(userId) {
       error.message ||
       "Unable to unban user."
     );
-
   }
 }
 
 
 /* =========================================================
-   DIRECT USER LOGIN
+   LOGIN AS USER
 ========================================================= */
 
-async function loginAsUser(userId) {
+async function loginAsUser(userId){
 
   const confirmed =
     confirm(
@@ -1610,12 +1937,12 @@ async function loginAsUser(userId) {
     );
 
 
-  if (!confirmed) {
+  if(!confirmed){
     return;
   }
 
 
-  try {
+  try{
 
     const result =
       await api(
@@ -1626,13 +1953,12 @@ async function loginAsUser(userId) {
       );
 
 
-    if (!result.success) {
+    if(!result.success){
 
       throw new Error(
         result.message ||
         "Unable to login as user."
       );
-
     }
 
 
@@ -1640,7 +1966,7 @@ async function loginAsUser(userId) {
       "/home.html";
 
 
-  } catch (error) {
+  }catch(error){
 
     console.error(
       "LOGIN AS USER ERROR:",
@@ -1652,9 +1978,7 @@ async function loginAsUser(userId) {
       error.message ||
       "Unable to login as user."
     );
-
   }
-
 }
 
 
@@ -1662,7 +1986,7 @@ async function loginAsUser(userId) {
    WALLET MODAL
 ========================================================= */
 
-function openWalletModal(user) {
+function openWalletModal(user){
 
   $("walletUserId").value =
     user.id;
@@ -1694,7 +2018,7 @@ function openWalletModal(user) {
 }
 
 
-function closeWalletModal() {
+function closeWalletModal(){
 
   $("walletModal")
     .classList
@@ -1705,11 +2029,9 @@ function closeWalletModal() {
 $("walletModal")
   .addEventListener(
     "click",
-    function(event) {
+    function(event){
 
-      if (
-        event.target === this
-      ) {
+      if(event.target === this){
 
         closeWalletModal();
 
@@ -1726,7 +2048,7 @@ $("walletModal")
 $("walletForm")
   .addEventListener(
     "submit",
-    async function(event) {
+    async function(event){
 
       event.preventDefault();
 
@@ -1755,7 +2077,7 @@ $("walletForm")
           .trim();
 
 
-      if (!userId) {
+      if(!userId){
 
         alert(
           "Invalid user."
@@ -1765,7 +2087,7 @@ $("walletForm")
       }
 
 
-      if (!amount || amount <= 0) {
+      if(!amount || amount <= 0){
 
         alert(
           "Enter a valid amount."
@@ -1775,7 +2097,7 @@ $("walletForm")
       }
 
 
-      if (!reason) {
+      if(!reason){
 
         alert(
           "Enter a reason."
@@ -1799,7 +2121,7 @@ $("walletForm")
         "Saving...";
 
 
-      try {
+      try{
 
         const result =
           await api(
@@ -1824,13 +2146,12 @@ $("walletForm")
           );
 
 
-        if (!result.success) {
+        if(!result.success){
 
           throw new Error(
             result.message ||
             "Balance adjustment failed."
           );
-
         }
 
 
@@ -1847,7 +2168,7 @@ $("walletForm")
         await refreshAll();
 
 
-      } catch (error) {
+      }catch(error){
 
         alert(
           error.message ||
@@ -1855,7 +2176,7 @@ $("walletForm")
         );
 
 
-      } finally {
+      }finally{
 
         button.disabled =
           false;
@@ -1874,7 +2195,7 @@ $("walletForm")
    WITHDRAWALS
 ========================================================= */
 
-async function loadWithdrawals() {
+async function loadWithdrawals(){
 
   const result =
     await api(
@@ -1898,7 +2219,7 @@ async function loadWithdrawals() {
 }
 
 
-function statusLabel(status) {
+function statusLabel(status){
 
   const map = {
 
@@ -1920,15 +2241,19 @@ function statusLabel(status) {
 }
 
 
+/* =========================================================
+   RENDER WITHDRAWALS
+========================================================= */
+
 function renderWithdrawals(
   withdrawals
-) {
+){
 
   const body =
     $("withdrawalsBody");
 
 
-  if (!withdrawals.length) {
+  if(!withdrawals.length){
 
     body.innerHTML = `
 
@@ -1936,10 +2261,9 @@ function renderWithdrawals(
 
         <td
           colspan="8"
-          class="empty">
-
+          class="empty"
+        >
           No withdrawals found.
-
         </td>
 
       </tr>
@@ -1963,9 +2287,7 @@ function renderWithdrawals(
       let actions = "";
 
 
-      if (
-        status === "pending"
-      ) {
+      if(status === "pending"){
 
         actions = `
 
@@ -1985,12 +2307,7 @@ function renderWithdrawals(
 
         `;
 
-      }
-
-
-      else if (
-        status === "processing"
-      ) {
+      }else if(status === "processing"){
 
         actions = `
 
@@ -2003,22 +2320,20 @@ function renderWithdrawals(
 
         `;
 
-      }
-
-
-      else {
+      }else{
 
         actions = `
 
           <span
-            style="color:#9ca3af;font-size:12px;">
-
+            style="
+              color:#9ca3af;
+              font-size:12px;
+            "
+          >
             No action
-
           </span>
 
         `;
-
       }
 
 
@@ -2079,12 +2394,11 @@ function renderWithdrawals(
           <td>
 
             <span
-              class="status ${escapeHtml(status)}">
-
+              class="status ${escapeHtml(status)}"
+            >
               ${escapeHtml(
                 statusLabel(status)
               )}
-
             </span>
 
           </td>
@@ -2119,19 +2433,19 @@ function renderWithdrawals(
    PROCESS WITHDRAWAL
 ========================================================= */
 
-async function setProcessing(id) {
+async function setProcessing(id){
 
-  if (
+  if(
     !confirm(
       "Move this withdrawal to Processing?"
     )
-  ) {
+  ){
 
     return;
   }
 
 
-  try {
+  try{
 
     const result =
       await api(
@@ -2142,13 +2456,12 @@ async function setProcessing(id) {
       );
 
 
-    if (!result.success) {
+    if(!result.success){
 
       throw new Error(
         result.message ||
         "Unable to process withdrawal."
       );
-
     }
 
 
@@ -2160,13 +2473,12 @@ async function setProcessing(id) {
     await refreshAll();
 
 
-  } catch (error) {
+  }catch(error){
 
     alert(
       error.message ||
       "Processing failed."
     );
-
   }
 }
 
@@ -2175,7 +2487,7 @@ async function setProcessing(id) {
    COMPLETE WITHDRAWAL
 ========================================================= */
 
-async function completeWithdrawal(id) {
+async function completeWithdrawal(id){
 
   const confirmed =
     confirm(
@@ -2186,12 +2498,12 @@ async function completeWithdrawal(id) {
     );
 
 
-  if (!confirmed) {
+  if(!confirmed){
     return;
   }
 
 
-  try {
+  try{
 
     const result =
       await api(
@@ -2202,13 +2514,12 @@ async function completeWithdrawal(id) {
       );
 
 
-    if (!result.success) {
+    if(!result.success){
 
       throw new Error(
         result.message ||
         "Unable to complete withdrawal."
       );
-
     }
 
 
@@ -2220,13 +2531,12 @@ async function completeWithdrawal(id) {
     await refreshAll();
 
 
-  } catch (error) {
+  }catch(error){
 
     alert(
       error.message ||
       "Complete failed."
     );
-
   }
 }
 
@@ -2235,7 +2545,7 @@ async function completeWithdrawal(id) {
    REJECT WITHDRAWAL
 ========================================================= */
 
-async function rejectWithdrawal(id) {
+async function rejectWithdrawal(id){
 
   const confirmed =
     confirm(
@@ -2246,12 +2556,12 @@ async function rejectWithdrawal(id) {
     );
 
 
-  if (!confirmed) {
+  if(!confirmed){
     return;
   }
 
 
-  try {
+  try{
 
     const result =
       await api(
@@ -2262,13 +2572,12 @@ async function rejectWithdrawal(id) {
       );
 
 
-    if (!result.success) {
+    if(!result.success){
 
       throw new Error(
         result.message ||
         "Unable to reject withdrawal."
       );
-
     }
 
 
@@ -2280,27 +2589,26 @@ async function rejectWithdrawal(id) {
     await refreshAll();
 
 
-  } catch (error) {
+  }catch(error){
 
     alert(
       error.message ||
       "Reject failed."
     );
-
   }
 }
 
 
 /* =========================================================
-   REFRESH EVERYTHING
+   REFRESH ALL
 ========================================================= */
 
 let refreshRunning = false;
 
 
-async function refreshAll() {
+async function refreshAll(){
 
-  if (refreshRunning) {
+  if(refreshRunning){
     return;
   }
 
@@ -2308,7 +2616,7 @@ async function refreshAll() {
   refreshRunning = true;
 
 
-  try {
+  try{
 
     await Promise.all([
 
@@ -2321,12 +2629,26 @@ async function refreshAll() {
     ]);
 
 
-  } catch (error) {
+  }catch(error){
 
     console.error(
       "REFRESH ERROR:",
       error
     );
+
+
+    /*
+      If session expired, go back to login.
+    */
+
+    if(error.status === 401){
+
+      window.location.replace(
+        "/admin.html"
+      );
+
+      return;
+    }
 
 
     alert(
@@ -2335,7 +2657,7 @@ async function refreshAll() {
     );
 
 
-  } finally {
+  }finally{
 
     refreshRunning = false;
 
@@ -2347,13 +2669,13 @@ async function refreshAll() {
    SCROLL
 ========================================================= */
 
-function scrollToSection(id) {
+function scrollToSection(id){
 
   const element =
     document.getElementById(id);
 
 
-  if (element) {
+  if(element){
 
     element.scrollIntoView({
       behavior:"smooth",
@@ -2368,9 +2690,9 @@ function scrollToSection(id) {
    LOGOUT
 ========================================================= */
 
-async function logoutAdmin() {
+async function logoutAdmin(){
 
-  try {
+  try{
 
     await api(
       "/api/admin/logout",
@@ -2380,22 +2702,26 @@ async function logoutAdmin() {
     );
 
 
-  } catch (error) {
+  }catch(error){
 
-    console.error(error);
+    console.error(
+      "LOGOUT ERROR:",
+      error
+    );
 
 
-  } finally {
+  }finally{
 
-    location.href =
-      "/admin.html";
+    window.location.replace(
+      "/admin.html"
+    );
 
   }
 }
 
 
 /* =========================================================
-   START
+   START DASHBOARD
 ========================================================= */
 
 (async function(){
@@ -2404,7 +2730,8 @@ async function logoutAdmin() {
     await checkAdmin();
 
 
-  if (!isAdmin) {
+  if(!isAdmin){
+
     return;
   }
 
@@ -2421,13 +2748,14 @@ async function logoutAdmin() {
 setInterval(
   async () => {
 
-    try {
+    try{
 
       const isAdmin =
         await checkAdmin();
 
 
-      if (!isAdmin) {
+      if(!isAdmin){
+
         return;
       }
 
@@ -2435,7 +2763,7 @@ setInterval(
       await refreshAll();
 
 
-    } catch(error) {
+    }catch(error){
 
       console.error(
         "AUTO REFRESH ERROR:",
