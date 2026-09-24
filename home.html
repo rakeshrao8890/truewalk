@@ -1,1860 +1,1529 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>TRUE WALK - Home</title>
-
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    :root {
-      --bg: #05060d;
-      --bg-2: #080a16;
-
-      --blue: #35a7ff;
-      --blue-2: #176cff;
-      --purple: #8b5cf6;
-      --pink: #ff4ecd;
-      --orange: #ff8a3d;
-
-      --text: #ffffff;
-      --muted: #9298ad;
-
-      --glass: rgba(255, 255, 255, 0.055);
-      --glass-strong: rgba(255, 255, 255, 0.085);
-      --border: rgba(255, 255, 255, 0.09);
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      min-height: 100vh;
-      font-family:
-        Inter,
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        Arial,
-        sans-serif;
-
-      color: var(--text);
-
-      background:
-        radial-gradient(
-          circle at 10% 5%,
-          rgba(53, 167, 255, 0.16),
-          transparent 28%
-        ),
-        radial-gradient(
-          circle at 90% 15%,
-          rgba(139, 92, 246, 0.15),
-          transparent 30%
-        ),
-        radial-gradient(
-          circle at 50% 100%,
-          rgba(255, 78, 205, 0.08),
-          transparent 35%
-        ),
-        var(--bg);
-
-      overflow-x: hidden;
-    }
-
-    button,
-    a {
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    /* =========================
-       BACKGROUND
-    ========================= */
-
-    .background {
-      position: fixed;
-      inset: 0;
-      overflow: hidden;
-      pointer-events: none;
-      z-index: -1;
-    }
-
-    .background::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-
-      background-image:
-        linear-gradient(
-          rgba(255,255,255,0.018) 1px,
-          transparent 1px
-        ),
-        linear-gradient(
-          90deg,
-          rgba(255,255,255,0.018) 1px,
-          transparent 1px
-        );
-
-      background-size: 55px 55px;
-
-      mask-image: linear-gradient(
-        to bottom,
-        black,
-        transparent 80%
-      );
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>TRUE WALK</title>
+
+<style>
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+:root{
+  --bg:#05060d;
+  --blue:#35a7ff;
+  --purple:#8b5cf6;
+  --pink:#ff4ecd;
+  --text:#ffffff;
+  --muted:#9298ad;
+  --border:rgba(255,255,255,.09);
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  min-height:100vh;
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Arial,
+    sans-serif;
+
+  color:var(--text);
+
+  background:
+    radial-gradient(
+      circle at 10% 5%,
+      rgba(53,167,255,.16),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 90% 15%,
+      rgba(139,92,246,.15),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 50% 100%,
+      rgba(255,78,205,.08),
+      transparent 35%
+    ),
+    var(--bg);
+
+  overflow-x:hidden;
+}
+
+button,
+a{
+  -webkit-tap-highlight-color:transparent;
+}
+
+
+/* =========================
+   BACKGROUND
+========================= */
+
+.background{
+  position:fixed;
+  inset:0;
+  overflow:hidden;
+  pointer-events:none;
+  z-index:-1;
+}
+
+.background::before{
+  content:"";
+  position:absolute;
+  inset:0;
+
+  background-image:
+    linear-gradient(
+      rgba(255,255,255,.018) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(255,255,255,.018) 1px,
+      transparent 1px
+    );
+
+  background-size:55px 55px;
+
+  mask-image:
+    linear-gradient(
+      to bottom,
+      black,
+      transparent 80%
+    );
+}
+
+.orb{
+  position:absolute;
+  border-radius:50%;
+  filter:blur(75px);
+  opacity:.38;
+
+  animation:
+    floatOrb 11s ease-in-out infinite;
+}
+
+.orb.one{
+  width:240px;
+  height:240px;
+  background:var(--blue);
+  top:-110px;
+  left:-90px;
+}
+
+.orb.two{
+  width:210px;
+  height:210px;
+  background:var(--purple);
+  right:-90px;
+  top:35%;
+  animation-delay:-3s;
+}
 
-    .orb {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(75px);
-      opacity: 0.38;
+.orb.three{
+  width:280px;
+  height:280px;
+  background:var(--pink);
+  bottom:-150px;
+  left:30%;
+  animation-delay:-6s;
+}
 
-      animation:
-        floatOrb 11s ease-in-out infinite;
-    }
+@keyframes floatOrb{
 
-    .orb.one {
-      width: 240px;
-      height: 240px;
+  0%,100%{
+    transform:translate3d(0,0,0) scale(1);
+  }
 
-      background: var(--blue);
+  50%{
+    transform:translate3d(28px,-35px,0) scale(1.08);
+  }
 
-      top: -110px;
-      left: -90px;
-    }
+}
 
-    .orb.two {
-      width: 210px;
-      height: 210px;
 
-      background: var(--purple);
+/* =========================
+   HEADER
+========================= */
 
-      right: -90px;
-      top: 35%;
+.header{
+  position:sticky;
+  top:0;
+  z-index:50;
 
-      animation-delay: -3s;
-    }
+  height:72px;
+  padding:0 22px;
 
-    .orb.three {
-      width: 280px;
-      height: 280px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
 
-      background: var(--pink);
+  background:rgba(5,6,13,.76);
 
-      bottom: -150px;
-      left: 30%;
+  backdrop-filter:blur(24px);
+  -webkit-backdrop-filter:blur(24px);
 
-      animation-delay: -6s;
-    }
+  border-bottom:
+    1px solid rgba(255,255,255,.07);
 
-    @keyframes floatOrb {
-      0%, 100% {
-        transform:
-          translate3d(0, 0, 0)
-          scale(1);
-      }
+  box-shadow:
+    0 15px 50px rgba(0,0,0,.28);
+}
 
-      50% {
-        transform:
-          translate3d(28px, -35px, 0)
-          scale(1.08);
-      }
-    }
+.brand{
+  display:flex;
+  align-items:center;
+  gap:11px;
+}
 
-    /* =========================
-       HEADER
-    ========================= */
 
-    .header {
-      position: sticky;
-      top: 0;
-      z-index: 50;
+/* =========================
+   TRUE WALK LOGO
+========================= */
 
-      height: 72px;
-      padding: 0 22px;
+.brand-logo{
+  position:relative;
 
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+  width:42px;
+  height:42px;
 
-      background:
-        rgba(5, 6, 13, 0.76);
+  display:flex;
+  align-items:center;
+  justify-content:center;
 
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
+  border-radius:14px;
 
-      border-bottom:
-        1px solid rgba(255,255,255,0.07);
+  overflow:hidden;
 
-      box-shadow:
-        0 15px 50px rgba(0,0,0,0.28);
-    }
+  background:
+    linear-gradient(
+      135deg,
+      #35a7ff,
+      #6b5cff 50%,
+      #ff4ecd
+    );
 
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 11px;
-    }
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.14),
+    0 0 25px rgba(53,167,255,.32),
+    0 0 40px rgba(139,92,246,.18);
 
-    .brand-logo {
-      position: relative;
+  animation:
+    logoGlow 4s ease-in-out infinite;
+}
 
-      width: 42px;
-      height: 42px;
 
-      display: flex;
-      align-items: center;
-      justify-content: center;
+/* ACTUAL logo.png */
 
-      border-radius: 14px;
+.brand-logo img{
+  width:100%;
+  height:100%;
 
-      overflow: hidden;
+  display:block;
 
-      background:
-        linear-gradient(
-          135deg,
-          #35a7ff,
-          #6b5cff 50%,
-          #ff4ecd
-        );
+  object-fit:contain;
 
-      box-shadow:
-        0 0 0 1px rgba(255,255,255,0.14),
-        0 0 25px rgba(53,167,255,0.32),
-        0 0 40px rgba(139,92,246,0.18);
+  border-radius:12px;
 
-      animation:
-        logoGlow 4s ease-in-out infinite;
-    }
+  position:relative;
+  z-index:2;
+}
 
-    .brand-logo img {
-      width: 100%;
-      height: 100%;
 
-      object-fit: contain;
+.brand-logo::after{
+  content:"";
 
-      display: block;
+  position:absolute;
+  inset:2px;
 
-      position: relative;
-      z-index: 2;
+  border-radius:12px;
 
-      border-radius: 12px;
-    }
+  border:
+    1px solid rgba(255,255,255,.25);
 
-    .brand-logo::after {
-      content: "";
+  pointer-events:none;
 
-      position: absolute;
-      inset: 2px;
+  z-index:3;
+}
 
-      border-radius: 12px;
+@keyframes logoGlow{
 
-      border:
-        1px solid rgba(255,255,255,0.25);
+  0%,100%{
+    transform:translateY(0);
 
-      pointer-events: none;
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,.14),
+      0 0 22px rgba(53,167,255,.28);
+  }
 
-      z-index: 3;
-    }
+  50%{
+    transform:translateY(-2px);
 
-    @keyframes logoGlow {
-      0%, 100% {
-        transform: translateY(0);
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,.18),
+      0 0 34px rgba(139,92,246,.38);
+  }
 
-        box-shadow:
-          0 0 0 1px rgba(255,255,255,0.14),
-          0 0 22px rgba(53,167,255,0.28);
-      }
+}
 
-      50% {
-        transform: translateY(-2px);
 
-        box-shadow:
-          0 0 0 1px rgba(255,255,255,0.18),
-          0 0 34px rgba(139,92,246,0.38);
-      }
-    }
+.brand-name{
+  font-size:18px;
+  font-weight:900;
+  letter-spacing:.5px;
+}
 
-    .brand-name {
-      font-size: 18px;
-      font-weight: 900;
-      letter-spacing: 0.5px;
-    }
+.brand-name span{
+  background:
+    linear-gradient(
+      90deg,
+      var(--blue),
+      var(--purple),
+      var(--pink),
+      var(--blue)
+    );
 
-    .brand-name span {
-      background:
-        linear-gradient(
-          90deg,
-          var(--blue),
-          var(--purple),
-          var(--pink),
-          var(--blue)
-        );
+  background-size:300% auto;
 
-      background-size: 300% auto;
+  -webkit-background-clip:text;
+  background-clip:text;
 
-      -webkit-background-clip: text;
-      background-clip: text;
+  color:transparent;
 
-      color: transparent;
+  animation:
+    gradientMove 5s linear infinite;
+}
 
-      animation:
-        gradientMove 5s linear infinite;
-    }
+@keyframes gradientMove{
 
-    @keyframes gradientMove {
-      to {
-        background-position: 300% center;
-      }
-    }
+  to{
+    background-position:300% center;
+  }
 
-    /* =========================
-       LOGOUT
-    ========================= */
+}
 
-    .logout-btn {
-      position: relative;
-      overflow: hidden;
 
-      border:
-        1px solid rgba(255,255,255,0.11);
+/* =========================
+   LOGOUT
+========================= */
 
-      background:
-        rgba(255,255,255,0.055);
+.logout-btn{
+  position:relative;
+  overflow:hidden;
 
-      color: #fff;
+  border:
+    1px solid rgba(255,255,255,.11);
 
-      padding: 10px 17px;
+  background:
+    rgba(255,255,255,.055);
 
-      border-radius: 13px;
+  color:#fff;
 
-      cursor: pointer;
+  padding:10px 17px;
 
-      font-size: 13px;
-      font-weight: 750;
+  border-radius:13px;
 
-      backdrop-filter: blur(15px);
-      -webkit-backdrop-filter: blur(15px);
+  cursor:pointer;
 
-      transition:
-        transform 0.3s ease,
-        border-color 0.3s ease,
-        box-shadow 0.3s ease,
-        color 0.3s ease;
-    }
+  font-size:13px;
+  font-weight:750;
 
-    .logout-btn::before {
-      content: "";
+  backdrop-filter:blur(15px);
+  -webkit-backdrop-filter:blur(15px);
 
-      position: absolute;
-      inset: 0;
+  transition:
+    transform .3s ease,
+    border-color .3s ease,
+    box-shadow .3s ease,
+    color .3s ease;
+}
 
-      background:
-        linear-gradient(
-          110deg,
-          transparent 20%,
-          rgba(255,255,255,0.22),
-          transparent 80%
-        );
+.logout-btn:hover{
+  transform:translateY(-2px);
 
-      transform: translateX(-120%);
-      transition: transform 0.6s ease;
-    }
+  border-color:
+    rgba(53,167,255,.4);
 
-    .logout-btn:hover::before {
-      transform: translateX(120%);
-    }
+  color:#6fc2ff;
 
-    .logout-btn:hover {
-      transform: translateY(-2px);
+  box-shadow:
+    0 10px 30px rgba(0,0,0,.25),
+    0 0 20px rgba(53,167,255,.08);
+}
 
-      border-color:
-        rgba(53,167,255,0.4);
+.logout-btn:active{
+  transform:scale(.95);
+}
 
-      color: #6fc2ff;
 
-      box-shadow:
-        0 10px 30px rgba(0,0,0,0.25),
-        0 0 20px rgba(53,167,255,0.08);
-    }
+/* =========================
+   MAIN
+========================= */
 
-    .logout-btn:active {
-      transform: scale(0.95);
-    }
+.container{
+  width:min(100% - 30px,1050px);
 
-    /* =========================
-       MAIN
-    ========================= */
+  margin:0 auto;
 
-    .container {
-      width: min(100% - 30px, 1050px);
+  padding:
+    28px 0 55px;
+}
 
-      margin: 0 auto;
 
-      padding:
-        28px 0 55px;
-    }
+/* =========================
+   WELCOME
+========================= */
 
-    /* =========================
-       WELCOME
-    ========================= */
+.welcome{
+  position:relative;
+  overflow:hidden;
 
-    .welcome {
-      position: relative;
-      overflow: hidden;
+  padding:26px;
 
-      padding: 26px;
+  margin-bottom:18px;
 
-      margin-bottom: 18px;
+  border-radius:25px;
 
-      border-radius: 25px;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255,255,255,.075),
+      rgba(255,255,255,.025)
+    );
 
-      background:
-        linear-gradient(
-          135deg,
-          rgba(255,255,255,0.075),
-          rgba(255,255,255,0.025)
-        );
+  border:
+    1px solid var(--border);
 
-      border:
-        1px solid var(--border);
+  backdrop-filter:blur(22px);
+  -webkit-backdrop-filter:blur(22px);
 
-      backdrop-filter: blur(22px);
-      -webkit-backdrop-filter: blur(22px);
+  box-shadow:
+    0 20px 60px rgba(0,0,0,.28);
 
-      box-shadow:
-        0 20px 60px rgba(0,0,0,0.28);
+  animation:
+    fadeUp .65s ease both;
+}
 
-      animation:
-        fadeUp 0.65s ease both;
-    }
+.welcome h1{
+  position:relative;
+  z-index:2;
 
-    .welcome::before {
-      content: "";
+  font-size:28px;
+  line-height:1.25;
 
-      position: absolute;
+  margin-bottom:10px;
 
-      width: 180px;
-      height: 180px;
+  letter-spacing:-.6px;
+}
 
-      right: -100px;
-      top: -100px;
+.welcome h1 span{
+  background:
+    linear-gradient(
+      90deg,
+      #54b8ff,
+      #9b78ff,
+      #ff65d7
+    );
 
-      border-radius: 50%;
+  -webkit-background-clip:text;
+  background-clip:text;
 
-      background:
-        radial-gradient(
-          circle,
-          rgba(53,167,255,0.22),
-          transparent 70%
-        );
+  color:transparent;
+}
 
-      filter: blur(4px);
+.welcome p{
+  position:relative;
+  z-index:2;
 
-      animation:
-        welcomeGlow 5s ease-in-out infinite;
-    }
+  color:var(--muted);
 
-    .welcome::after {
-      content: "";
+  font-size:13px;
+}
 
-      position: absolute;
+.welcome p span{
+  color:#e9edff;
+  font-weight:700;
+}
 
-      width: 120px;
-      height: 120px;
 
-      left: 40%;
-      bottom: -100px;
+/* =========================
+   ERROR
+========================= */
 
-      border-radius: 50%;
+.error{
+  display:none;
 
-      background:
-        rgba(139,92,246,0.14);
+  margin-bottom:18px;
 
-      filter: blur(35px);
-    }
+  padding:13px 15px;
 
-    @keyframes welcomeGlow {
-      0%, 100% {
-        transform: scale(1);
-      }
+  color:#ff9d9d;
 
-      50% {
-        transform: scale(1.25);
-      }
-    }
+  background:
+    rgba(255,60,80,.075);
 
-    .welcome h1 {
-      position: relative;
-      z-index: 2;
+  border:
+    1px solid rgba(255,80,100,.22);
 
-      font-size: 28px;
-      line-height: 1.25;
+  border-radius:15px;
 
-      margin-bottom: 10px;
+  font-size:13px;
+}
 
-      letter-spacing: -0.6px;
-    }
 
-    .welcome h1 span {
-      background:
-        linear-gradient(
-          90deg,
-          #54b8ff,
-          #9b78ff,
-          #ff65d7
-        );
+/* =========================
+   BALANCE
+========================= */
 
-      -webkit-background-clip: text;
-      background-clip: text;
+.balance-card{
+  position:relative;
+  overflow:hidden;
 
-      color: transparent;
+  min-height:205px;
 
-      background-size: 200% auto;
+  padding:29px;
 
-      animation:
-        gradientMove 4s linear infinite;
-    }
+  margin-bottom:18px;
 
-    .welcome p {
-      position: relative;
-      z-index: 2;
+  border-radius:27px;
 
-      color: var(--muted);
+  background:
+    radial-gradient(
+      circle at 88% 8%,
+      rgba(255,255,255,.24),
+      transparent 23%
+    ),
+    radial-gradient(
+      circle at 10% 90%,
+      rgba(53,167,255,.22),
+      transparent 35%
+    ),
+    linear-gradient(
+      135deg,
+      #1559d8,
+      #6638d8 48%,
+      #d73a9d
+    );
 
-      font-size: 13px;
-    }
+  box-shadow:
+    0 25px 70px rgba(58,82,255,.25);
+}
 
-    .welcome p span {
-      color: #e9edff;
+.balance-card::before{
+  content:"";
 
-      font-weight: 700;
-    }
+  position:absolute;
 
-    /* =========================
-       ERROR
-    ========================= */
+  width:280px;
+  height:280px;
 
-    .error {
-      display: none;
+  right:-115px;
+  top:-120px;
 
-      margin-bottom: 18px;
+  border-radius:50%;
 
-      padding: 13px 15px;
+  border:
+    1px solid rgba(255,255,255,.25);
 
-      color: #ff9d9d;
+  box-shadow:
+    0 0 0 28px rgba(255,255,255,.025),
+    0 0 0 58px rgba(255,255,255,.018);
+}
 
-      background:
-        rgba(255,60,80,0.075);
+.balance-label{
+  position:relative;
+  z-index:3;
 
-      border:
-        1px solid rgba(255,80,100,0.22);
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:1px;
 
-      border-radius: 15px;
+  opacity:.84;
+}
 
-      font-size: 13px;
+.balance{
+  position:relative;
+  z-index:3;
 
-      backdrop-filter: blur(12px);
-    }
+  margin-top:9px;
 
-    /* =========================
-       BALANCE CARD
-    ========================= */
+  font-size:
+    clamp(35px,7vw,50px);
 
-    .balance-card {
-      position: relative;
-      overflow: hidden;
+  font-weight:950;
 
-      min-height: 205px;
+  letter-spacing:-1.5px;
 
-      padding: 29px;
+  text-shadow:
+    0 6px 25px rgba(0,0,0,.2);
+}
 
-      margin-bottom: 18px;
+.balance-subtitle{
+  position:relative;
+  z-index:3;
 
-      border-radius: 27px;
+  margin-top:9px;
 
-      background:
-        radial-gradient(
-          circle at 88% 8%,
-          rgba(255,255,255,0.24),
-          transparent 23%
-        ),
-        radial-gradient(
-          circle at 10% 90%,
-          rgba(53,167,255,0.22),
-          transparent 35%
-        ),
-        linear-gradient(
-          135deg,
-          #1559d8,
-          #6638d8 48%,
-          #d73a9d
-        );
+  font-size:11px;
 
-      box-shadow:
-        0 25px 70px rgba(58,82,255,0.25),
-        0 0 50px rgba(139,92,246,0.08);
+  opacity:.75;
+}
 
-      animation:
-        fadeUp 0.75s ease both,
-        balanceGlow 5s ease-in-out infinite;
-    }
 
-    @keyframes balanceGlow {
-      0%, 100% {
-        box-shadow:
-          0 25px 65px rgba(58,82,255,0.22);
-      }
+/* =========================
+   STATS
+========================= */
 
-      50% {
-        box-shadow:
-          0 30px 85px rgba(139,92,246,0.34);
-      }
-    }
+.stats{
+  display:grid;
 
-    .balance-card::before {
-      content: "";
+  grid-template-columns:
+    repeat(2,1fr);
 
-      position: absolute;
+  gap:15px;
 
-      width: 280px;
-      height: 280px;
+  margin-bottom:29px;
+}
 
-      right: -115px;
-      top: -120px;
+.stat-card{
+  position:relative;
+  overflow:hidden;
 
-      border-radius: 50%;
+  padding:20px;
 
-      border:
-        1px solid rgba(255,255,255,0.25);
+  border-radius:21px;
 
-      box-shadow:
-        0 0 0 28px rgba(255,255,255,0.025),
-        0 0 0 58px rgba(255,255,255,0.018);
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,.065),
+      rgba(255,255,255,.025)
+    );
 
-      animation:
-        rotateRing 16s linear infinite;
-    }
+  border:
+    1px solid var(--border);
 
-    .balance-card::after {
-      content: "";
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
 
-      position: absolute;
+  box-shadow:
+    0 12px 38px rgba(0,0,0,.2);
 
-      width: 150%;
-      height: 90px;
+  transition:
+    transform .35s ease,
+    border-color .35s ease,
+    box-shadow .35s ease;
+}
 
-      left: -25%;
-      bottom: -60px;
+.stat-card:hover{
+  transform:translateY(-6px);
 
-      background:
-        rgba(255,255,255,0.08);
+  border-color:
+    rgba(53,167,255,.3);
 
-      transform: rotate(-5deg);
+  box-shadow:
+    0 20px 45px rgba(0,0,0,.28);
+}
 
-      filter: blur(5px);
-    }
+.stat-icon{
+  width:47px;
+  height:47px;
 
-    @keyframes rotateRing {
-      from {
-        transform: rotate(0deg);
-      }
+  display:flex;
+  align-items:center;
+  justify-content:center;
 
-      to {
-        transform: rotate(360deg);
-      }
-    }
+  border-radius:14px;
 
-    .balance-label {
-      position: relative;
-      z-index: 3;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(53,167,255,.17),
+      rgba(139,92,246,.10)
+    );
 
-      font-size: 12px;
+  border:
+    1px solid rgba(53,167,255,.16);
 
-      font-weight: 800;
+  font-size:21px;
 
-      letter-spacing: 1px;
+  margin-bottom:14px;
+}
 
-      opacity: 0.84;
-    }
+.stat-card h4{
+  color:#969bad;
 
-    .balance {
-      position: relative;
-      z-index: 3;
+  font-size:12px;
 
-      margin-top: 9px;
+  font-weight:650;
 
-      font-size:
-        clamp(35px, 7vw, 50px);
+  margin-bottom:7px;
+}
 
-      font-weight: 950;
+.stat-card p{
+  font-size:22px;
 
-      letter-spacing: -1.5px;
+  font-weight:900;
 
-      text-shadow:
-        0 6px 25px rgba(0,0,0,0.2);
+  color:#fff;
+}
 
-      animation:
-        numberIn 0.8s ease both;
-    }
 
-    @keyframes numberIn {
-      from {
-        opacity: 0;
-        transform:
-          translateY(14px)
-          scale(0.97);
-      }
+/* =========================
+   SECTION
+========================= */
 
-      to {
-        opacity: 1;
-        transform:
-          translateY(0)
-          scale(1);
-      }
-    }
+.section-title{
+  display:flex;
+  align-items:center;
 
-    .balance-subtitle {
-      position: relative;
-      z-index: 3;
+  gap:10px;
 
-      margin-top: 9px;
+  margin:
+    0 2px 15px;
 
-      font-size: 11px;
+  font-size:18px;
 
-      opacity: 0.75;
-    }
+  font-weight:850;
+}
 
-    /* =========================
-       STATS
-    ========================= */
+.section-title::before{
+  content:"";
 
-    .stats {
-      display: grid;
+  width:4px;
+  height:21px;
 
-      grid-template-columns:
-        repeat(2, 1fr);
+  border-radius:10px;
 
-      gap: 15px;
+  background:
+    linear-gradient(
+      180deg,
+      var(--blue),
+      var(--purple),
+      var(--pink)
+    );
 
-      margin-bottom: 29px;
-    }
+  box-shadow:
+    0 0 16px rgba(53,167,255,.55);
+}
 
-    .stat-card {
-      position: relative;
-      overflow: hidden;
 
-      padding: 20px;
+/* =========================
+   ACTIONS
+========================= */
 
-      border-radius: 21px;
+.actions{
+  display:grid;
 
-      background:
-        linear-gradient(
-          145deg,
-          rgba(255,255,255,0.065),
-          rgba(255,255,255,0.025)
-        );
+  grid-template-columns:
+    repeat(3,minmax(0,1fr));
 
-      border:
-        1px solid var(--border);
+  gap:15px;
+}
 
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
+.action{
+  position:relative;
+  overflow:hidden;
 
-      box-shadow:
-        0 12px 38px rgba(0,0,0,0.2);
+  min-height:128px;
 
-      transition:
-        transform 0.35s ease,
-        border-color 0.35s ease,
-        box-shadow 0.35s ease;
+  display:flex;
 
-      animation:
-        fadeUp 0.9s ease both;
-    }
+  flex-direction:column;
 
-    .stat-card:nth-child(2) {
-      animation-delay: 0.08s;
-    }
+  align-items:center;
+  justify-content:center;
 
-    .stat-card::before {
-      content: "";
+  gap:9px;
 
-      position: absolute;
+  text-decoration:none;
 
-      width: 130px;
-      height: 130px;
+  color:#fff;
 
-      right: -70px;
-      top: -70px;
+  border-radius:21px;
 
-      border-radius: 50%;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,.065),
+      rgba(255,255,255,.022)
+    );
 
-      background:
-        radial-gradient(
-          circle,
-          rgba(53,167,255,0.15),
-          transparent 70%
-        );
+  border:
+    1px solid rgba(255,255,255,.085);
 
-      transition: transform 0.5s ease;
-    }
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
 
-    .stat-card:hover {
-      transform: translateY(-6px);
+  box-shadow:
+    0 12px 35px rgba(0,0,0,.18);
 
-      border-color:
-        rgba(53,167,255,0.3);
+  transition:
+    transform .35s ease,
+    border-color .35s ease,
+    background .35s ease,
+    box-shadow .35s ease;
+}
 
-      box-shadow:
-        0 20px 45px rgba(0,0,0,0.28),
-        0 0 25px rgba(53,167,255,0.06);
-    }
+.action:hover{
+  transform:
+    translateY(-8px)
+    scale(1.015);
 
-    .stat-card:hover::before {
-      transform: scale(1.4);
-    }
+  border-color:
+    rgba(53,167,255,.32);
 
-    .stat-icon {
-      position: relative;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(53,167,255,.09),
+      rgba(139,92,246,.045)
+    );
 
-      width: 47px;
-      height: 47px;
+  box-shadow:
+    0 22px 50px rgba(0,0,0,.3);
+}
 
-      display: flex;
-      align-items: center;
-      justify-content: center;
+.action:active{
+  transform:scale(.96);
+}
 
-      border-radius: 14px;
+.action-icon{
+  position:relative;
+  z-index:2;
 
-      background:
-        linear-gradient(
-          135deg,
-          rgba(53,167,255,0.17),
-          rgba(139,92,246,0.10)
-        );
+  width:51px;
+  height:51px;
 
-      border:
-        1px solid rgba(53,167,255,0.16);
+  display:flex;
+  align-items:center;
+  justify-content:center;
 
-      font-size: 21px;
+  border-radius:16px;
 
-      margin-bottom: 14px;
+  font-size:23px;
 
-      box-shadow:
-        inset 0 0 20px rgba(255,255,255,0.025);
-    }
+  background:
+    rgba(255,255,255,.055);
 
-    .stat-card h4 {
-      color: #969bad;
+  border:
+    1px solid rgba(255,255,255,.09);
 
-      font-size: 12px;
+  transition:
+    transform .35s ease;
+}
 
-      font-weight: 650;
+.action:hover .action-icon{
+  transform:
+    translateY(-4px)
+    scale(1.08);
+}
 
-      margin-bottom: 7px;
-    }
+.action-name{
+  position:relative;
+  z-index:2;
 
-    .stat-card p {
-      font-size: 22px;
+  font-size:13px;
 
-      font-weight: 900;
+  font-weight:750;
 
-      color: #fff;
-    }
+  color:#e3e5ee;
+}
 
-    /* =========================
-       SECTION TITLE
-    ========================= */
 
-    .section-title {
-      display: flex;
-      align-items: center;
+/* =========================
+   MOBILE
+========================= */
 
-      gap: 10px;
+@media(max-width:700px){
 
-      margin:
-        0 2px 15px;
+  .header{
+    height:66px;
+    padding:0 14px;
+  }
 
-      font-size: 18px;
+  .brand-logo{
+    width:37px;
+    height:37px;
 
-      font-weight: 850;
-    }
+    border-radius:12px;
+  }
 
-    .section-title::before {
-      content: "";
+  .brand-logo img{
+    border-radius:10px;
+  }
 
-      width: 4px;
-      height: 21px;
+  .brand-name{
+    font-size:16px;
+  }
 
-      border-radius: 10px;
+  .logout-btn{
+    padding:9px 13px;
+    font-size:12px;
+  }
 
-      background:
-        linear-gradient(
-          180deg,
-          var(--blue),
-          var(--purple),
-          var(--pink)
-        );
+  .container{
+    width:min(100% - 22px,1050px);
 
-      box-shadow:
-        0 0 16px rgba(53,167,255,0.55);
-    }
+    padding-top:18px;
+  }
 
-    /* =========================
-       ACTIONS
-    ========================= */
+  .welcome{
+    padding:21px;
+    border-radius:21px;
+  }
 
-    .actions {
-      display: grid;
+  .welcome h1{
+    font-size:23px;
+  }
 
-      grid-template-columns:
-        repeat(3, minmax(0, 1fr));
+  .balance-card{
+    min-height:178px;
 
-      gap: 15px;
-    }
+    padding:23px;
 
-    .action {
-      position: relative;
-      overflow: hidden;
+    border-radius:23px;
+  }
 
-      min-height: 128px;
+  .balance{
+    font-size:34px;
+  }
 
-      display: flex;
+  .stats{
+    gap:11px;
+  }
 
-      flex-direction: column;
+  .stat-card{
+    padding:16px;
+    border-radius:18px;
+  }
 
-      align-items: center;
-      justify-content: center;
+  .stat-icon{
+    width:42px;
+    height:42px;
+    border-radius:13px;
+  }
 
-      gap: 9px;
+  .stat-card p{
+    font-size:18px;
+  }
 
-      text-decoration: none;
+  .actions{
+    grid-template-columns:
+      repeat(2,1fr);
 
-      color: #fff;
+    gap:11px;
+  }
 
-      border-radius: 21px;
+  .action{
+    min-height:113px;
+    border-radius:18px;
+  }
 
-      background:
-        linear-gradient(
-          145deg,
-          rgba(255,255,255,0.065),
-          rgba(255,255,255,0.022)
-        );
+  .action-icon{
+    width:45px;
+    height:45px;
 
-      border:
-        1px solid rgba(255,255,255,0.085);
+    border-radius:14px;
 
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
+    font-size:21px;
+  }
 
-      box-shadow:
-        0 12px 35px rgba(0,0,0,0.18);
+  .action-name{
+    font-size:12px;
+  }
 
-      transition:
-        transform 0.35s cubic-bezier(.2,.8,.2,1),
-        border-color 0.35s ease,
-        background 0.35s ease,
-        box-shadow 0.35s ease;
+}
 
-      animation:
-        actionIn 0.7s ease both;
-    }
+@media(max-width:390px){
 
-    .action:nth-child(1) {
-      animation-delay: 0.05s;
-    }
+  .brand-name{
+    font-size:15px;
+  }
 
-    .action:nth-child(2) {
-      animation-delay: 0.10s;
-    }
+  .logout-btn{
+    padding:8px 11px;
+  }
 
-    .action:nth-child(3) {
-      animation-delay: 0.15s;
-    }
+  .welcome h1{
+    font-size:21px;
+  }
 
-    .action:nth-child(4) {
-      animation-delay: 0.20s;
-    }
+  .balance{
+    font-size:30px;
+  }
 
-    .action:nth-child(5) {
-      animation-delay: 0.25s;
-    }
+}
 
-    .action:nth-child(6) {
-      animation-delay: 0.30s;
-    }
 
-    @keyframes actionIn {
-      from {
-        opacity: 0;
-        transform:
-          translateY(20px)
-          scale(0.97);
-      }
+/* =========================
+   ANIMATION
+========================= */
 
-      to {
-        opacity: 1;
-        transform:
-          translateY(0)
-          scale(1);
-      }
-    }
+@keyframes fadeUp{
 
-    .action::before {
-      content: "";
+  from{
+    opacity:0;
+    transform:translateY(20px);
+  }
 
-      position: absolute;
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
 
-      inset: -50%;
+}
 
-      background:
-        radial-gradient(
-          circle at 50% 70%,
-          rgba(53,167,255,0.17),
-          transparent 38%
-        );
-
-      opacity: 0;
-
-      transition:
-        opacity 0.35s ease,
-        transform 0.5s ease;
-
-      transform: scale(0.7);
-    }
-
-    .action::after {
-      content: "";
-
-      position: absolute;
-
-      top: 0;
-      left: -120%;
-
-      width: 70%;
-      height: 100%;
-
-      background:
-        linear-gradient(
-          90deg,
-          transparent,
-          rgba(255,255,255,0.08),
-          transparent
-        );
-
-      transform: skewX(-20deg);
-
-      transition:
-        left 0.7s ease;
-    }
-
-    .action:hover {
-      transform:
-        translateY(-8px)
-        scale(1.015);
-
-      border-color:
-        rgba(53,167,255,0.32);
-
-      background:
-        linear-gradient(
-          145deg,
-          rgba(53,167,255,0.09),
-          rgba(139,92,246,0.045)
-        );
-
-      box-shadow:
-        0 22px 50px rgba(0,0,0,0.3),
-        0 0 30px rgba(53,167,255,0.08);
-    }
-
-    .action:hover::before {
-      opacity: 1;
-      transform: scale(1);
-    }
-
-    .action:hover::after {
-      left: 140%;
-    }
-
-    .action:active {
-      transform:
-        scale(0.96);
-    }
-
-    .action-icon {
-      position: relative;
-      z-index: 2;
-
-      width: 51px;
-      height: 51px;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      border-radius: 16px;
-
-      font-size: 23px;
-
-      background:
-        rgba(255,255,255,0.055);
-
-      border:
-        1px solid rgba(255,255,255,0.09);
-
-      box-shadow:
-        inset 0 0 20px rgba(255,255,255,0.02);
-
-      transition:
-        transform 0.35s ease,
-        background 0.35s ease,
-        border-color 0.35s ease,
-        box-shadow 0.35s ease;
-    }
-
-    .action:hover .action-icon {
-      transform:
-        translateY(-4px)
-        scale(1.08)
-        rotate(-2deg);
-
-      background:
-        linear-gradient(
-          135deg,
-          rgba(53,167,255,0.15),
-          rgba(139,92,246,0.12)
-        );
-
-      border-color:
-        rgba(53,167,255,0.25);
-
-      box-shadow:
-        0 0 25px rgba(53,167,255,0.12);
-    }
-
-    .action-name {
-      position: relative;
-      z-index: 2;
-
-      font-size: 13px;
-
-      font-weight: 750;
-
-      color: #e3e5ee;
-    }
-
-    /* =========================
-       ACCENT VARIATIONS
-    ========================= */
-
-    .plans:hover {
-      border-color:
-        rgba(255,190,70,0.38);
-    }
-
-    .deposit:hover {
-      border-color:
-        rgba(50,220,150,0.38);
-    }
-
-    .withdraw:hover {
-      border-color:
-        rgba(255,80,110,0.38);
-    }
-
-    .refer:hover {
-      border-color:
-        rgba(100,150,255,0.42);
-    }
-
-    .orders:hover {
-      border-color:
-        rgba(190,100,255,0.42);
-    }
-
-    .profile:hover {
-      border-color:
-        rgba(60,220,220,0.38);
-    }
-
-    /* =========================
-       PAGE ANIMATION
-    ========================= */
-
-    @keyframes fadeUp {
-      from {
-        opacity: 0;
-        transform:
-          translateY(20px);
-      }
-
-      to {
-        opacity: 1;
-        transform:
-          translateY(0);
-      }
-    }
-
-    /* =========================
-       MOBILE
-    ========================= */
-
-    @media (max-width: 700px) {
-
-      .header {
-        height: 66px;
-        padding: 0 14px;
-      }
-
-      .brand-logo {
-        width: 37px;
-        height: 37px;
-
-        border-radius: 12px;
-      }
-
-      .brand-logo img {
-        border-radius: 10px;
-      }
-
-      .brand-name {
-        font-size: 16px;
-      }
-
-      .logout-btn {
-        padding: 9px 13px;
-        font-size: 12px;
-      }
-
-      .container {
-        width:
-          min(100% - 22px, 1050px);
-
-        padding-top: 18px;
-      }
-
-      .welcome {
-        padding: 21px;
-        border-radius: 21px;
-      }
-
-      .welcome h1 {
-        font-size: 23px;
-      }
-
-      .balance-card {
-        min-height: 178px;
-
-        padding: 23px;
-
-        border-radius: 23px;
-      }
-
-      .balance {
-        font-size: 34px;
-      }
-
-      .stats {
-        gap: 11px;
-      }
-
-      .stat-card {
-        padding: 16px;
-        border-radius: 18px;
-      }
-
-      .stat-icon {
-        width: 42px;
-        height: 42px;
-
-        border-radius: 13px;
-      }
-
-      .stat-card p {
-        font-size: 18px;
-      }
-
-      .actions {
-        grid-template-columns:
-          repeat(2, 1fr);
-
-        gap: 11px;
-      }
-
-      .action {
-        min-height: 113px;
-        border-radius: 18px;
-      }
-
-      .action-icon {
-        width: 45px;
-        height: 45px;
-
-        border-radius: 14px;
-
-        font-size: 21px;
-      }
-
-      .action-name {
-        font-size: 12px;
-      }
-    }
-
-    @media (max-width: 390px) {
-
-      .brand-name {
-        font-size: 15px;
-      }
-
-      .logout-btn {
-        padding: 8px 11px;
-      }
-
-      .welcome h1 {
-        font-size: 21px;
-      }
-
-      .balance {
-        font-size: 30px;
-      }
-
-      .stat-card h4 {
-        font-size: 11px;
-      }
-
-      .stat-card p {
-        font-size: 17px;
-      }
-    }
-
-    /* =========================
-       REDUCED MOTION
-    ========================= */
-
-    @media (prefers-reduced-motion: reduce) {
-
-      *,
-      *::before,
-      *::after {
-        animation-duration:
-          0.01ms !important;
-
-        animation-iteration-count:
-          1 !important;
-
-        scroll-behavior:
-          auto !important;
-
-        transition-duration:
-          0.01ms !important;
-      }
-    }
-  </style>
+</style>
 </head>
+
 
 <body>
 
-  <!-- Animated Background -->
 
-  <div class="background">
-    <div class="orb one"></div>
-    <div class="orb two"></div>
-    <div class="orb three"></div>
+<!-- BACKGROUND -->
+
+<div class="background">
+
+  <div class="orb one"></div>
+  <div class="orb two"></div>
+  <div class="orb three"></div>
+
+</div>
+
+
+<!-- HEADER -->
+
+<header class="header">
+
+  <div class="brand">
+
+    <!-- logo.png -->
+    <div class="brand-logo">
+
+      <img
+        src="logo.png"
+        alt="TRUE WALK Logo"
+      >
+
+    </div>
+
+
+    <div class="brand-name">
+      TRUE <span>WALK</span>
+    </div>
+
   </div>
 
 
-  <!-- HEADER -->
+  <button
+    class="logout-btn"
+    id="logoutBtn">
 
-  <header class="header">
+    Logout
 
-    <div class="brand">
+  </button>
 
-      <!-- TRUE WALK LOGO -->
-      <div class="brand-logo">
-        <img
-          src="images/truewalk-logo.png"
-          alt="TRUE WALK Logo"
-        >
-      </div>
+</header>
 
-      <div class="brand-name">
-        TRUE <span>WALK</span>
-      </div>
 
+<!-- MAIN -->
+
+<main class="container">
+
+
+  <!-- WELCOME -->
+
+  <section class="welcome">
+
+    <h1>
+      👋 Welcome,
+      <span id="userName">User</span>
+    </h1>
+
+    <p>
+      📱 Phone:
+      <span id="userPhone">
+        Loading...
+      </span>
+    </p>
+
+  </section>
+
+
+  <!-- ERROR -->
+
+  <div
+    class="error"
+    id="errorMessage">
+  </div>
+
+
+  <!-- BALANCE -->
+
+  <section class="balance-card">
+
+    <div class="balance-label">
+      AVAILABLE BALANCE
     </div>
-
-
-    <button
-      class="logout-btn"
-      id="logoutBtn">
-
-      Logout
-
-    </button>
-
-  </header>
-
-
-  <!-- MAIN -->
-
-  <main class="container">
-
-
-    <!-- WELCOME -->
-
-    <section class="welcome">
-
-      <h1>
-        👋 Welcome,
-        <span id="userName">User</span>
-      </h1>
-
-      <p>
-        📱 Phone:
-        <span id="userPhone">
-          Loading...
-        </span>
-      </p>
-
-    </section>
-
-
-    <!-- ERROR -->
 
     <div
-      class="error"
-      id="errorMessage">
+      class="balance"
+      id="availableBalance">
+
+      ₹0.00
+
     </div>
 
+    <div class="balance-subtitle">
+      Current account balance
+    </div>
 
-    <!-- BALANCE -->
+  </section>
 
-    <section class="balance-card">
 
-      <div class="balance-label">
-        AVAILABLE BALANCE
+  <!-- STATS -->
+
+  <section class="stats">
+
+
+    <div class="stat-card">
+
+      <div class="stat-icon">
+        📥
       </div>
 
-      <div
-        class="balance"
-        id="availableBalance">
+      <h4>
+        Total Deposit
+      </h4>
 
+      <p id="totalDeposit">
         ₹0.00
+      </p>
 
-      </div>
-
-      <div class="balance-subtitle">
-        Current account balance
-      </div>
-
-    </section>
-
-
-    <!-- STATS -->
-
-    <section class="stats">
-
-      <div class="stat-card">
-
-        <div class="stat-icon">
-          📥
-        </div>
-
-        <h4>
-          Total Deposit
-        </h4>
-
-        <p id="totalDeposit">
-          ₹0.00
-        </p>
-
-      </div>
-
-
-      <div class="stat-card">
-
-        <div class="stat-icon">
-          📤
-        </div>
-
-        <h4>
-          Total Withdrawal
-        </h4>
-
-        <p id="totalWithdrawal">
-          ₹0.00
-        </p>
-
-      </div>
-
-    </section>
-
-
-    <!-- QUICK ACTIONS -->
-
-    <div class="section-title">
-      Quick Actions
     </div>
 
 
-    <section class="actions">
+    <div class="stat-card">
+
+      <div class="stat-icon">
+        📤
+      </div>
+
+      <h4>
+        Total Withdrawal
+      </h4>
+
+      <p id="totalWithdrawal">
+        ₹0.00
+      </p>
+
+    </div>
 
 
-      <a
-        href="plans.html"
-        class="action plans">
-
-        <div class="action-icon">
-          📋
-        </div>
-
-        <div class="action-name">
-          Plans
-        </div>
-
-      </a>
+  </section>
 
 
-      <a
-        href="deposit.html"
-        class="action deposit">
+  <!-- QUICK ACTIONS -->
 
-        <div class="action-icon">
-          💳
-        </div>
-
-        <div class="action-name">
-          Deposit
-        </div>
-
-      </a>
+  <div class="section-title">
+    Quick Actions
+  </div>
 
 
-      <a
-        href="withdraw.html"
-        class="action withdraw">
-
-        <div class="action-icon">
-          💸
-        </div>
-
-        <div class="action-name">
-          Withdraw
-        </div>
-
-      </a>
+  <section class="actions">
 
 
-      <a
-        href="refer.html"
-        class="action refer">
+    <a
+      href="plans.html"
+      class="action">
 
-        <div class="action-icon">
-          🔗
-        </div>
+      <div class="action-icon">
+        📋
+      </div>
 
-        <div class="action-name">
-          Referral
-        </div>
+      <div class="action-name">
+        Plans
+      </div>
 
-      </a>
-
-
-      <a
-        href="orders.html"
-        class="action orders">
-
-        <div class="action-icon">
-          📦
-        </div>
-
-        <div class="action-name">
-          Orders
-        </div>
-
-      </a>
+    </a>
 
 
-      <a
-        href="profile.html"
-        class="action profile">
+    <a
+      href="deposit.html"
+      class="action">
 
-        <div class="action-icon">
-          👤
-        </div>
+      <div class="action-icon">
+        💳
+      </div>
 
-        <div class="action-name">
-          Profile
-        </div>
+      <div class="action-name">
+        Deposit
+      </div>
 
-      </a>
-
-
-    </section>
-
-  </main>
+    </a>
 
 
-  <!-- JAVASCRIPT / ORIGINAL API LOGIC -->
-  <!-- DO NOT CHANGE -->
+    <a
+      href="withdraw.html"
+      class="action">
 
-  <script>
+      <div class="action-icon">
+        💸
+      </div>
 
-    function formatMoney(amount) {
+      <div class="action-name">
+        Withdraw
+      </div>
 
-      const number =
-        Number(amount || 0);
+    </a>
 
-      return "₹" +
-        number.toLocaleString("en-IN", {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2
-        });
+
+    <a
+      href="refer.html"
+      class="action">
+
+      <div class="action-icon">
+        🔗
+      </div>
+
+      <div class="action-name">
+        Referral
+      </div>
+
+    </a>
+
+
+    <a
+      href="orders.html"
+      class="action">
+
+      <div class="action-icon">
+        📦
+      </div>
+
+      <div class="action-name">
+        Orders
+      </div>
+
+    </a>
+
+
+    <a
+      href="profile.html"
+      class="action">
+
+      <div class="action-icon">
+        👤
+      </div>
+
+      <div class="action-name">
+        Profile
+      </div>
+
+    </a>
+
+
+  </section>
+
+
+</main>
+
+
+<script>
+
+
+/* =========================
+   MONEY FORMAT
+========================= */
+
+function formatMoney(amount){
+
+  const number =
+    Number(amount || 0);
+
+  return "₹" +
+    number.toLocaleString(
+      "en-IN",
+      {
+        minimumFractionDigits:2,
+        maximumFractionDigits:2
+      }
+    );
+
+}
+
+
+/* =========================
+   LOAD USER
+========================= */
+
+async function loadHome(){
+
+  try{
+
+    const response =
+      await fetch(
+        "/api/me",
+        {
+          credentials:"include",
+          cache:"no-store"
+        }
+      );
+
+
+    if(!response.ok){
+
+      window.location.href =
+        "login.html";
+
+      return;
 
     }
 
 
-    async function loadHome() {
-
-      try {
-
-        const response =
-          await fetch("/api/me", {
-            credentials: "include",
-            cache: "no-store"
-          });
+    const data =
+      await response.json();
 
 
-        if (!response.ok) {
-
-          window.location.href =
-            "login.html";
-
-          return;
-
-        }
+    console.log(
+      "ME API:",
+      data
+    );
 
 
-        const data =
-          await response.json();
+    /* USER */
+
+    if(data.user){
+
+      document.getElementById(
+        "userName"
+      ).textContent =
+        data.user.name ||
+        "User";
 
 
-        console.log(
-          "ME API:",
-          data
+      document.getElementById(
+        "userPhone"
+      ).textContent =
+        data.user.phone ||
+        "";
+
+    }
+
+
+    /* BALANCE */
+
+    if(
+      data.balance !== undefined
+    ){
+
+      document.getElementById(
+        "availableBalance"
+      ).textContent =
+        formatMoney(
+          data.balance
+        );
+
+    }
+
+
+    /* WALLET */
+
+    try{
+
+      const walletResponse =
+        await fetch(
+          "/api/wallet",
+          {
+            credentials:"include",
+            cache:"no-store"
+          }
         );
 
 
-        if (data.user) {
+      if(walletResponse.ok){
 
-          document.getElementById(
-            "userName"
-          ).textContent =
-            data.user.name || "User";
+        const walletData =
+          await walletResponse.json();
 
 
-          document.getElementById(
-            "userPhone"
-          ).textContent =
-            data.user.phone || "";
-
-        }
+        console.log(
+          "WALLET API:",
+          walletData
+        );
 
 
-        if (
-          data.balance !== undefined
-        ) {
+        if(
+          walletData.balance !== undefined
+        ){
 
           document.getElementById(
             "availableBalance"
           ).textContent =
             formatMoney(
-              data.balance
+              walletData.balance
             );
 
         }
 
 
-        try {
+        if(
+          Array.isArray(
+            walletData.transactions
+          )
+        ){
 
-          const walletResponse =
-            await fetch("/api/wallet", {
-              credentials: "include",
-              cache: "no-store"
-            });
+          let totalDeposit = 0;
 
-
-          if (walletResponse.ok) {
-
-            const walletData =
-              await walletResponse.json();
+          let totalWithdrawal = 0;
 
 
-            console.log(
-              "WALLET API:",
-              walletData
-            );
+          walletData.transactions.forEach(
+            function(transaction){
 
-
-            if (
-              walletData.balance !== undefined
-            ) {
-
-              document.getElementById(
-                "availableBalance"
-              ).textContent =
-                formatMoney(
-                  walletData.balance
+              const amount =
+                Number(
+                  transaction.amount || 0
                 );
+
+
+              if(
+                transaction.type ===
+                "deposit"
+              ){
+
+                totalDeposit +=
+                  Math.abs(amount);
+
+              }
+
+
+              if(
+                transaction.type ===
+                "withdrawal"
+              ){
+
+                totalWithdrawal +=
+                  Math.abs(amount);
+
+              }
 
             }
-
-
-            if (
-              Array.isArray(
-                walletData.transactions
-              )
-            ) {
-
-              let totalDeposit = 0;
-
-              let totalWithdrawal = 0;
-
-
-              walletData.transactions.forEach(
-                function(transaction) {
-
-                  const amount =
-                    Number(
-                      transaction.amount || 0
-                    );
-
-
-                  if (
-                    transaction.type ===
-                    "deposit"
-                  ) {
-
-                    totalDeposit +=
-                      Math.abs(amount);
-
-                  }
-
-
-                  if (
-                    transaction.type ===
-                    "withdrawal"
-                  ) {
-
-                    totalWithdrawal +=
-                      Math.abs(amount);
-
-                  }
-
-                }
-              );
-
-
-              document.getElementById(
-                "totalDeposit"
-              ).textContent =
-                formatMoney(
-                  totalDeposit
-                );
-
-
-              document.getElementById(
-                "totalWithdrawal"
-              ).textContent =
-                formatMoney(
-                  totalWithdrawal
-                );
-
-            }
-
-          }
-
-        } catch (walletError) {
-
-          console.log(
-            "Wallet error:",
-            walletError
           );
 
-        }
 
-
-      } catch (error) {
-
-        console.error(
-          "Home error:",
-          error
-        );
-
-
-        const errorMessage =
           document.getElementById(
-            "errorMessage"
-          );
+            "totalDeposit"
+          ).textContent =
+            formatMoney(
+              totalDeposit
+            );
 
 
-        errorMessage.textContent =
-          "Unable to load account information.";
+          document.getElementById(
+            "totalWithdrawal"
+          ).textContent =
+            formatMoney(
+              totalWithdrawal
+            );
 
-
-        errorMessage.style.display =
-          "block";
+        }
 
       }
+
+    }catch(walletError){
+
+      console.log(
+        "Wallet error:",
+        walletError
+      );
 
     }
 
 
-    document
-      .getElementById("logoutBtn")
-      .addEventListener(
-        "click",
-        async function() {
+  }catch(error){
 
-          try {
-
-            await fetch(
-              "/api/logout",
-              {
-                method: "POST",
-                credentials: "include"
-              }
-            );
-
-          } catch (error) {
-
-            console.log(
-              "Logout error:",
-              error
-            );
-
-          }
+    console.error(
+      "Home error:",
+      error
+    );
 
 
-          window.location.href =
-            "login.html";
-
-        }
+    const errorMessage =
+      document.getElementById(
+        "errorMessage"
       );
 
 
-    loadHome();
+    errorMessage.textContent =
+      "Unable to load account information.";
 
-  </script>
+
+    errorMessage.style.display =
+      "block";
+
+  }
+
+}
+
+
+/* =========================
+   LOGOUT
+========================= */
+
+document
+  .getElementById("logoutBtn")
+  .addEventListener(
+    "click",
+    async function(){
+
+      try{
+
+        await fetch(
+          "/api/logout",
+          {
+            method:"POST",
+            credentials:"include"
+          }
+        );
+
+      }catch(error){
+
+        console.log(
+          "Logout error:",
+          error
+        );
+
+      }
+
+
+      window.location.href =
+        "login.html";
+
+    }
+  );
+
+
+/* =========================
+   START
+========================= */
+
+loadHome();
+
+</script>
 
 </body>
 </html>
