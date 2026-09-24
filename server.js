@@ -98,19 +98,11 @@ const userSchema = new mongoose.Schema(
       index: true
     },
 
-    /* ==================================================
-       VIP 5 - PER USER
-       ================================================== */
-
     vip5: {
       type: Boolean,
       default: false,
       index: true
     },
-
-    /* ==================================================
-       ADMIN BAN / UNBAN
-       ================================================== */
 
     banned: {
       type: Boolean,
@@ -577,7 +569,7 @@ function safeUser(u) {
 }
 
 /* ======================================================
-   WATCHPAYS CONFIG CHECK
+   WATCHPAYS CONFIG
    ====================================================== */
 
 function watchpaysConfiguredPayin() {
@@ -960,10 +952,7 @@ app.post(
           password_hash: passwordHash,
           referral_code: rc,
           referred_by: referredBy,
-
-          /* New users do NOT get VIP 5 automatically */
           vip5: false,
-
           banned: false
         });
 
@@ -1022,10 +1011,6 @@ app.post(
         });
       }
 
-      /* ==================================================
-         BAN CHECK
-         ================================================== */
-
       if (u.banned === true) {
         return res.status(403).json({
           message:
@@ -1048,7 +1033,6 @@ app.post(
             String(u._id);
 
           req.session.isAdmin = false;
-
           req.session.impersonatingUser = false;
 
           req.session.save(
@@ -1119,8 +1103,6 @@ app.get(
           phone: u.phone,
           referral_code:
             u.referral_code,
-
-          /* Only this user's VIP 5 status */
           vip5:
             u.vip5 === true
         },
@@ -1934,17 +1916,33 @@ app.post(
   '/api/withdrawals',
   login,
   async (req, res) => {
+    let deducted = false;
+    let createdWithdrawalId = null;
+    let deductedAmount = 0;
+
     try {
       const uid =
         req.session.userId;
 
+      const rawAmount =
+        req.body.amount;
+
       const amount =
-        Number(req.body.amount);
+        typeof rawAmount === 'string'
+          ? Number(
+              rawAmount
+                .replace(/₹/g, '')
+                .replace(/,/g, '')
+                .trim()
+            )
+          : Number(rawAmount);
 
       const method =
         String(
           req.body.method || ''
-        ).toUpperCase();
+        )
+          .trim()
+          .toUpperCase();
 
       if (
         !Number.isFinite(amount) ||
@@ -1990,11 +1988,19 @@ app.post(
       let ifsc = null;
       let bankName = null;
 
+      /* ==================================================
+         UPI
+         ================================================== */
+
       if (method === 'UPI') {
         upi =
           String(
-            req.body.upiId || ''
-          ).trim();
+            req.body.upiId ||
+            req.body.upi_id ||
+            ''
+          )
+            .trim()
+            .toLowerCase();
 
         if (
           !/^[a-zA-Z0-9._-]{2,}@[a-zA-Z0-9.-]{2,}$/.test(
@@ -2007,22 +2013,37 @@ app.post(
               'Please enter a valid UPI ID.'
           });
         }
-      } else {
+      }
+
+      /* ==================================================
+         BANK
+         ================================================== */
+
+      else {
         name =
           String(
-            req.body.accountName || ''
+            req.body.accountName ||
+            req.body.account_name ||
+            ''
           ).trim();
 
         accountNumber =
           String(
-            req.body.accountNumber || ''
-          ).trim();
+            req.body.accountNumber ||
+            req.body.account_number ||
+            ''
+          )
+            .replace(/\s/g, '')
+            .trim();
 
         const confirmAccountNumber =
           String(
             req.body.confirmAccountNumber ||
-              ''
-          ).trim();
+            req.body.confirm_account_number ||
+            ''
+          )
+            .replace(/\s/g, '')
+            .trim();
 
         if (
           name.length < 2 ||
@@ -2060,7 +2081,9 @@ app.post(
 
         bankName =
           String(
-            req.body.bankName || ''
+            req.body.bankName ||
+            req.body.bank_name ||
+            ''
           ).trim();
 
         if (bankName.length < 2) {
@@ -2075,167 +2098,217 @@ app.post(
           accountNumber.slice(-4);
       }
 
-      const dbSession =
-        await mongoose.startSession();
+      /* ==================================================
+         IMPORTANT WITHDRAWAL FIX
 
-      let result = null;
+         Uses an atomic conditional wallet deduction.
+         This works even when MongoDB deployment does
+         not support transactions.
 
-      try {
-        await dbSession.withTransaction(
-          async () => {
-            const wallet =
-              await Wallet.findOne({
-                user_id: uid
-              }).session(
-                dbSession
-              );
+         The balance is deducted only when enough balance
+         exists.
+         ================================================== */
 
-            if (
-              !wallet ||
-              Number(wallet.balance) < pa
-            ) {
-              result = {
-                error:
-                  'INSUFFICIENT',
+      const updatedWallet =
+        await Wallet.findOneAndUpdate(
+          {
+            user_id: uid,
 
-                balance:
-                  wallet
-                    ? Number(
-                        wallet.balance
-                      )
-                    : 0
-              };
-
-              return;
+            balance: {
+              $gte: pa
             }
+          },
+          {
+            $inc: {
+              balance: -pa
+            },
 
-            const payoutTransactionId =
-              method === 'BANK'
-                ? makePayoutTransactionId()
-                : null;
-
-            const created =
-              await Withdrawal.create(
-                [
-                  {
-                    user_id: uid,
-
-                    amount: pa,
-
-                    currency: 'INR',
-
-                    method,
-
-                    upi_id: upi,
-
-                    account_name:
-                      name,
-
-                    account_last4:
-                      last4,
-
-                    account_number:
-                      accountNumber,
-
-                    ifsc,
-
-                    bank_name:
-                      bankName,
-
-                    status:
-                      method === 'BANK'
-                        ? 'processing'
-                        : 'pending',
-
-                    payout_transaction_id:
-                      payoutTransactionId
-                  }
-                ],
-                {
-                  session:
-                    dbSession
-                }
-              );
-
-            const newBalance =
-              Number(wallet.balance) -
-              pa;
-
-            wallet.balance =
-              newBalance;
-
-            wallet.updated_at =
-              new Date();
-
-            await wallet.save({
-              session:
-                dbSession
-            });
-
-            await WalletTransaction.create(
-              [
-                {
-                  user_id: uid,
-
-                  type:
-                    'withdrawal',
-
-                  amount:
-                    -pa,
-
-                  balance_after:
-                    newBalance,
-
-                  reference_type:
-                    'withdrawal',
-
-                  reference_id:
-                    String(
-                      created[0]._id
-                    )
-                }
-              ],
-              {
-                session:
-                  dbSession
-              }
-            );
-
-            result = {
-              id:
-                created[0]._id,
-
-              transactionId:
-                payoutTransactionId,
-
-              balance:
-                newBalance,
-
-              method
-            };
+            $set: {
+              updated_at:
+                new Date()
+            }
+          },
+          {
+            new: true
           }
         );
-      } finally {
-        await dbSession.endSession();
-      }
 
-      if (
-        result &&
-        result.error ===
-          'INSUFFICIENT'
-      ) {
+      if (!updatedWallet) {
+        const existingWallet =
+          await Wallet.findOne({
+            user_id: uid
+          }).lean();
+
         return res.status(400).json({
           success: false,
 
           message:
-            'Insufficient wallet balance.',
+            existingWallet &&
+            Number(existingWallet.balance) > 0
+              ? 'Insufficient wallet balance.'
+              : 'Insufficient wallet balance.',
 
           balance:
             paiseToMoney(
-              result.balance
+              existingWallet
+                ? Number(
+                    existingWallet.balance
+                  )
+                : 0
             )
         });
       }
+
+      deducted = true;
+      deductedAmount = pa;
+
+      /* ==================================================
+         CREATE WITHDRAWAL
+         ================================================== */
+
+      const payoutTransactionId =
+        method === 'BANK'
+          ? makePayoutTransactionId()
+          : null;
+
+      let created;
+
+      try {
+        created =
+          await Withdrawal.create({
+            user_id: uid,
+
+            amount: pa,
+
+            currency: 'INR',
+
+            method,
+
+            upi_id: upi,
+
+            account_name:
+              name,
+
+            account_last4:
+              last4,
+
+            account_number:
+              accountNumber,
+
+            ifsc,
+
+            bank_name:
+              bankName,
+
+            status:
+              method === 'BANK'
+                ? 'processing'
+                : 'pending',
+
+            payout_transaction_id:
+              payoutTransactionId
+          });
+      } catch (withdrawalCreateError) {
+        console.error(
+          'WITHDRAWAL CREATE ERROR:',
+          withdrawalCreateError
+        );
+
+        /* Restore balance if withdrawal creation fails. */
+
+        await Wallet.findOneAndUpdate(
+          {
+            user_id: uid
+          },
+          {
+            $inc: {
+              balance: pa
+            },
+
+            $set: {
+              updated_at:
+                new Date()
+            }
+          }
+        );
+
+        deducted = false;
+        deductedAmount = 0;
+
+        throw withdrawalCreateError;
+      }
+
+      createdWithdrawalId =
+        created._id;
+
+      /* ==================================================
+         CREATE WALLET TRANSACTION
+         ================================================== */
+
+      try {
+        await WalletTransaction.create({
+          user_id: uid,
+
+          type:
+            'withdrawal',
+
+          amount:
+            -pa,
+
+          balance_after:
+            Number(
+              updatedWallet.balance
+            ),
+
+          reference_type:
+            'withdrawal',
+
+          reference_id:
+            String(
+              created._id
+            )
+        });
+      } catch (walletTransactionError) {
+        console.error(
+          'WITHDRAWAL TRANSACTION CREATE ERROR:',
+          walletTransactionError
+        );
+
+        /*
+          Roll everything back manually.
+        */
+
+        await Withdrawal.deleteOne({
+          _id:
+            created._id
+        });
+
+        await Wallet.findOneAndUpdate(
+          {
+            user_id: uid
+          },
+          {
+            $inc: {
+              balance: pa
+            },
+
+            $set: {
+              updated_at:
+                new Date()
+            }
+          }
+        );
+
+        deducted = false;
+        deductedAmount = 0;
+        createdWithdrawalId = null;
+
+        throw walletTransactionError;
+      }
+
+      /* ==================================================
+         UPI → MANUAL PROCESSING
+         ================================================== */
 
       if (method === 'UPI') {
         return res.status(201).json({
@@ -2245,14 +2318,14 @@ app.post(
             'UPI withdrawal submitted for manual processing.',
 
           withdrawalId:
-            result.id,
+            created._id,
 
           status:
             'pending',
 
           balance:
             paiseToMoney(
-              result.balance
+              updatedWallet.balance
             )
         });
       }
@@ -2265,7 +2338,7 @@ app.post(
         !watchpaysConfiguredPayout()
       ) {
         await refundWithdrawal(
-          result.id,
+          created._id,
           'WatchPays payout is not configured.'
         );
 
@@ -2279,7 +2352,7 @@ app.post(
 
       const withdrawal =
         await Withdrawal.findById(
-          result.id
+          created._id
         );
 
       if (!withdrawal) {
@@ -2582,7 +2655,7 @@ app.post(
 
         balance:
           paiseToMoney(
-            result.balance
+            updatedWallet.balance
           )
       });
     } catch (e) {
@@ -2591,10 +2664,52 @@ app.post(
         e
       );
 
+      /*
+        Emergency restoration if balance was deducted
+        but an unexpected error happened before the
+        normal rollback.
+      */
+
+      if (
+        deducted === true &&
+        deductedAmount > 0 &&
+        !createdWithdrawalId
+      ) {
+        try {
+          await Wallet.findOneAndUpdate(
+            {
+              user_id:
+                req.session.userId
+            },
+            {
+              $inc: {
+                balance:
+                  deductedAmount
+              },
+
+              $set: {
+                updated_at:
+                  new Date()
+              }
+            }
+          );
+
+          console.log(
+            'WITHDRAW BALANCE RESTORED AFTER ERROR.'
+          );
+        } catch (refundError) {
+          console.error(
+            'WITHDRAW EMERGENCY RESTORE ERROR:',
+            refundError
+          );
+        }
+      }
+
       return res.status(500).json({
         success: false,
 
         message:
+          e?.message ||
           'Unable to submit withdrawal request.'
       });
     }
@@ -2757,8 +2872,7 @@ app.post(
         merchant_id,
         transaction_id,
         amount,
-        status,
-        timestamp
+        status
       } = req.body || {};
 
       if (
@@ -3037,7 +3151,6 @@ app.get(
             banned:
               x.banned === true,
 
-            /* Per-user VIP 5 status */
             vip5:
               x.vip5 === true,
 
@@ -3232,6 +3345,7 @@ app.post(
       }
 
       if (
+        result &&
         result.error ===
         'NEGATIVE'
       ) {
@@ -3287,7 +3401,7 @@ app.post(
 );
 
 /* ======================================================
-   ADMIN BAN USER
+   ADMIN BAN
    ====================================================== */
 
 app.post(
@@ -3330,17 +3444,10 @@ app.post(
           'User has been banned.',
 
         user: {
-          id:
-            user._id,
-
-          name:
-            user.name,
-
-          phone:
-            user.phone,
-
-          banned:
-            true
+          id: user._id,
+          name: user.name,
+          phone: user.phone,
+          banned: true
         }
       });
     } catch (e) {
@@ -3360,7 +3467,7 @@ app.post(
 );
 
 /* ======================================================
-   ADMIN UNBAN USER
+   ADMIN UNBAN
    ====================================================== */
 
 app.post(
@@ -3403,17 +3510,10 @@ app.post(
           'User has been unbanned.',
 
         user: {
-          id:
-            user._id,
-
-          name:
-            user.name,
-
-          phone:
-            user.phone,
-
-          banned:
-            false
+          id: user._id,
+          name: user.name,
+          phone: user.phone,
+          banned: false
         }
       });
     } catch (e) {
@@ -3476,17 +3576,10 @@ app.post(
           'VIP 5 enabled for this user.',
 
         user: {
-          id:
-            user._id,
-
-          name:
-            user.name,
-
-          phone:
-            user.phone,
-
-          vip5:
-            true
+          id: user._id,
+          name: user.name,
+          phone: user.phone,
+          vip5: true
         }
       });
     } catch (e) {
@@ -3549,17 +3642,10 @@ app.post(
           'VIP 5 disabled for this user.',
 
         user: {
-          id:
-            user._id,
-
-          name:
-            user.name,
-
-          phone:
-            user.phone,
-
-          vip5:
-            false
+          id: user._id,
+          name: user.name,
+          phone: user.phone,
+          vip5: false
         }
       });
     } catch (e) {
@@ -3579,7 +3665,7 @@ app.post(
 );
 
 /* ======================================================
-   ADMIN DIRECT LOGIN AS USER
+   ADMIN DIRECT LOGIN
    ====================================================== */
 
 app.post(
