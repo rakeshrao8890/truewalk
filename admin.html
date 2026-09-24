@@ -74,6 +74,7 @@ input{
 
 input:focus{
   border-color:#22c55e;
+  box-shadow:0 0 0 3px rgba(34,197,94,.1);
 }
 
 .login-btn{
@@ -86,6 +87,10 @@ input:focus{
   font-size:15px;
   font-weight:700;
   cursor:pointer;
+}
+
+.login-btn:hover{
+  background:#15803d;
 }
 
 .login-btn:disabled{
@@ -142,7 +147,6 @@ input:focus{
 
     </div>
 
-
     <div class="form-group">
 
       <label for="password">
@@ -159,7 +163,6 @@ input:focus{
 
     </div>
 
-
     <button
       id="loginButton"
       class="login-btn"
@@ -172,23 +175,13 @@ input:focus{
 
 </div>
 
-
 <script>
 
-const form =
-  document.getElementById("loginForm");
-
-const username =
-  document.getElementById("username");
-
-const password =
-  document.getElementById("password");
-
-const loginButton =
-  document.getElementById("loginButton");
-
-const errorBox =
-  document.getElementById("errorBox");
+const form = document.getElementById("loginForm");
+const username = document.getElementById("username");
+const password = document.getElementById("password");
+const loginButton = document.getElementById("loginButton");
+const errorBox = document.getElementById("errorBox");
 
 
 function showError(message){
@@ -197,7 +190,6 @@ function showError(message){
     message || "Login failed.";
 
   errorBox.classList.add("show");
-
 }
 
 
@@ -206,7 +198,6 @@ function hideError(){
   errorBox.textContent = "";
 
   errorBox.classList.remove("show");
-
 }
 
 
@@ -214,167 +205,144 @@ function hideError(){
    ADMIN LOGIN
 ========================================================= */
 
-form.addEventListener(
-  "submit",
-  async function(event){
+form.addEventListener("submit", async function(event){
 
-    event.preventDefault();
+  event.preventDefault();
 
-    hideError();
+  hideError();
 
-    const user =
-      username.value.trim();
-
-    const pass =
-      password.value;
+  const user = username.value.trim();
+  const pass = password.value;
 
 
-    if(!user || !pass){
+  if(!user || !pass){
 
-      showError(
-        "Please enter username and password."
+    showError(
+      "Please enter username and password."
+    );
+
+    return;
+  }
+
+
+  loginButton.disabled = true;
+  loginButton.textContent = "Logging in...";
+
+
+  try{
+
+    const response = await fetch(
+      "/api/admin/login",
+      {
+        method:"POST",
+
+        credentials:"include",
+
+        headers:{
+          "Content-Type":"application/json",
+          "Accept":"application/json"
+        },
+
+        body:JSON.stringify({
+          username:user,
+          password:pass
+        })
+      }
+    );
+
+
+    const contentType =
+      response.headers.get("content-type") || "";
+
+
+    let data = null;
+
+
+    if(contentType.includes("application/json")){
+
+      data = await response.json();
+
+    }else{
+
+      const text = await response.text();
+
+      throw new Error(
+        text ||
+        "Server returned an invalid response."
+      );
+    }
+
+
+    if(!response.ok){
+
+      throw new Error(
+        data?.message ||
+        "Invalid admin credentials."
+      );
+    }
+
+
+    /*
+      SERVER RESPONSE:
+
+      {
+        success: true,
+        message: "Admin login successful."
+      }
+
+      Only success is required here.
+    */
+
+    if(data && data.success === true){
+
+      loginButton.textContent =
+        "Login Successful ✓";
+
+
+      /*
+        Small delay so the session save
+        is completed before dashboard opens.
+      */
+
+      await new Promise(resolve =>
+        setTimeout(resolve, 300)
+      );
+
+
+      window.location.replace(
+        "/admin-dashboard.html"
       );
 
       return;
     }
 
 
-    loginButton.disabled = true;
-
-    loginButton.textContent =
-      "Logging in...";
-
-
-    try{
-
-      const response =
-        await fetch(
-          "/api/admin/login",
-          {
-            method:"POST",
-
-            credentials:"include",
-
-            headers:{
-              "Content-Type":
-                "application/json",
-
-              "Accept":
-                "application/json"
-            },
-
-            body:JSON.stringify({
-              username:user,
-              password:pass
-            })
-          }
-        );
+    throw new Error(
+      data?.message ||
+      "Admin login was not successful."
+    );
 
 
-      const contentType =
-        response.headers.get(
-          "content-type"
-        ) || "";
+  }catch(error){
+
+    console.error(
+      "ADMIN LOGIN ERROR:",
+      error
+    );
 
 
-      let data = null;
+    showError(
+      error.message ||
+      "Unable to login."
+    );
 
 
-      if(
-        contentType.includes(
-          "application/json"
-        )
-      ){
-
-        data =
-          await response.json();
-
-      }else{
-
-        const text =
-          await response.text();
-
-        throw new Error(
-          text ||
-          "Server returned an invalid response."
-        );
-
-      }
-
-
-      if(!response.ok){
-
-        throw new Error(
-          data?.message ||
-          "Invalid admin credentials."
-        );
-
-      }
-
-
-      if(
-        data &&
-        data.success === true &&
-        data.isAdmin === true
-      ){
-
-        /*
-         * Session save ke baad dashboard open
-         */
-
-        await new Promise(
-          resolve =>
-            setTimeout(
-              resolve,
-              500
-            )
-        );
-
-
-        /*
-         * Dashboard open
-         */
-
-        window.location.replace(
-          "/admin-dashboard.html"
-        );
-
-        return;
-      }
-
-
-      throw new Error(
-        data?.message ||
-        "Admin login was not successful."
-      );
-
-
-    }catch(error){
-
-      console.error(
-        "ADMIN LOGIN ERROR:",
-        error
-      );
-
-
-      showError(
-        error.message ||
-        "Unable to login."
-      );
-
-
-    }finally{
-
-      loginButton.disabled =
-        false;
-
-      loginButton.textContent =
-        "Login";
-
-    }
+    loginButton.disabled = false;
+    loginButton.textContent = "Login";
 
   }
-);
+
+});
 
 </script>
 
