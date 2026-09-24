@@ -96,6 +96,16 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: null,
       index: true
+    },
+
+    /* ==================================================
+       ADMIN BAN / UNBAN
+       ================================================== */
+
+    banned: {
+      type: Boolean,
+      default: false,
+      index: true
     }
   },
   {
@@ -457,19 +467,6 @@ function formatAmount(paise) {
   return paiseToMoney(paise).toFixed(2);
 }
 
-/*
- * WatchPays payout documentation uses examples such as:
- *
- * amount = 150
- *
- * So payout amount is sent as:
- *
- * 150
- *
- * rather than:
- *
- * 150.00
- */
 function formatPayoutAmount(paise) {
   const amount = paiseToMoney(paise);
 
@@ -503,14 +500,58 @@ async function ensureWallet(userId) {
   );
 }
 
-function login(req, res, next) {
-  if (req.session.userId) {
-    return next();
-  }
+/* ======================================================
+   USER LOGIN MIDDLEWARE
+   ====================================================== */
 
-  return res.status(401).json({
-    message: 'Please login first.'
-  });
+async function login(req, res, next) {
+  try {
+    if (!req.session.userId) {
+      return res.status(401).json({
+        message: 'Please login first.'
+      });
+    }
+
+    /*
+     * Check current account status.
+     * This also blocks an already logged-in user
+     * immediately after admin bans the account.
+     */
+
+    const user =
+      await User.findById(
+        req.session.userId
+      )
+        .select('_id banned')
+        .lean();
+
+    if (!user) {
+      req.session.userId = null;
+
+      return res.status(401).json({
+        message: 'Session is invalid.'
+      });
+    }
+
+    if (user.banned === true) {
+      return res.status(403).json({
+        message:
+          'Your account has been banned. Please contact support.'
+      });
+    }
+
+    return next();
+  } catch (e) {
+    console.error(
+      'LOGIN MIDDLEWARE ERROR:',
+      e
+    );
+
+    return res.status(500).json({
+      message:
+        'Unable to verify login session.'
+    });
+  }
 }
 
 function admin(req, res, next) {
@@ -597,22 +638,6 @@ function createWatchPaysPayinSignature({
 /* ======================================================
    WATCHPAYS PAYOUT SIGNATURE
    ====================================================== */
-
-/*
- * EXACT WatchPays documentation:
- *
- * md5(
- *   account_number +
- *   amount +
- *   bank_name +
- *   callback_url +
- *   ifsc +
- *   merchant_id +
- *   name +
- *   transaction_id +
- *   payout_key
- * )
- */
 
 function createWatchPaysPayoutSignature({
   account_number,
@@ -773,6 +798,8 @@ app.post(
         }
 
         req.session.isAdmin = true;
+        req.session.userId = null;
+        req.session.impersonatingUser = false;
 
         req.session.save(
           (saveErr) => {
@@ -815,7 +842,13 @@ app.get(
   (req, res) => {
     res.json({
       success: true,
-      admin: true
+      admin: true,
+
+      impersonatingUser:
+        req.session.impersonatingUser === true,
+
+      userId:
+        req.session.userId || null
     });
   }
 );
@@ -922,7 +955,8 @@ app.post(
           salt,
           password_hash: passwordHash,
           referral_code: rc,
-          referred_by: referredBy
+          referred_by: referredBy,
+          banned: false
         });
 
       await ensureWallet(user._id);
@@ -980,6 +1014,17 @@ app.post(
         });
       }
 
+      /* ==================================================
+         BAN CHECK
+         ================================================== */
+
+      if (u.banned === true) {
+        return res.status(403).json({
+          message:
+            'Your account has been banned. Please contact support.'
+        });
+      }
+
       await ensureWallet(u._id);
 
       req.session.regenerate(
@@ -995,6 +1040,8 @@ app.post(
             String(u._id);
 
           req.session.isAdmin = false;
+
+          req.session.impersonatingUser = false;
 
           req.session.save(
             (saveErr) => {
@@ -1037,13 +1084,20 @@ app.get(
         await User.findById(
           req.session.userId
         ).select(
-          '_id name phone referral_code'
+          '_id name phone referral_code banned'
         );
 
       if (!u) {
         return res.status(401).json({
           message:
             'Session is invalid.'
+        });
+      }
+
+      if (u.banned === true) {
+        return res.status(403).json({
+          message:
+            'Your account has been banned. Please contact support.'
         });
       }
 
@@ -1450,30 +1504,6 @@ app.get(
 /* ======================================================
    WATCHPAYS PAY-IN CALLBACK
    ====================================================== */
-
-/*
- * IMPORTANT:
- * Your supplied WatchPays documentation did not include
- * the official Pay-in callback payload.
- *
- * This handler accepts common names:
- *
- * merchantOrder / merchant_order_no
- * orderNo / order_no / gateway_order_no
- * status
- * amount
- *
- * Wallet is credited ONLY when:
- *
- * 1. Order exists
- * 2. Amount matches
- * 3. Gateway order matches when already known
- * 4. Status is success
- * 5. Order is not already paid
- *
- * Get the exact WatchPays Pay-in callback documentation
- * and update this handler if their actual field names differ.
- */
 
 app.post(
   '/api/watchpays/callback',
@@ -2248,15 +2278,6 @@ app.post(
         });
       }
 
-      /*
-       * IMPORTANT:
-       * WatchPays docs example:
-       * amount = 150
-       *
-       * Therefore we send 150 instead of 150.00
-       * for whole-number INR amounts.
-       */
-
       const payoutAmount =
         formatPayoutAmount(
           withdrawal.amount
@@ -2388,21 +2409,6 @@ app.post(
       withdrawal.payout_response =
         payoutData ||
         payoutParsed.raw;
-
-      /*
-       * WatchPays success response:
-       *
-       * {
-       *   "status": "success",
-       *   "message": "Withdrawal request received",
-       *   "data": {
-       *      "transaction_id": "...",
-       *      "amount": 150.00,
-       *      "fee": 5.25,
-       *      "total_amount": 155.25
-       *   }
-       * }
-       */
 
       if (
         !payoutResponse.ok ||
@@ -2792,9 +2798,6 @@ app.post(
       const normalizedStatus =
         String(status).toUpperCase();
 
-      /*
-       * Duplicate SUCCESS
-       */
       if (
         withdrawal.status ===
           'completed' &&
@@ -2804,9 +2807,6 @@ app.post(
         return res.send('success');
       }
 
-      /*
-       * Duplicate FAILED
-       */
       if (
         withdrawal.status ===
           'rejected' &&
@@ -2858,10 +2858,6 @@ app.post(
         return res.send('success');
       }
 
-      /*
-       * Unknown status:
-       * save only, don't refund.
-       */
       await withdrawal.save();
 
       return res.send('success');
@@ -2982,7 +2978,7 @@ app.get(
       const users =
         await User.find()
           .select(
-            '_id name phone referral_code referred_by created_at'
+            '_id name phone referral_code referred_by banned created_at'
           )
           .sort({
             created_at: -1
@@ -3026,6 +3022,9 @@ app.get(
             referred_by:
               x.referred_by,
 
+            banned:
+              x.banned === true,
+
             created_at:
               x.created_at,
 
@@ -3054,7 +3053,7 @@ app.get(
 );
 
 /* ======================================================
-   ADMIN BALANCE ADJUSTMENT
+   ADMIN BALANCE CREDIT / DEBIT
    ====================================================== */
 
 app.post(
@@ -3107,7 +3106,7 @@ app.post(
       const u =
         await User.findById(uid)
           .select(
-            '_id name phone'
+            '_id name phone banned'
           );
 
       if (!u) {
@@ -3268,6 +3267,317 @@ app.post(
           'Unable to update user balance.'
       });
     }
+  }
+);
+
+/* ======================================================
+   ADMIN BAN USER
+   ====================================================== */
+
+app.post(
+  '/api/admin/users/:id/ban',
+  admin,
+  async (req, res) => {
+    try {
+      const uid =
+        req.params.id;
+
+      if (
+        !mongoose.isValidObjectId(uid)
+      ) {
+        return res.status(400).json({
+          success: false,
+          message:
+            'Invalid user ID.'
+        });
+      }
+
+      const user =
+        await User.findById(uid);
+
+      if (!user) {
+        return res.status(404).json({
+          success: false,
+          message:
+            'User not found.'
+        });
+      }
+
+      user.banned = true;
+
+      await user.save();
+
+      return res.json({
+        success: true,
+
+        message:
+          'User has been banned.',
+
+        user: {
+          id:
+            user._id,
+
+          name:
+            user.name,
+
+          phone:
+            user.phone,
+
+          banned:
+            true
+        }
+      });
+    } catch (e) {
+      console.error(
+        'ADMIN BAN ERROR:',
+        e
+      );
+
+      return res.status(500).json({
+        success: false,
+
+        message:
+          'Unable to ban user.'
+      });
+    }
+  }
+);
+
+/* ======================================================
+   ADMIN UNBAN USER
+   ====================================================== */
+
+app.post(
+  '/api/admin/users/:id/unban',
+  admin,
+  async (req, res) => {
+    try {
+      const uid =
+        req.params.id;
+
+      if (
+        !mongoose.isValidObjectId(uid)
+      ) {
+        return res.status(400).json({
+          success: false,
+          message:
+            'Invalid user ID.'
+        });
+      }
+
+      const user =
+        await User.findById(uid);
+
+      if (!user) {
+        return res.status(404).json({
+          success: false,
+          message:
+            'User not found.'
+        });
+      }
+
+      user.banned = false;
+
+      await user.save();
+
+      return res.json({
+        success: true,
+
+        message:
+          'User has been unbanned.',
+
+        user: {
+          id:
+            user._id,
+
+          name:
+            user.name,
+
+          phone:
+            user.phone,
+
+          banned:
+            false
+        }
+      });
+    } catch (e) {
+      console.error(
+        'ADMIN UNBAN ERROR:',
+        e
+      );
+
+      return res.status(500).json({
+        success: false,
+
+        message:
+          'Unable to unban user.'
+      });
+    }
+  }
+);
+
+/* ======================================================
+   ADMIN DIRECT LOGIN AS USER
+   ====================================================== */
+
+app.post(
+  '/api/admin/users/:id/login',
+  admin,
+  async (req, res) => {
+    try {
+      const uid =
+        req.params.id;
+
+      if (
+        !mongoose.isValidObjectId(uid)
+      ) {
+        return res.status(400).json({
+          success: false,
+          message:
+            'Invalid user ID.'
+        });
+      }
+
+      const user =
+        await User.findById(uid);
+
+      if (!user) {
+        return res.status(404).json({
+          success: false,
+          message:
+            'User not found.'
+        });
+      }
+
+      if (user.banned === true) {
+        return res.status(403).json({
+          success: false,
+          message:
+            'This user is banned. Unban the user before direct login.'
+        });
+      }
+
+      await ensureWallet(user._id);
+
+      /*
+       * IMPORTANT:
+       *
+       * We keep isAdmin = true.
+       *
+       * This means the admin session can access
+       * both user-side pages/APIs and admin APIs.
+       */
+
+      req.session.userId =
+        String(user._id);
+
+      req.session.isAdmin = true;
+
+      req.session.impersonatingUser = true;
+
+      req.session.save(
+        (saveErr) => {
+          if (saveErr) {
+            console.error(
+              'DIRECT LOGIN SESSION SAVE ERROR:',
+              saveErr
+            );
+
+            return res.status(500).json({
+              success: false,
+              message:
+                'Direct login session could not be saved.'
+            });
+          }
+
+          return res.json({
+            success: true,
+
+            message:
+              'Direct user login successful.',
+
+            user:
+              safeUser(user),
+
+            redirect:
+              '/home.html'
+          });
+        }
+      );
+    } catch (e) {
+      console.error(
+        'ADMIN DIRECT LOGIN ERROR:',
+        e
+      );
+
+      return res.status(500).json({
+        success: false,
+
+        message:
+          'Unable to login as user.'
+      });
+    }
+  }
+);
+
+/* ======================================================
+   ADMIN EXIT DIRECT USER LOGIN
+   ====================================================== */
+
+app.post(
+  '/api/admin/exit-user-login',
+  admin,
+  (req, res) => {
+    if (
+      req.session.impersonatingUser !==
+      true
+    ) {
+      return res.status(400).json({
+        success: false,
+
+        message:
+          'No direct user login session is active.'
+      });
+    }
+
+    /*
+     * Remove user identity but keep admin identity.
+     */
+
+    req.session.userId = null;
+
+    req.session.impersonatingUser =
+      false;
+
+    req.session.isAdmin = true;
+
+    req.session.save(
+      (saveErr) => {
+        if (saveErr) {
+          console.error(
+            'EXIT DIRECT LOGIN SAVE ERROR:',
+            saveErr
+          );
+
+          return res.status(500).json({
+            success: false,
+
+            message:
+              'Unable to return to admin.'
+          });
+        }
+
+        return res.json({
+          success: true,
+
+          message:
+            'Returned to admin dashboard.',
+
+          redirect:
+            '/admin-dashboard.html'
+        });
+      }
+    );
   }
 );
 
@@ -4070,12 +4380,64 @@ app.get(
 );
 
 /* ======================================================
-   LOGOUT
+   USER LOGOUT
    ====================================================== */
 
 app.post(
   '/api/logout',
   (req, res) => {
+    /*
+     * If admin is currently using Direct Login,
+     * normal user logout should NOT destroy the
+     * admin session.
+     */
+
+    if (
+      req.session &&
+      req.session.isAdmin === true &&
+      req.session.impersonatingUser === true
+    ) {
+      req.session.userId = null;
+
+      req.session.impersonatingUser =
+        false;
+
+      req.session.isAdmin =
+        true;
+
+      return req.session.save(
+        (saveErr) => {
+          if (saveErr) {
+            console.error(
+              'EXIT USER LOGOUT SAVE ERROR:',
+              saveErr
+            );
+
+            return res.status(500).json({
+              success: false,
+
+              message:
+                'Unable to return to admin.'
+            });
+          }
+
+          return res.json({
+            success: true,
+
+            message:
+              'Returned to admin dashboard.',
+
+            redirect:
+              '/admin-dashboard.html'
+          });
+        }
+      );
+    }
+
+    /*
+     * Normal user logout.
+     */
+
     req.session.destroy(() => {
       res.clearCookie(
         'truewalk.sid'
