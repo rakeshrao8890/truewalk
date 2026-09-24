@@ -99,6 +99,16 @@ const userSchema = new mongoose.Schema(
     },
 
     /* ==================================================
+       VIP 5 - PER USER
+       ================================================== */
+
+    vip5: {
+      type: Boolean,
+      default: false,
+      index: true
+    },
+
+    /* ==================================================
        ADMIN BAN / UNBAN
        ================================================== */
 
@@ -511,12 +521,6 @@ async function login(req, res, next) {
         message: 'Please login first.'
       });
     }
-
-    /*
-     * Check current account status.
-     * This also blocks an already logged-in user
-     * immediately after admin bans the account.
-     */
 
     const user =
       await User.findById(
@@ -956,6 +960,10 @@ app.post(
           password_hash: passwordHash,
           referral_code: rc,
           referred_by: referredBy,
+
+          /* New users do NOT get VIP 5 automatically */
+          vip5: false,
+
           banned: false
         });
 
@@ -1084,7 +1092,7 @@ app.get(
         await User.findById(
           req.session.userId
         ).select(
-          '_id name phone referral_code banned'
+          '_id name phone referral_code banned vip5'
         );
 
       if (!u) {
@@ -1110,7 +1118,11 @@ app.get(
           name: u.name,
           phone: u.phone,
           referral_code:
-            u.referral_code
+            u.referral_code,
+
+          /* Only this user's VIP 5 status */
+          vip5:
+            u.vip5 === true
         },
 
         balance:
@@ -2978,7 +2990,7 @@ app.get(
       const users =
         await User.find()
           .select(
-            '_id name phone referral_code referred_by banned created_at'
+            '_id name phone referral_code referred_by banned vip5 created_at'
           )
           .sort({
             created_at: -1
@@ -3024,6 +3036,10 @@ app.get(
 
             banned:
               x.banned === true,
+
+            /* Per-user VIP 5 status */
+            vip5:
+              x.vip5 === true,
 
             created_at:
               x.created_at,
@@ -3417,6 +3433,152 @@ app.post(
 );
 
 /* ======================================================
+   ADMIN ENABLE VIP 5
+   ====================================================== */
+
+app.post(
+  '/api/admin/users/:id/vip5/enable',
+  admin,
+  async (req, res) => {
+    try {
+      const uid =
+        req.params.id;
+
+      if (
+        !mongoose.isValidObjectId(uid)
+      ) {
+        return res.status(400).json({
+          success: false,
+          message:
+            'Invalid user ID.'
+        });
+      }
+
+      const user =
+        await User.findById(uid);
+
+      if (!user) {
+        return res.status(404).json({
+          success: false,
+          message:
+            'User not found.'
+        });
+      }
+
+      user.vip5 = true;
+
+      await user.save();
+
+      return res.json({
+        success: true,
+
+        message:
+          'VIP 5 enabled for this user.',
+
+        user: {
+          id:
+            user._id,
+
+          name:
+            user.name,
+
+          phone:
+            user.phone,
+
+          vip5:
+            true
+        }
+      });
+    } catch (e) {
+      console.error(
+        'ADMIN VIP5 ENABLE ERROR:',
+        e
+      );
+
+      return res.status(500).json({
+        success: false,
+
+        message:
+          'Unable to enable VIP 5.'
+      });
+    }
+  }
+);
+
+/* ======================================================
+   ADMIN DISABLE VIP 5
+   ====================================================== */
+
+app.post(
+  '/api/admin/users/:id/vip5/disable',
+  admin,
+  async (req, res) => {
+    try {
+      const uid =
+        req.params.id;
+
+      if (
+        !mongoose.isValidObjectId(uid)
+      ) {
+        return res.status(400).json({
+          success: false,
+          message:
+            'Invalid user ID.'
+        });
+      }
+
+      const user =
+        await User.findById(uid);
+
+      if (!user) {
+        return res.status(404).json({
+          success: false,
+          message:
+            'User not found.'
+        });
+      }
+
+      user.vip5 = false;
+
+      await user.save();
+
+      return res.json({
+        success: true,
+
+        message:
+          'VIP 5 disabled for this user.',
+
+        user: {
+          id:
+            user._id,
+
+          name:
+            user.name,
+
+          phone:
+            user.phone,
+
+          vip5:
+            false
+        }
+      });
+    } catch (e) {
+      console.error(
+        'ADMIN VIP5 DISABLE ERROR:',
+        e
+      );
+
+      return res.status(500).json({
+        success: false,
+
+        message:
+          'Unable to disable VIP 5.'
+      });
+    }
+  }
+);
+
+/* ======================================================
    ADMIN DIRECT LOGIN AS USER
    ====================================================== */
 
@@ -3458,15 +3620,6 @@ app.post(
       }
 
       await ensureWallet(user._id);
-
-      /*
-       * IMPORTANT:
-       *
-       * We keep isAdmin = true.
-       *
-       * This means the admin session can access
-       * both user-side pages/APIs and admin APIs.
-       */
 
       req.session.userId =
         String(user._id);
@@ -3539,10 +3692,6 @@ app.post(
           'No direct user login session is active.'
       });
     }
-
-    /*
-     * Remove user identity but keep admin identity.
-     */
 
     req.session.userId = null;
 
@@ -4386,12 +4535,6 @@ app.get(
 app.post(
   '/api/logout',
   (req, res) => {
-    /*
-     * If admin is currently using Direct Login,
-     * normal user logout should NOT destroy the
-     * admin session.
-     */
-
     if (
       req.session &&
       req.session.isAdmin === true &&
@@ -4433,10 +4576,6 @@ app.post(
         }
       );
     }
-
-    /*
-     * Normal user logout.
-     */
 
     req.session.destroy(() => {
       res.clearCookie(
