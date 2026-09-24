@@ -1075,7 +1075,7 @@ const $ = (id) =>
    API HELPER
 ========================================================= */
 
-async function api(url, options = {}) {
+async function api(url, options = {}){
 
   const response =
     await fetch(
@@ -1093,7 +1093,7 @@ async function api(url, options = {}) {
     response.headers.get("content-type") || "";
 
 
-  try {
+  try{
 
     if(
       contentType.includes(
@@ -1419,6 +1419,11 @@ function renderUsers(users){
         user.banned === true;
 
 
+      /*
+        IMPORTANT:
+        VIP 5 is checked PER USER.
+        It is NOT a global setting.
+      */
       const vip5 =
         user.vip5 === true;
 
@@ -1496,6 +1501,10 @@ function renderUsers(users){
 
           </td>
 
+
+          <!-- =================================================
+               VIP 5 PER USER
+          ================================================== -->
 
           <td>
 
@@ -1708,13 +1717,10 @@ function renderWalletUsers(users){
 
 
 /* =========================================================
-   VIP 5
+   VIP 5 - ADMIN CONTROLLED PER USER
 ========================================================= */
 
-async function setVip5(
-  userId,
-  enabled
-){
+async function setVip5(userId, enabled){
 
   const confirmed =
     confirm(
@@ -1731,24 +1737,32 @@ async function setVip5(
 
   try{
 
+    /*
+      IMPORTANT:
+      Enable and Disable use separate server endpoints.
+
+      /enable  = only selected user gets VIP 5
+      /disable = only selected user loses VIP 5
+
+      There is NO global VIP 5 enable here.
+    */
+
+    const endpoint =
+      enabled
+        ? `/api/admin/users/${encodeURIComponent(userId)}/vip5/enable`
+        : `/api/admin/users/${encodeURIComponent(userId)}/vip5/disable`;
+
+
     const result =
       await api(
-        `/api/admin/users/${encodeURIComponent(userId)}/vip5`,
+        endpoint,
         {
           method:"POST",
 
           headers:{
-            "Content-Type":
-              "application/json",
-
             "Accept":
               "application/json"
-          },
-
-          body:
-            JSON.stringify({
-              enabled
-            })
+          }
         }
       );
 
@@ -1764,8 +1778,8 @@ async function setVip5(
 
     alert(
       enabled
-        ? "VIP 5 enabled successfully."
-        : "VIP 5 disabled successfully."
+        ? "VIP 5 enabled successfully for this user."
+        : "VIP 5 disabled successfully for this user."
     );
 
 
