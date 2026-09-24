@@ -300,9 +300,14 @@ const withdrawalSchema = new mongoose.Schema(
       index: true
     },
 
+    /*
+      IMPORTANT:
+      No default:null here.
+      UPI withdrawals will completely omit
+      this field from MongoDB.
+    */
     payout_transaction_id: {
       type: String,
-      default: null,
       unique: true,
       sparse: true,
       index: true
@@ -2101,12 +2106,7 @@ app.post(
       /* ==================================================
          IMPORTANT WITHDRAWAL FIX
 
-         Uses an atomic conditional wallet deduction.
-         This works even when MongoDB deployment does
-         not support transactions.
-
-         The balance is deducted only when enough balance
-         exists.
+         Atomic wallet deduction.
          ================================================== */
 
       const updatedWallet =
@@ -2143,10 +2143,7 @@ app.post(
           success: false,
 
           message:
-            existingWallet &&
-            Number(existingWallet.balance) > 0
-              ? 'Insufficient wallet balance.'
-              : 'Insufficient wallet balance.',
+            'Insufficient wallet balance.',
 
           balance:
             paiseToMoney(
@@ -2166,48 +2163,60 @@ app.post(
          CREATE WITHDRAWAL
          ================================================== */
 
-      const payoutTransactionId =
-        method === 'BANK'
-          ? makePayoutTransactionId()
-          : null;
-
       let created;
 
       try {
+        const withdrawalData = {
+          user_id: uid,
+
+          amount: pa,
+
+          currency: 'INR',
+
+          method,
+
+          upi_id: upi,
+
+          account_name:
+            name,
+
+          account_last4:
+            last4,
+
+          account_number:
+            accountNumber,
+
+          ifsc,
+
+          bank_name:
+            bankName,
+
+          status:
+            method === 'BANK'
+              ? 'processing'
+              : 'pending'
+        };
+
+        /*
+          IMPORTANT FIX:
+          payout_transaction_id is added ONLY
+          for BANK withdrawals.
+
+          UPI withdrawals do NOT contain this
+          field at all, so MongoDB will not try
+          to insert null into the unique index.
+        */
+
+        if (method === 'BANK') {
+          withdrawalData.payout_transaction_id =
+            makePayoutTransactionId();
+        }
+
         created =
-          await Withdrawal.create({
-            user_id: uid,
+          await Withdrawal.create(
+            withdrawalData
+          );
 
-            amount: pa,
-
-            currency: 'INR',
-
-            method,
-
-            upi_id: upi,
-
-            account_name:
-              name,
-
-            account_last4:
-              last4,
-
-            account_number:
-              accountNumber,
-
-            ifsc,
-
-            bank_name:
-              bankName,
-
-            status:
-              method === 'BANK'
-                ? 'processing'
-                : 'pending',
-
-            payout_transaction_id:
-              payoutTransactionId
-          });
       } catch (withdrawalCreateError) {
         console.error(
           'WITHDRAWAL CREATE ERROR:',
