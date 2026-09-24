@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -96,13 +97,6 @@ a{
     );
 
   background-size:55px 55px;
-
-  mask-image:
-    linear-gradient(
-      to bottom,
-      black,
-      transparent 80%
-    );
 }
 
 .orb{
@@ -111,8 +105,7 @@ a{
   filter:blur(75px);
   opacity:.38;
 
-  animation:
-    floatOrb 11s ease-in-out infinite;
+  animation:floatOrb 11s ease-in-out infinite;
 }
 
 .orb.one{
@@ -142,7 +135,6 @@ a{
 }
 
 @keyframes floatOrb{
-
   0%,100%{
     transform:translate3d(0,0,0) scale(1);
   }
@@ -150,7 +142,6 @@ a{
   50%{
     transform:translate3d(28px,-35px,0) scale(1.08);
   }
-
 }
 
 
@@ -190,7 +181,7 @@ a{
 
 
 /* =========================
-   TRUE WALK LOGO
+   LOGO
 ========================= */
 
 .brand-logo{
@@ -207,25 +198,18 @@ a{
 
   overflow:hidden;
 
-  background:
-    linear-gradient(
-      135deg,
-      #35a7ff,
-      #6b5cff 50%,
-      #ff4ecd
-    );
+  background:#111827;
+
+  border:
+    1px solid rgba(255,255,255,.15);
 
   box-shadow:
-    0 0 0 1px rgba(255,255,255,.14),
+    0 0 0 1px rgba(255,255,255,.08),
     0 0 25px rgba(53,167,255,.32),
     0 0 40px rgba(139,92,246,.18);
 
-  animation:
-    logoGlow 4s ease-in-out infinite;
+  animation:logoGlow 4s ease-in-out infinite;
 }
-
-
-/* ACTUAL logo.png */
 
 .brand-logo img{
   width:100%;
@@ -235,27 +219,9 @@ a{
 
   object-fit:contain;
 
-  border-radius:12px;
-
-  position:relative;
-  z-index:2;
-}
-
-
-.brand-logo::after{
-  content:"";
-
-  position:absolute;
-  inset:2px;
+  padding:3px;
 
   border-radius:12px;
-
-  border:
-    1px solid rgba(255,255,255,.25);
-
-  pointer-events:none;
-
-  z-index:3;
 }
 
 @keyframes logoGlow{
@@ -264,7 +230,7 @@ a{
     transform:translateY(0);
 
     box-shadow:
-      0 0 0 1px rgba(255,255,255,.14),
+      0 0 0 1px rgba(255,255,255,.08),
       0 0 22px rgba(53,167,255,.28);
   }
 
@@ -272,10 +238,9 @@ a{
     transform:translateY(-2px);
 
     box-shadow:
-      0 0 0 1px rgba(255,255,255,.18),
+      0 0 0 1px rgba(255,255,255,.15),
       0 0 34px rgba(139,92,246,.38);
   }
-
 }
 
 
@@ -302,16 +267,13 @@ a{
 
   color:transparent;
 
-  animation:
-    gradientMove 5s linear infinite;
+  animation:gradientMove 5s linear infinite;
 }
 
 @keyframes gradientMove{
-
   to{
     background-position:300% center;
   }
-
 }
 
 
@@ -320,9 +282,6 @@ a{
 ========================= */
 
 .logout-btn{
-  position:relative;
-  overflow:hidden;
-
   border:
     1px solid rgba(255,255,255,.11);
 
@@ -343,11 +302,7 @@ a{
   backdrop-filter:blur(15px);
   -webkit-backdrop-filter:blur(15px);
 
-  transition:
-    transform .3s ease,
-    border-color .3s ease,
-    box-shadow .3s ease,
-    color .3s ease;
+  transition:.3s ease;
 }
 
 .logout-btn:hover{
@@ -359,8 +314,7 @@ a{
   color:#6fc2ff;
 
   box-shadow:
-    0 10px 30px rgba(0,0,0,.25),
-    0 0 20px rgba(53,167,255,.08);
+    0 10px 30px rgba(0,0,0,.25);
 }
 
 .logout-btn:active{
@@ -412,8 +366,7 @@ a{
   box-shadow:
     0 20px 60px rgba(0,0,0,.28);
 
-  animation:
-    fadeUp .65s ease both;
+  animation:fadeUp .65s ease both;
 }
 
 .welcome h1{
@@ -559,8 +512,7 @@ a{
 
   margin-top:9px;
 
-  font-size:
-    clamp(35px,7vw,50px);
+  font-size:clamp(35px,7vw,50px);
 
   font-weight:950;
 
@@ -621,10 +573,7 @@ a{
   box-shadow:
     0 12px 38px rgba(0,0,0,.2);
 
-  transition:
-    transform .35s ease,
-    border-color .35s ease,
-    box-shadow .35s ease;
+  transition:.35s ease;
 }
 
 .stat-card:hover{
@@ -682,7 +631,7 @@ a{
 
 
 /* =========================
-   SECTION
+   SECTION TITLE
 ========================= */
 
 .section-title{
@@ -770,11 +719,7 @@ a{
   box-shadow:
     0 12px 35px rgba(0,0,0,.18);
 
-  transition:
-    transform .35s ease,
-    border-color .35s ease,
-    background .35s ease,
-    box-shadow .35s ease;
+  transition:.35s ease;
 }
 
 .action:hover{
@@ -801,9 +746,6 @@ a{
 }
 
 .action-icon{
-  position:relative;
-  z-index:2;
-
   width:51px;
   height:51px;
 
@@ -821,8 +763,7 @@ a{
   border:
     1px solid rgba(255,255,255,.09);
 
-  transition:
-    transform .35s ease;
+  transition:.35s ease;
 }
 
 .action:hover .action-icon{
@@ -832,14 +773,30 @@ a{
 }
 
 .action-name{
-  position:relative;
-  z-index:2;
-
   font-size:13px;
 
   font-weight:750;
 
   color:#e3e5ee;
+}
+
+
+/* =========================
+   ANIMATION
+========================= */
+
+@keyframes fadeUp{
+
+  from{
+    opacity:0;
+    transform:translateY(20px);
+  }
+
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+
 }
 
 
@@ -857,12 +814,12 @@ a{
   .brand-logo{
     width:37px;
     height:37px;
-
     border-radius:12px;
   }
 
   .brand-logo img{
     border-radius:10px;
+    padding:2px;
   }
 
   .brand-name{
@@ -876,7 +833,6 @@ a{
 
   .container{
     width:min(100% - 22px,1050px);
-
     padding-top:18px;
   }
 
@@ -891,9 +847,7 @@ a{
 
   .balance-card{
     min-height:178px;
-
     padding:23px;
-
     border-radius:23px;
   }
 
@@ -935,9 +889,7 @@ a{
   .action-icon{
     width:45px;
     height:45px;
-
     border-radius:14px;
-
     font-size:21px;
   }
 
@@ -967,26 +919,8 @@ a{
 
 }
 
-
-/* =========================
-   ANIMATION
-========================= */
-
-@keyframes fadeUp{
-
-  from{
-    opacity:0;
-    transform:translateY(20px);
-  }
-
-  to{
-    opacity:1;
-    transform:translateY(0);
-  }
-
-}
-
 </style>
+
 </head>
 
 
@@ -1010,12 +944,16 @@ a{
 
   <div class="brand">
 
-    <!-- logo.png -->
+    <!-- ACTUAL LOGO -->
     <div class="brand-logo">
 
       <img
-        src="logo.png"
-        alt="TRUE WALK Logo"
+        src="./logo.png"
+        alt="TRUE WALK"
+        onerror="
+          this.style.display='none';
+          this.parentElement.innerHTML='TW';
+        "
       >
 
     </div>
@@ -1267,7 +1205,7 @@ function formatMoney(amount){
 
 
 /* =========================
-   LOAD USER
+   LOAD HOME
 ========================= */
 
 async function loadHome(){
@@ -1304,8 +1242,6 @@ async function loadHome(){
     );
 
 
-    /* USER */
-
     if(data.user){
 
       document.getElementById(
@@ -1323,8 +1259,6 @@ async function loadHome(){
 
     }
 
-
-    /* BALANCE */
 
     if(
       data.balance !== undefined
@@ -1387,7 +1321,6 @@ async function loadHome(){
         ){
 
           let totalDeposit = 0;
-
           let totalWithdrawal = 0;
 
 
@@ -1524,6 +1457,7 @@ document
 loadHome();
 
 </script>
+
 
 </body>
 </html>
