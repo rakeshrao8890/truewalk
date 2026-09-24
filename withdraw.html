@@ -40,7 +40,6 @@
 
     body {
       min-height: 100vh;
-
       font-family:
         Inter,
         -apple-system,
@@ -78,10 +77,6 @@
       overflow-x: hidden;
     }
 
-    /* =================================
-       AMBIENT ORBS
-    ================================= */
-
     body::before,
     body::after {
       content: "";
@@ -91,13 +86,9 @@
       height: 340px;
 
       border-radius: 50%;
-
       filter: blur(100px);
-
       pointer-events: none;
-
       z-index: -1;
-
       opacity: .55;
 
       animation:
@@ -143,10 +134,6 @@
           scale(1.12);
       }
     }
-
-    /* =================================
-       TOP BAR
-    ================================= */
 
     .topbar {
       position: sticky;
@@ -239,7 +226,6 @@
       height: 38px;
 
       object-fit: contain;
-
       border-radius: 12px;
 
       filter:
@@ -254,7 +240,6 @@
     .brand span {
       font-size: 14px;
       font-weight: 950;
-
       letter-spacing: 1.8px;
 
       background:
@@ -298,10 +283,6 @@
       }
     }
 
-    /* =================================
-       MAIN CONTAINER
-    ================================= */
-
     .container {
       width: min(100% - 28px, 760px);
 
@@ -310,10 +291,6 @@
       padding:
         29px 0 55px;
     }
-
-    /* =================================
-       PAGE HEADING
-    ================================= */
 
     .page-heading {
       margin-bottom: 20px;
@@ -327,9 +304,7 @@
         clamp(28px, 7vw, 42px);
 
       line-height: 1.05;
-
       font-weight: 950;
-
       letter-spacing: -1.6px;
     }
 
@@ -373,16 +348,11 @@
       }
     }
 
-    /* =================================
-       BALANCE CARD
-    ================================= */
-
     .balance-card {
       position: relative;
       overflow: hidden;
 
       margin-bottom: 18px;
-
       padding: 25px;
 
       border-radius: 25px;
@@ -518,16 +488,11 @@
       font-size: 11px;
     }
 
-    /* =================================
-       GENERAL CARD
-    ================================= */
-
     .card {
       position: relative;
       overflow: hidden;
 
       padding: 22px;
-
       margin-bottom: 18px;
 
       border-radius: 24px;
@@ -632,10 +597,6 @@
       font-size: 11px;
     }
 
-    /* =================================
-       MESSAGE
-    ================================= */
-
     #message {
       position: relative;
       z-index: 2;
@@ -643,7 +604,6 @@
       display: none;
 
       padding: 13px 14px;
-
       margin-bottom: 16px;
 
       border-radius: 14px;
@@ -668,10 +628,6 @@
         transform: translateY(0);
       }
     }
-
-    /* =================================
-       FORM
-    ================================= */
 
     .form-group {
       position: relative;
@@ -778,10 +734,6 @@
         translateY(-1px);
     }
 
-    /* =================================
-       METHOD BOX
-    ================================= */
-
     .method-box {
       display: none;
 
@@ -789,7 +741,6 @@
       z-index: 1;
 
       margin-top: 8px;
-
       padding: 17px;
 
       border-radius: 18px;
@@ -871,10 +822,6 @@
         opacity: 1;
       }
     }
-
-    /* =================================
-       SUBMIT BUTTON
-    ================================= */
 
     .submit-btn {
       position: relative;
@@ -1016,10 +963,6 @@
       }
     }
 
-    /* =================================
-       HISTORY
-    ================================= */
-
     .history-card {
       animation-delay: .2s;
     }
@@ -1135,10 +1078,6 @@
       font-size: 11px;
     }
 
-    /* =================================
-       STATUS
-    ================================= */
-
     .status {
       display: inline-flex;
       align-items: center;
@@ -1203,10 +1142,6 @@
         1px solid rgba(255,100,124,.17);
     }
 
-    /* =================================
-       WITHDRAW DETAILS
-    ================================= */
-
     .withdraw-details {
       margin-top: 14px;
 
@@ -1242,10 +1177,6 @@
       word-break: break-word;
     }
 
-    /* =================================
-       ANIMATION
-    ================================= */
-
     @keyframes fadeUp {
       from {
         opacity: 0;
@@ -1275,10 +1206,6 @@
         transform: translateY(0);
       }
     }
-
-    /* =================================
-       MOBILE
-    ================================= */
 
     @media (max-width: 560px) {
 
@@ -1354,10 +1281,6 @@
       }
     }
 
-    /* =================================
-       REDUCED MOTION
-    ================================= */
-
     @media (prefers-reduced-motion: reduce) {
 
       *,
@@ -1403,8 +1326,6 @@
 
   <main class="container">
 
-    <!-- PAGE HEADING -->
-
     <section class="page-heading">
 
       <h1>
@@ -1417,8 +1338,6 @@
 
     </section>
 
-
-    <!-- BALANCE -->
 
     <section class="balance-card">
 
@@ -1436,8 +1355,6 @@
 
     </section>
 
-
-    <!-- WITHDRAW FORM -->
 
     <section class="card">
 
@@ -1514,8 +1431,6 @@
         </div>
 
 
-        <!-- UPI -->
-
         <div
           id="upiBox"
           class="method-box">
@@ -1549,8 +1464,6 @@
 
         </div>
 
-
-        <!-- BANK -->
 
         <div
           id="bankBox"
@@ -1655,8 +1568,6 @@
 
     </section>
 
-
-    <!-- HISTORY -->
 
     <section class="card history-card">
 
@@ -1948,7 +1859,7 @@
       );
 
 
-    /* SUBMIT */
+    /* SUBMIT WITHDRAWAL */
 
     document
       .getElementById(
@@ -2190,29 +2101,12 @@
 
 
           /*
-            EXISTING VIP5 BLOCK
-            Kept exactly in place so backend/business logic
-            is not changed.
+            VIP 5 POPUP REMOVED.
+
+            VIP 5 OFF hone par normal
+            withdrawal directly API par jayega.
           */
 
-          alert(
-            "VIP 5 ₹2500 Buy and Withdraw."
-          );
-
-
-          showMessage(
-            "VIP 5 ₹2500 Buy and Withdraw.",
-            "error"
-          );
-
-
-          return;
-
-
-          /*
-            EXISTING WITHDRAWAL API
-            This remains unchanged.
-          */
 
           try {
 
@@ -2234,6 +2128,9 @@
 
                   headers: {
                     "Content-Type":
+                      "application/json",
+
+                    "Accept":
                       "application/json"
                   },
 
