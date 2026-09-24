@@ -813,12 +813,14 @@ th{
         <thead>
 
           <tr>
+
             <th>ID</th>
             <th>Name</th>
             <th>Phone</th>
             <th>Balance</th>
             <th>Registered</th>
             <th>Action</th>
+
           </tr>
 
         </thead>
@@ -869,6 +871,7 @@ th{
         <thead>
 
           <tr>
+
             <th>ID</th>
             <th>Name</th>
             <th>Phone</th>
@@ -878,6 +881,7 @@ th{
             <th>VIP 5</th>
             <th>Account</th>
             <th>Login</th>
+
           </tr>
 
         </thead>
@@ -1208,18 +1212,6 @@ async function checkAdmin(){
     );
 
 
-    /*
-      SERVER RESPONSE:
-
-      {
-        success: true,
-        admin: true
-      }
-
-      IMPORTANT:
-      Server uses "admin", not "isAdmin".
-    */
-
     if(
       result &&
       result.success === true &&
@@ -1245,10 +1237,6 @@ async function checkAdmin(){
       error
     );
 
-
-    /*
-      If session expired, return to login.
-    */
 
     if(error.status === 401){
 
@@ -1946,7 +1934,7 @@ async function loginAsUser(userId){
 
     const result =
       await api(
-        `/api/admin/users/${encodeURIComponent(userId)}/login-as`,
+        `/api/admin/users/${encodeURIComponent(userId)}/login`,
         {
           method:"POST"
         }
@@ -2636,10 +2624,6 @@ async function refreshAll(){
       error
     );
 
-
-    /*
-      If session expired, go back to login.
-    */
 
     if(error.status === 401){
 
