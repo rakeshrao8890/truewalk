@@ -894,490 +894,427 @@
 
 
     /* =====================================================
-       WELCOME POPUP
+       WELCOME POPUP - NEW PREMIUM DESIGN
     ===================================================== */
 
-    .welcome-overlay {
-      position: fixed;
-
-      inset: 0;
-
-      display: none;
-
-      align-items: center;
-      justify-content: center;
-
-      padding: 16px;
-
+    .welcome-overlay{
+      position:fixed;
+      inset:0;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
       background:
-        rgba(1,4,14,.84);
-
-      z-index: 99999;
-
-      backdrop-filter:
-        blur(16px);
-
-      -webkit-backdrop-filter:
-        blur(16px);
+        radial-gradient(circle at 50% 35%,rgba(35,103,255,.18),transparent 32%),
+        radial-gradient(circle at 15% 80%,rgba(0,210,255,.12),transparent 30%),
+        radial-gradient(circle at 90% 20%,rgba(190,35,255,.14),transparent 30%),
+        rgba(1,4,15,.88);
+      z-index:99999;
+      backdrop-filter:blur(16px);
+      -webkit-backdrop-filter:blur(16px);
     }
 
-    .welcome-overlay.show {
-      display: flex;
-
-      animation:
-        overlayIn .25s ease;
+    .welcome-overlay.show{
+      display:flex;
+      animation:overlayIn .25s ease;
     }
 
-    @keyframes overlayIn {
-
-      from {
-        opacity: 0;
-      }
-
-      to {
-        opacity: 1;
-      }
+    @keyframes overlayIn{
+      from{opacity:0}
+      to{opacity:1}
     }
 
-    .welcome-popup {
-      position: relative;
-
-      width: 100%;
-      max-width: 420px;
-
-      max-height: 92vh;
-
-      overflow-y: auto;
-
-      padding: 28px 19px 20px;
-
+    .welcome-popup{
+      position:relative;
+      width:min(100%,760px);
+      max-height:94vh;
+      overflow-y:auto;
+      padding:34px 42px 28px;
+      border-radius:30px;
       background:
-        linear-gradient(
-          145deg,
-          rgba(10,24,50,.98),
-          rgba(3,8,22,.99)
-        );
-
-      border:
-        1px solid
-        rgba(25,186,255,.20);
-
-      border-radius: 28px;
-
+        linear-gradient(145deg,rgba(4,22,55,.98),rgba(2,7,23,.99) 72%);
+      border:2px solid transparent;
+      background-clip:padding-box;
       box-shadow:
-        0 40px 110px
-        rgba(0,0,0,.76),
-        0 0 55px
-        rgba(25,186,255,.07),
-        inset 0 1px 0
-        rgba(255,255,255,.065);
-
-      animation:
-        popupShow .45s
-        cubic-bezier(.2,.8,.2,1);
+        0 45px 120px rgba(0,0,0,.78),
+        0 0 60px rgba(0,120,255,.15),
+        0 0 90px rgba(185,30,255,.08),
+        inset 0 1px 0 rgba(255,255,255,.08);
+      animation:popupShow .42s cubic-bezier(.2,.8,.2,1);
     }
 
-    .welcome-popup::before {
-      content: "";
-
-      position: absolute;
-
-      top: 0;
-      left: 15%;
-      right: 15%;
-
-      height: 1px;
-
-      background:
-        linear-gradient(
-          90deg,
-          transparent,
-          var(--blue),
-          var(--purple),
-          transparent
-        );
+    .welcome-popup::before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      z-index:-1;
+      border-radius:32px;
+      background:linear-gradient(135deg,#0bd8ff 0%,#237cff 34%,#9b3cff 67%,#ff21d4 100%);
     }
 
-    .welcome-popup::-webkit-scrollbar {
-      width: 4px;
+    .welcome-popup::after{
+      content:"";
+      position:absolute;
+      top:0;
+      left:8%;
+      right:8%;
+      height:1px;
+      background:linear-gradient(90deg,transparent,#19d8ff,#a75aff,#ff36d5,transparent);
+      box-shadow:0 0 18px rgba(25,186,255,.75);
     }
 
-    .welcome-popup::-webkit-scrollbar-thumb {
-      background:
-        #25314a;
-
-      border-radius: 20px;
+    .welcome-popup::-webkit-scrollbar{width:4px}
+    .welcome-popup::-webkit-scrollbar-thumb{
+      background:#293b64;
+      border-radius:20px;
     }
 
-    @keyframes popupShow {
-
-      from {
-        opacity: 0;
-
-        transform:
-          translateY(28px)
-          scale(.92);
+    @keyframes popupShow{
+      from{
+        opacity:0;
+        transform:translateY(25px) scale(.95);
       }
-
-      to {
-        opacity: 1;
-
-        transform:
-          translateY(0)
-          scale(1);
+      to{
+        opacity:1;
+        transform:translateY(0) scale(1);
       }
     }
 
-
-    /* =====================================================
-       POPUP HEADER
-    ===================================================== */
-
-    .popup-header {
-      text-align: center;
-
-      margin-bottom: 20px;
-    }
-
-    .popup-icon {
-      position: relative;
-
-      width: 65px;
-      height: 65px;
-
-      margin:
-        0 auto 14px;
-
-      border-radius: 50%;
-
-      display: flex;
-
-      align-items: center;
-      justify-content: center;
-
-      background:
-        linear-gradient(
-          135deg,
-          var(--blue),
-          var(--purple)
-        );
-
-      color: #fff;
-
-      font-size: 27px;
-      font-weight: 900;
-
+    .popup-close{
+      position:absolute;
+      top:24px;
+      right:24px;
+      width:48px;
+      height:48px;
+      border:1px solid rgba(80,123,255,.35);
+      border-radius:50%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:rgba(10,24,58,.82);
+      color:#fff;
+      font-size:30px;
+      font-weight:300;
+      line-height:1;
+      cursor:pointer;
       box-shadow:
-        0 0 35px
-        rgba(25,186,255,.22);
-
-      animation:
-        popupIcon 2.4s
-        ease-in-out infinite;
+        0 0 22px rgba(34,104,255,.16),
+        inset 0 1px 0 rgba(255,255,255,.08);
+      transition:.22s ease;
+      z-index:5;
     }
 
-    .popup-icon::after {
-      content: "";
-
-      position: absolute;
-
-      inset: -7px;
-
-      border:
-        1px solid
-        rgba(25,186,255,.25);
-
-      border-radius: 50%;
-
-      animation:
-        iconRing 2s ease-out infinite;
+    .popup-close:hover{
+      transform:rotate(90deg) scale(1.05);
+      border-color:#21cfff;
+      background:rgba(18,48,100,.9);
+      box-shadow:0 0 28px rgba(25,186,255,.30);
     }
 
-    @keyframes popupIcon {
-
-      0%, 100% {
-        transform:
-          translateY(0);
-      }
-
-      50% {
-        transform:
-          translateY(-4px);
-      }
+    .popup-header{
+      text-align:center;
+      margin-bottom:24px;
     }
 
-    @keyframes iconRing {
-
-      0% {
-        opacity: .8;
-
-        transform:
-          scale(.85);
-      }
-
-      100% {
-        opacity: 0;
-
-        transform:
-          scale(1.3);
-      }
-    }
-
-    .popup-header h2 {
-      font-size: 24px;
-
-      font-weight: 900;
-
-      background:
-        linear-gradient(
-          90deg,
-          #fff,
-          #67d7ff,
-          #b783ff,
-          #fff
-        );
-
-      background-size:
-        220% auto;
-
-      -webkit-background-clip: text;
-      background-clip: text;
-
-      -webkit-text-fill-color: transparent;
-
-      animation:
-        titleShine 5s linear infinite;
-    }
-
-    .popup-header p {
-      margin-top: 6px;
-
-      color: #75829a;
-
-      font-size: 12px;
-    }
-
-
-    /* =====================================================
-       POPUP INFO
-    ===================================================== */
-
-    .popup-info {
-      display: flex;
-
-      flex-direction: column;
-
-      gap: 9px;
-
-      margin-bottom: 17px;
-    }
-
-    .popup-item {
-      display: flex;
-
-      align-items: center;
-
-      gap: 11px;
-
-      padding: 10px;
-
-      background:
-        rgba(255,255,255,.035);
-
-      border:
-        1px solid
-        rgba(255,255,255,.065);
-
-      border-radius: 14px;
-
-      transition:
-        transform .2s ease,
-        background .2s ease,
-        border-color .2s ease;
-    }
-
-    .popup-item:hover {
-      transform:
-        translateX(3px);
-
-      background:
-        rgba(25,186,255,.055);
-
-      border-color:
-        rgba(25,186,255,.18);
-    }
-
-    .popup-item-icon {
-      width: 37px;
-      height: 37px;
-
-      min-width: 37px;
-
-      display: flex;
-
-      align-items: center;
-      justify-content: center;
-
-      border-radius: 11px;
-
-      background:
-        linear-gradient(
-          135deg,
-          rgba(25,186,255,.12),
-          rgba(155,77,255,.10)
-        );
-
-      color: #67d7ff;
-
-      font-size: 15px;
-
-      font-weight: 800;
-    }
-
-    .popup-item-text {
-      flex: 1;
-
-      min-width: 0;
-    }
-
-    .popup-item-title {
-      color: #63708a;
-
-      font-size: 10px;
-
-      margin-bottom: 3px;
-    }
-
-    .popup-item-value {
-      color: #e7ecf7;
-
-      font-size: 12px;
-
-      font-weight: 700;
-
-      line-height: 1.3;
-    }
-
-
-    /* =====================================================
-       TELEGRAM
-    ===================================================== */
-
-    .telegram-btn {
-      width: 100%;
-      height: 51px;
-
-      display: flex;
-
-      align-items: center;
-      justify-content: center;
-
-      gap: 8px;
-
-      margin-bottom: 10px;
-
-      background:
-        linear-gradient(
-          135deg,
-          #168dcc,
-          #27a9df
-        );
-
-      color: #fff;
-
-      text-decoration: none;
-
-      border-radius: 14px;
-
-      font-size: 13px;
-
-      font-weight: 800;
-
+    .popup-icon{
+      position:relative;
+      width:104px;
+      height:104px;
+      margin:0 auto 18px;
+      border-radius:50%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:linear-gradient(135deg,#0dcfff 0%,#456bff 45%,#a72cff 72%,#ff18d2 100%);
+      border:3px solid rgba(255,255,255,.32);
+      color:#fff;
+      font-size:58px;
+      font-weight:800;
+      line-height:1;
       box-shadow:
-        0 10px 25px
-        rgba(34,158,217,.13);
-
-      transition:
-        transform .2s ease,
-        box-shadow .2s ease;
+        0 0 0 9px rgba(25,186,255,.08),
+        0 0 34px rgba(25,186,255,.42),
+        0 0 55px rgba(165,46,255,.25);
     }
 
-    .telegram-btn:hover {
-      transform:
-        translateY(-2px);
-
-      box-shadow:
-        0 15px 30px
-        rgba(34,158,217,.22);
+    .popup-icon::after{
+      content:"";
+      position:absolute;
+      inset:-15px;
+      border-radius:50%;
+      border:1px solid rgba(25,186,255,.20);
+      box-shadow:0 0 30px rgba(25,186,255,.10);
     }
 
+    .popup-header h2{
+      font-size:52px;
+      line-height:1;
+      font-weight:950;
+      letter-spacing:.2px;
+      color:#fff;
+      text-shadow:0 0 20px rgba(255,255,255,.10);
+    }
 
-    /* =====================================================
-       START BUTTON
-    ===================================================== */
+    .popup-header h2::first-letter{
+      color:#fff;
+    }
 
-    .start-btn {
-      width: 100%;
-      height: 52px;
+    .popup-header p{
+      margin-top:11px;
+      color:#a8b8d7;
+      font-size:24px;
+      letter-spacing:.2px;
+    }
 
-      border: none;
+    .popup-header::after{
+      content:"";
+      display:block;
+      width:150px;
+      height:4px;
+      margin:18px auto 0;
+      border-radius:10px;
+      background:linear-gradient(90deg,#08d9ff,#6174ff,#c43dff,#ff35d5);
+      box-shadow:0 0 15px rgba(25,186,255,.38);
+    }
 
-      border-radius: 14px;
+    .popup-info{
+      display:flex;
+      flex-direction:column;
+      gap:13px;
+      margin-bottom:18px;
+    }
 
+    .popup-item{
+      position:relative;
+      min-height:88px;
+      display:flex;
+      align-items:center;
+      gap:20px;
+      padding:14px 20px;
+      border-radius:23px;
       background:
-        linear-gradient(
-          110deg,
-          var(--blue),
-          var(--blue2),
-          var(--purple)
-        );
-
-      background-size:
-        220% 220%;
-
-      color: #fff;
-
-      font-size: 13px;
-
-      font-weight: 900;
-
-      cursor: pointer;
-
-      transition:
-        transform .2s ease,
-        box-shadow .2s ease;
-
-      animation:
-        buttonGradient 6s ease infinite;
-    }
-
-    .start-btn:hover {
-      transform:
-        translateY(-2px);
-
+        linear-gradient(110deg,rgba(9,34,83,.80),rgba(4,14,42,.82));
+      border:2px solid rgba(30,101,225,.48);
       box-shadow:
-        0 12px 30px
-        rgba(25,186,255,.18);
+        inset 0 1px 0 rgba(255,255,255,.045),
+        0 8px 25px rgba(0,0,0,.20);
+      transition:.22s ease;
     }
 
-    .start-btn:active {
-      transform:
-        scale(.97);
+    .popup-item:nth-child(1){border-color:rgba(0,167,255,.52)}
+    .popup-item:nth-child(2){border-color:rgba(80,75,255,.50)}
+    .popup-item:nth-child(3){border-color:rgba(0,184,255,.48)}
+    .popup-item:nth-child(4){border-color:rgba(139,55,255,.58)}
+    .popup-item:nth-child(5){border-color:rgba(0,207,205,.50)}
+
+    .popup-item:hover{
+      transform:translateY(-2px);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.06),
+        0 12px 30px rgba(0,0,0,.28),
+        0 0 22px rgba(30,129,255,.10);
     }
 
-    .popup-note {
-      text-align: center;
-
-      color: #48546b;
-
-      font-size: 9px;
-
-      line-height: 1.5;
-
-      margin-top: 12px;
+    .popup-item-icon{
+      width:62px;
+      height:62px;
+      min-width:62px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border-radius:17px;
+      background:linear-gradient(145deg,#08cfff,#246fff 55%,#723dff);
+      border:2px solid rgba(100,220,255,.62);
+      color:#fff;
+      font-size:30px;
+      font-weight:900;
+      box-shadow:
+        0 0 22px rgba(0,178,255,.28),
+        inset 0 1px 0 rgba(255,255,255,.20);
     }
 
+    .popup-item:nth-child(2) .popup-item-icon,
+    .popup-item:nth-child(4) .popup-item-icon{
+      background:linear-gradient(145deg,#743cff,#a71dff,#eb25d8);
+      border-color:rgba(212,130,255,.65);
+      box-shadow:0 0 22px rgba(166,54,255,.28);
+    }
 
+    .popup-item:nth-child(5) .popup-item-icon{
+      background:linear-gradient(145deg,#00dcb9,#00a9cf,#1678ff);
+      border-color:rgba(50,255,224,.58);
+    }
+
+    .popup-item-text{
+      flex:1;
+      min-width:0;
+    }
+
+    .popup-item-title{
+      color:#aebedb;
+      font-size:14px;
+      font-weight:700;
+      letter-spacing:.7px;
+      text-transform:uppercase;
+      margin-bottom:5px;
+    }
+
+    .popup-item-value{
+      color:#fff;
+      font-size:20px;
+      font-weight:850;
+      line-height:1.25;
+    }
+
+    .popup-item::after{
+      content:"›";
+      margin-left:auto;
+      color:#a9c8ff;
+      font-size:39px;
+      line-height:1;
+      font-weight:300;
+    }
+
+    .referral-banner{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      min-height:62px;
+      margin:4px 0 16px;
+      padding:10px 18px;
+      border-radius:18px;
+      background:
+        linear-gradient(100deg,rgba(255,157,25,.13),rgba(255,45,198,.13),rgba(87,55,255,.16));
+      border:1px solid rgba(255,169,47,.42);
+      box-shadow:
+        0 0 25px rgba(255,104,28,.08),
+        inset 0 1px 0 rgba(255,255,255,.06);
+      color:#fff;
+      text-align:center;
+    }
+
+    .referral-banner .referral-icon{
+      font-size:24px;
+    }
+
+    .referral-banner strong{
+      font-size:19px;
+      letter-spacing:.2px;
+    }
+
+    .referral-banner b{
+      color:#ffd05a;
+      text-shadow:0 0 14px rgba(255,185,52,.32);
+    }
+
+    .telegram-btn{
+      width:100%;
+      min-height:72px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:14px;
+      margin-bottom:13px;
+      padding:12px 20px;
+      background:linear-gradient(105deg,#0acfff 0%,#116cff 42%,#8d29ff 72%,#ff19d4 100%);
+      color:#fff;
+      text-decoration:none;
+      border:2px solid rgba(0,218,255,.62);
+      border-radius:22px;
+      font-size:21px;
+      font-weight:900;
+      box-shadow:
+        0 14px 35px rgba(26,100,255,.22),
+        0 0 28px rgba(191,39,255,.14);
+      transition:.22s ease;
+    }
+
+    .telegram-btn::after{
+      content:"→";
+      margin-left:auto;
+      font-size:34px;
+      font-weight:300;
+    }
+
+    .telegram-btn:hover{
+      transform:translateY(-3px);
+      box-shadow:
+        0 18px 42px rgba(26,100,255,.30),
+        0 0 38px rgba(191,39,255,.20);
+    }
+
+    .start-btn{
+      width:100%;
+      min-height:70px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:12px;
+      position:relative;
+      border:2px solid transparent;
+      border-radius:22px;
+      background:
+        linear-gradient(#06132e,#06132e) padding-box,
+        linear-gradient(100deg,#08cfff,#3573ff,#a63cff,#ff25d5) border-box;
+      color:#fff;
+      font-size:21px;
+      font-weight:900;
+      cursor:pointer;
+      transition:.22s ease;
+    }
+
+    .start-btn::before{
+      content:"🚀";
+      font-size:23px;
+    }
+
+    .start-btn::after{
+      content:"→";
+      position:absolute;
+      right:25px;
+      font-size:33px;
+      font-weight:300;
+      color:#c6b0ff;
+    }
+
+    .start-btn:hover{
+      transform:translateY(-3px);
+      background:
+        linear-gradient(rgba(12,33,72,.95),rgba(12,33,72,.95)) padding-box,
+        linear-gradient(100deg,#08cfff,#3573ff,#a63cff,#ff25d5) border-box;
+      box-shadow:0 14px 35px rgba(57,88,255,.18);
+    }
+
+    .start-btn:active{
+      transform:scale(.98);
+    }
+
+    .popup-note{
+      position:relative;
+      text-align:center;
+      color:#8090ad;
+      font-size:12px;
+      line-height:1.5;
+      margin-top:20px;
+      padding:0 40px;
+    }
+
+    .popup-note::before,
+    .popup-note::after{
+      content:"";
+      position:absolute;
+      top:50%;
+      width:58px;
+      height:1px;
+      background:linear-gradient(90deg,transparent,#34518c);
+    }
+
+    .popup-note::before{left:0}
+    .popup-note::after{
+      right:0;
+      background:linear-gradient(90deg,#34518c,transparent);
+    }
     /* =====================================================
        MOBILE
     ===================================================== */
@@ -1442,6 +1379,232 @@
       }
     }
 
+
+    /* =====================================================
+       NEW POPUP MOBILE
+    ===================================================== */
+
+    @media (max-width: 700px){
+
+      .welcome-overlay{
+        padding:10px;
+        align-items:center;
+      }
+
+      .welcome-popup{
+        width:100%;
+        max-width:430px;
+        max-height:94svh;
+        padding:25px 13px 17px;
+        border-radius:24px;
+      }
+
+      .welcome-popup::before{
+        border-radius:26px;
+      }
+
+      .popup-close{
+        top:13px;
+        right:13px;
+        width:38px;
+        height:38px;
+        font-size:25px;
+      }
+
+      .popup-header{
+        margin-bottom:17px;
+        padding-top:2px;
+      }
+
+      .popup-icon{
+        width:72px;
+        height:72px;
+        margin-bottom:13px;
+        font-size:40px;
+        border-width:2px;
+      }
+
+      .popup-icon::after{
+        inset:-9px;
+      }
+
+      .popup-header h2{
+        font-size:30px;
+      }
+
+      .popup-header p{
+        margin-top:6px;
+        font-size:14px;
+      }
+
+      .popup-header::after{
+        width:90px;
+        height:3px;
+        margin-top:11px;
+      }
+
+      .popup-info{
+        gap:8px;
+        margin-bottom:12px;
+      }
+
+      .popup-item{
+        min-height:64px;
+        gap:10px;
+        padding:8px 9px;
+        border-radius:15px;
+        border-width:1px;
+      }
+
+      .popup-item-icon{
+        width:43px;
+        height:43px;
+        min-width:43px;
+        border-radius:12px;
+        font-size:20px;
+        border-width:1px;
+      }
+
+      .popup-item-title{
+        font-size:8px;
+        letter-spacing:.45px;
+        margin-bottom:3px;
+      }
+
+      .popup-item-value{
+        font-size:11px;
+        line-height:1.2;
+      }
+
+      .popup-item::after{
+        font-size:25px;
+      }
+
+      .referral-banner{
+        min-height:49px;
+        margin:3px 0 11px;
+        padding:7px 9px;
+        border-radius:13px;
+      }
+
+      .referral-banner .referral-icon{
+        font-size:17px;
+      }
+
+      .referral-banner strong{
+        font-size:12px;
+      }
+
+      .telegram-btn{
+        min-height:50px;
+        margin-bottom:8px;
+        padding:8px 11px;
+        border-radius:15px;
+        border-width:1px;
+        font-size:13px;
+      }
+
+      .telegram-btn::after{
+        font-size:23px;
+      }
+
+      .start-btn{
+        min-height:50px;
+        border-radius:15px;
+        font-size:13px;
+        border-width:1px;
+      }
+
+      .start-btn::before{
+        font-size:17px;
+      }
+
+      .start-btn::after{
+        right:15px;
+        font-size:23px;
+      }
+
+      .popup-note{
+        font-size:8px;
+        margin-top:11px;
+        padding:0 18px;
+      }
+
+      .popup-note::before,
+      .popup-note::after{
+        display:none;
+      }
+    }
+
+    @media (max-width: 370px){
+
+      .welcome-overlay{
+        padding:7px;
+      }
+
+      .welcome-popup{
+        max-height:96svh;
+        padding:20px 9px 13px;
+        border-radius:20px;
+      }
+
+      .popup-close{
+        top:9px;
+        right:9px;
+        width:34px;
+        height:34px;
+        font-size:22px;
+      }
+
+      .popup-icon{
+        width:62px;
+        height:62px;
+        font-size:34px;
+        margin-bottom:10px;
+      }
+
+      .popup-header h2{
+        font-size:25px;
+      }
+
+      .popup-header p{
+        font-size:12px;
+      }
+
+      .popup-item{
+        min-height:59px;
+        padding:7px;
+      }
+
+      .popup-item-icon{
+        width:39px;
+        height:39px;
+        min-width:39px;
+        font-size:18px;
+      }
+
+      .popup-item-title{
+        font-size:7px;
+      }
+
+      .popup-item-value{
+        font-size:10px;
+      }
+
+      .referral-banner strong{
+        font-size:10px;
+      }
+
+      .telegram-btn,
+      .start-btn{
+        min-height:46px;
+        font-size:12px;
+      }
+
+      .popup-note{
+        font-size:7px;
+      }
+    }
 
     /* =====================================================
        REDUCED MOTION
@@ -1630,135 +1793,75 @@
 
     <div class="welcome-popup">
 
-      <!-- Header -->
+      <button
+        type="button"
+        class="popup-close"
+        aria-label="Close"
+        onclick="document.getElementById('startBtn').click()"
+      >×</button>
+
       <div class="popup-header">
 
-        <div class="popup-icon">
-          ✓
-        </div>
+        <div class="popup-icon">✓</div>
 
-        <h2>
-          Tuborg Invest
-        </h2>
+        <h2>Tuborg Invest</h2>
 
-        <p>
-          Investment Platform
-        </p>
+        <p>Investment Platform</p>
 
       </div>
 
 
-      <!-- Information -->
       <div class="popup-info">
 
         <div class="popup-item">
-
-          <div class="popup-item-icon">
-            ₹
-          </div>
-
+          <div class="popup-item-icon">₹</div>
           <div class="popup-item-text">
-
-            <div class="popup-item-title">
-              Min. Withdrawal
-            </div>
-
-            <div class="popup-item-value">
-              ₹120.00 minimum
-            </div>
-
+            <div class="popup-item-title">Min. Withdrawal</div>
+            <div class="popup-item-value">₹120.00 minimum</div>
           </div>
-
         </div>
 
-
         <div class="popup-item">
-
-          <div class="popup-item-icon">
-            ⏱
-          </div>
-
+          <div class="popup-item-icon">◷</div>
           <div class="popup-item-text">
-
-            <div class="popup-item-title">
-              Withdrawal Time
-            </div>
-
-            <div class="popup-item-value">
-              Processed within 24 hours
-            </div>
-
+            <div class="popup-item-title">Withdrawal Time</div>
+            <div class="popup-item-value">Processed within 24 hours</div>
           </div>
-
         </div>
 
-
         <div class="popup-item">
-
-          <div class="popup-item-icon">
-            %
-          </div>
-
+          <div class="popup-item-icon">▟</div>
           <div class="popup-item-text">
-
-            <div class="popup-item-title">
-              Daily Income
-            </div>
-
-            <div class="popup-item-value">
-              Earn &amp; withdraw every day
-            </div>
-
+            <div class="popup-item-title">Daily Income</div>
+            <div class="popup-item-value">Earn &amp; withdraw every day</div>
           </div>
-
         </div>
 
-
         <div class="popup-item">
-
-          <div class="popup-item-icon">
-            %
-          </div>
-
+          <div class="popup-item-icon">%</div>
           <div class="popup-item-text">
-
-            <div class="popup-item-title">
-              Withdrawal Tax
-            </div>
-
-            <div class="popup-item-value">
-              10% maintenance fee
-            </div>
-
+            <div class="popup-item-title">Withdrawal Tax</div>
+            <div class="popup-item-value">10% maintenance fee</div>
           </div>
-
         </div>
 
-
         <div class="popup-item">
-
-          <div class="popup-item-icon">
-            ✓
-          </div>
-
+          <div class="popup-item-icon">✓</div>
           <div class="popup-item-text">
-
-            <div class="popup-item-title">
-              Safe &amp; Secure
-            </div>
-
-            <div class="popup-item-value">
-              Platform security information
-            </div>
-
+            <div class="popup-item-title">Safe &amp; Secure</div>
+            <div class="popup-item-value">Platform security information</div>
           </div>
-
         </div>
 
       </div>
 
 
-      <!-- Telegram -->
+      <div class="referral-banner">
+        <span class="referral-icon">🎁</span>
+        <strong>4 Active Members Refer • <b>Instant ₹4,000</b></strong>
+      </div>
+
+
       <a
         href="https://t.me/officialApllication"
         target="_blank"
@@ -1769,7 +1872,6 @@
       </a>
 
 
-      <!-- Continue -->
       <button
         type="button"
         class="start-btn"
@@ -1780,8 +1882,7 @@
 
 
       <div class="popup-note">
-        Please review the applicable platform terms and
-        conditions before using financial features.
+        Please review the applicable platform terms and conditions before using financial features.
       </div>
 
     </div>
