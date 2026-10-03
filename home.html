@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -178,106 +177,77 @@ a{
   display:flex;
   align-items:center;
   gap:11px;
-
-  min-width:0;
 }
 
 
 /* =========================
    LOGO
-   STATIC — NO ANIMATION
 ========================= */
 
 .brand-logo{
   position:relative;
 
-  width:52px;
-  height:52px;
-
-  min-width:52px;
-  min-height:52px;
-
-  flex:0 0 52px;
+  width:42px;
+  height:42px;
 
   display:flex;
   align-items:center;
   justify-content:center;
 
-  border-radius:10px;
+  border-radius:14px;
 
-  overflow:visible;
+  overflow:hidden;
 
-  background:transparent;
+  background:#111827;
 
-  border:none;
+  border:
+    1px solid rgba(255,255,255,.15);
 
-  box-shadow:none;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.08),
+    0 0 25px rgba(53,167,255,.32),
+    0 0 40px rgba(139,92,246,.18);
 
-  animation:none !important;
-  transform:none !important;
-  transition:none !important;
+  animation:logoGlow 4s ease-in-out infinite;
 }
 
-
-/* =========================
-   FULL LOGO
-========================= */
-
 .brand-logo img{
-  display:block;
-
   width:100%;
   height:100%;
 
-  min-width:0;
-  min-height:0;
-
-  max-width:none;
-  max-height:none;
+  display:block;
 
   object-fit:contain;
-  object-position:center;
 
-  padding:0;
-  margin:0;
+  padding:3px;
 
-  border:none;
-  border-radius:0;
-
-  background:transparent;
-
-  animation:none !important;
-  transform:none !important;
-  transition:none !important;
+  border-radius:12px;
 }
 
+@keyframes logoGlow{
 
-/* =========================
-   LOGO HOVER OFF
-========================= */
+  0%,100%{
+    transform:translateY(0);
 
-.brand-logo:hover{
-  animation:none !important;
-  transform:none !important;
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,.08),
+      0 0 22px rgba(53,167,255,.28);
+  }
 
-  background:transparent;
+  50%{
+    transform:translateY(-2px);
 
-  border:none;
-
-  box-shadow:none;
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,.15),
+      0 0 34px rgba(139,92,246,.38);
+  }
 }
 
-
-/* =========================
-   BRAND NAME
-========================= */
 
 .brand-name{
   font-size:18px;
   font-weight:900;
   letter-spacing:.5px;
-
-  white-space:nowrap;
 }
 
 .brand-name span{
@@ -842,33 +812,14 @@ a{
   }
 
   .brand-logo{
-    width:48px;
-    height:48px;
-
-    min-width:48px;
-    min-height:48px;
-
-    flex-basis:48px;
-
-    border-radius:9px;
-
-    animation:none !important;
-    transform:none !important;
-    transition:none !important;
+    width:37px;
+    height:37px;
+    border-radius:12px;
   }
 
   .brand-logo img{
-    width:100%;
-    height:100%;
-
-    padding:0;
-
-    object-fit:contain;
-    object-position:center;
-
-    animation:none !important;
-    transform:none !important;
-    transition:none !important;
+    border-radius:10px;
+    padding:2px;
   }
 
   .brand-name{
@@ -948,28 +899,7 @@ a{
 
 }
 
-
 @media(max-width:390px){
-
-  .brand-logo{
-    width:46px;
-    height:46px;
-
-    min-width:46px;
-    min-height:46px;
-
-    flex-basis:46px;
-
-    animation:none !important;
-    transform:none !important;
-  }
-
-  .brand-logo img{
-    padding:0;
-
-    animation:none !important;
-    transform:none !important;
-  }
 
   .brand-name{
     font-size:15px;
@@ -1014,15 +944,16 @@ a{
 
   <div class="brand">
 
-    <!-- STATIC FULL LOGO -->
-
+    <!-- ACTUAL LOGO -->
     <div class="brand-logo">
 
       <img
         src="./logo.png"
-        alt="TRUE WALK Logo"
-        loading="eager"
-        decoding="async"
+        alt="TRUE WALK"
+        onerror="
+          this.style.display='none';
+          this.parentElement.innerHTML='TW';
+        "
       >
 
     </div>
@@ -1530,4 +1461,3 @@ loadHome();
 
 </body>
 </html>
-```
