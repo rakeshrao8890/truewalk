@@ -184,7 +184,8 @@ a{
 
 
 /* =========================
-   LOGO - FIXED
+   LOGO
+   ANIMATION REMOVED
 ========================= */
 
 .brand-logo{
@@ -216,14 +217,17 @@ a{
     0 0 25px rgba(53,167,255,.32),
     0 0 40px rgba(139,92,246,.18);
 
-  animation:logoGlow 4s ease-in-out infinite;
+  /* NO LOGO ANIMATION */
+  animation:none;
+
+  transform:none;
 }
 
-/*
-  IMPORTANT:
-  Logo image keeps its original proportion.
-  It will never stretch or crop.
-*/
+
+/* =========================
+   LOGO IMAGE
+========================= */
+
 .brand-logo img{
   display:block;
 
@@ -241,40 +245,25 @@ a{
   border-radius:12px;
 
   background:transparent;
+
+  /* NO IMAGE ANIMATION */
+  animation:none;
+
+  transform:none;
 }
 
 
-/* Logo hover */
+/* =========================
+   LOGO HOVER
+========================= */
 
 .brand-logo:hover{
-  transform:scale(1.04);
+  transform:none;
 
   box-shadow:
-    0 0 0 1px rgba(255,255,255,.13),
-    0 0 30px rgba(53,167,255,.38),
-    0 0 45px rgba(139,92,246,.25);
-}
-
-
-/* Logo animation */
-
-@keyframes logoGlow{
-
-  0%,100%{
-    transform:translateY(0);
-
-    box-shadow:
-      0 0 0 1px rgba(255,255,255,.08),
-      0 0 22px rgba(53,167,255,.28);
-  }
-
-  50%{
-    transform:translateY(-2px);
-
-    box-shadow:
-      0 0 0 1px rgba(255,255,255,.15),
-      0 0 34px rgba(139,92,246,.38);
-  }
+    0 0 0 1px rgba(255,255,255,.08),
+    0 0 25px rgba(53,167,255,.32),
+    0 0 40px rgba(139,92,246,.18);
 }
 
 
@@ -851,7 +840,6 @@ a{
     padding:0 14px;
   }
 
-  /* MOBILE LOGO */
   .brand-logo{
     width:42px;
     height:42px;
@@ -862,6 +850,9 @@ a{
     flex-basis:42px;
 
     border-radius:13px;
+
+    animation:none;
+    transform:none;
   }
 
   .brand-logo img{
@@ -874,6 +865,9 @@ a{
 
     object-fit:contain;
     object-position:center;
+
+    animation:none;
+    transform:none;
   }
 
   .brand-name{
@@ -963,10 +957,15 @@ a{
     min-height:40px;
 
     flex-basis:40px;
+
+    animation:none;
+    transform:none;
   }
 
   .brand-logo img{
     padding:3px;
+    animation:none;
+    transform:none;
   }
 
   .brand-name{
@@ -1011,12 +1010,6 @@ a{
 <header class="header">
 
   <div class="brand">
-
-    <!-- =========================
-         ACTUAL LOGO
-         logo.png must be in same
-         folder as home.html
-    ========================== -->
 
     <div class="brand-logo">
 
