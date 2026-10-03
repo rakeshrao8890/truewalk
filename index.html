@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -270,7 +271,7 @@
     }
 
     /* =========================
-       LOGO - FIXED
+       LOGO - STATIC / FULL LOGO
     ========================= */
 
     .logo-wrap {
@@ -287,16 +288,21 @@
 
       border-radius: 50%;
 
-      filter:
-        drop-shadow(0 0 12px rgba(25,186,255,.50))
-        drop-shadow(0 0 30px rgba(155,77,255,.30));
-
-      animation: logoFloat 4.5s ease-in-out infinite;
-
       isolation: isolate;
+
+      /*
+        NO LOGO ANIMATION
+        Logo remains completely static.
+      */
+      filter:
+        drop-shadow(0 0 12px rgba(25,186,255,.45))
+        drop-shadow(0 0 28px rgba(155,77,255,.25));
     }
 
-    /* Animated outer ring */
+    /*
+      Static outer ring.
+      No rotating animation.
+    */
     .logo-wrap::before {
       content: "";
 
@@ -306,22 +312,21 @@
       border-radius: 50%;
 
       background:
-        conic-gradient(
-          from 0deg,
+        linear-gradient(
+          135deg,
           #19baff,
           #536dff,
           #9b4dff,
           #ff3fb4,
-          #ff9d2e,
-          #19baff
+          #ff9d2e
         );
-
-      animation: logoRingRotate 4s linear infinite;
 
       z-index: -2;
     }
 
-    /* Inner dark circle */
+    /*
+      Static inner dark circle.
+    */
     .logo-wrap::after {
       content: "";
 
@@ -346,7 +351,15 @@
       z-index: -1;
     }
 
-    /* ACTUAL LOGO */
+    /*
+      ACTUAL LOGO
+
+      contain = full logo visible
+      No crop
+      No stretch
+      No pulse
+      No movement
+    */
     .logo {
       position: relative;
 
@@ -357,31 +370,35 @@
 
       display: block;
 
-      /*
-        IMPORTANT:
-        contain हटाकर cover किया गया है,
-        इसलिए logo अंदर छोटा नहीं दिखेगा.
-      */
-      object-fit: cover;
+      object-fit: contain;
       object-position: center center;
 
       border-radius: 50%;
 
-      padding: 0;
+      padding: 5px;
 
-      background: #000;
+      background: transparent;
 
       box-shadow:
-        inset 0 0 16px rgba(0,0,0,.70),
-        0 0 20px rgba(25,186,255,.25),
-        0 0 35px rgba(155,77,255,.15);
+        inset 0 0 16px rgba(0,0,0,.55),
+        0 0 20px rgba(25,186,255,.20),
+        0 0 35px rgba(155,77,255,.12);
 
-      animation: logoPulse 2.8s ease-in-out infinite;
+      /*
+        IMPORTANT:
+        NO animation here.
+      */
+      animation: none;
 
-      overflow: hidden;
+      transform: none;
+
+      overflow: visible;
     }
 
-    /* Glass highlight */
+    /*
+      Static glass highlight.
+      No rotating animation.
+    */
     .logo-ring-light {
       position: absolute;
 
@@ -391,63 +408,19 @@
 
       border: 2px solid transparent;
 
-      border-top-color: rgba(255,255,255,.90);
-      border-right-color: rgba(255,255,255,.18);
+      border-top-color: rgba(255,255,255,.70);
+      border-right-color: rgba(255,255,255,.12);
 
       z-index: 5;
 
       pointer-events: none;
 
-      animation: logoRingRotateReverse 2.5s linear infinite;
-    }
+      /*
+        NO animation.
+      */
+      animation: none;
 
-    @keyframes logoRingRotate {
-      from {
-        transform: rotate(0deg);
-      }
-
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    @keyframes logoRingRotateReverse {
-      from {
-        transform: rotate(360deg);
-      }
-
-      to {
-        transform: rotate(0deg);
-      }
-    }
-
-    @keyframes logoPulse {
-      0%,100% {
-        transform: scale(1);
-
-        box-shadow:
-          inset 0 0 16px rgba(0,0,0,.70),
-          0 0 20px rgba(25,186,255,.25);
-      }
-
-      50% {
-        transform: scale(1.025);
-
-        box-shadow:
-          inset 0 0 16px rgba(0,0,0,.70),
-          0 0 30px rgba(25,186,255,.40),
-          0 0 45px rgba(155,77,255,.18);
-      }
-    }
-
-    @keyframes logoFloat {
-      0%,100% {
-        transform: translateY(0);
-      }
-
-      50% {
-        transform: translateY(-6px);
-      }
+      transform: none;
     }
 
     /* =========================
@@ -1009,6 +982,14 @@
       .logo {
         width: 122px;
         height: 122px;
+
+        object-fit: contain;
+        object-position: center center;
+
+        padding: 4px;
+
+        animation: none;
+        transform: none;
       }
 
       .features {
@@ -1036,7 +1017,7 @@
 
     @media (prefers-reduced-motion: reduce) {
 
-      *,
+      * ,
       *::before,
       *::after {
         animation-duration: .01ms !important;
@@ -1175,3 +1156,4 @@
 
 </body>
 </html>
+```
