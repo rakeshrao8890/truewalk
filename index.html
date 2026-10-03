@@ -291,8 +291,6 @@
         drop-shadow(0 0 12px rgba(25,186,255,.50))
         drop-shadow(0 0 30px rgba(155,77,255,.30));
 
-      animation: logoFloat 4.5s ease-in-out infinite;
-
       isolation: isolate;
     }
 
@@ -315,8 +313,6 @@
           #ff9d2e,
           #19baff
         );
-
-      animation: logoRingRotate 4s linear infinite;
 
       z-index: -2;
     }
@@ -368,7 +364,7 @@
       padding: 0;
       background: transparent;
 
-      transform: scale(1.08);
+      transform: scale(1.10);
 
       filter:
         drop-shadow(0 0 7px rgba(255,190,45,.45))
@@ -378,29 +374,12 @@
         0 0 20px rgba(25,186,255,.22),
         0 0 35px rgba(155,77,255,.14);
 
-      animation: logoPulse 2.8s ease-in-out infinite;
-
       overflow: visible;
     }
 
     /* Glass highlight */
     .logo-ring-light {
-      position: absolute;
-
-      inset: -5px;
-
-      border-radius: 50%;
-
-      border: 2px solid transparent;
-
-      border-top-color: rgba(255,255,255,.90);
-      border-right-color: rgba(255,255,255,.18);
-
-      z-index: 5;
-
-      pointer-events: none;
-
-      animation: logoRingRotateReverse 2.5s linear infinite;
+      display: none;
     }
 
     @keyframes logoRingRotate {
