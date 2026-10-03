@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -271,7 +270,7 @@
     }
 
     /* =========================
-       LOGO - STATIC / FULL LOGO
+       LOGO - FIXED
     ========================= */
 
     .logo-wrap {
@@ -288,21 +287,16 @@
 
       border-radius: 50%;
 
-      isolation: isolate;
-
-      /*
-        NO LOGO ANIMATION
-        Logo remains completely static.
-      */
       filter:
-        drop-shadow(0 0 12px rgba(25,186,255,.45))
-        drop-shadow(0 0 28px rgba(155,77,255,.25));
+        drop-shadow(0 0 12px rgba(25,186,255,.50))
+        drop-shadow(0 0 30px rgba(155,77,255,.30));
+
+      animation: logoFloat 4.5s ease-in-out infinite;
+
+      isolation: isolate;
     }
 
-    /*
-      Static outer ring.
-      No rotating animation.
-    */
+    /* Animated outer ring */
     .logo-wrap::before {
       content: "";
 
@@ -312,21 +306,22 @@
       border-radius: 50%;
 
       background:
-        linear-gradient(
-          135deg,
+        conic-gradient(
+          from 0deg,
           #19baff,
           #536dff,
           #9b4dff,
           #ff3fb4,
-          #ff9d2e
+          #ff9d2e,
+          #19baff
         );
+
+      animation: logoRingRotate 4s linear infinite;
 
       z-index: -2;
     }
 
-    /*
-      Static inner dark circle.
-    */
+    /* Inner dark circle */
     .logo-wrap::after {
       content: "";
 
@@ -351,54 +346,44 @@
       z-index: -1;
     }
 
-    /*
-      ACTUAL LOGO
-
-      contain = full logo visible
-      No crop
-      No stretch
-      No pulse
-      No movement
-    */
+    /* ACTUAL LOGO */
     .logo {
       position: relative;
-
       z-index: 3;
 
-      width: 136px;
-      height: 136px;
+      /*
+        Logo ko original ratio me rakha gaya hai.
+        object-fit: contain se logo crop nahi hoga.
+        scale se assets/logo.png ke andar agar extra
+        transparent/black padding ho to actual logo bada dikhega.
+      */
+      width: 150px;
+      height: 150px;
 
       display: block;
-
       object-fit: contain;
       object-position: center center;
 
       border-radius: 50%;
-
-      padding: 5px;
-
+      padding: 0;
       background: transparent;
 
+      transform: scale(1.08);
+
+      filter:
+        drop-shadow(0 0 7px rgba(255,190,45,.45))
+        drop-shadow(0 0 14px rgba(25,186,255,.22));
+
       box-shadow:
-        inset 0 0 16px rgba(0,0,0,.55),
-        0 0 20px rgba(25,186,255,.20),
-        0 0 35px rgba(155,77,255,.12);
+        0 0 20px rgba(25,186,255,.22),
+        0 0 35px rgba(155,77,255,.14);
 
-      /*
-        IMPORTANT:
-        NO animation here.
-      */
-      animation: none;
-
-      transform: none;
+      animation: logoPulse 2.8s ease-in-out infinite;
 
       overflow: visible;
     }
 
-    /*
-      Static glass highlight.
-      No rotating animation.
-    */
+    /* Glass highlight */
     .logo-ring-light {
       position: absolute;
 
@@ -408,19 +393,63 @@
 
       border: 2px solid transparent;
 
-      border-top-color: rgba(255,255,255,.70);
-      border-right-color: rgba(255,255,255,.12);
+      border-top-color: rgba(255,255,255,.90);
+      border-right-color: rgba(255,255,255,.18);
 
       z-index: 5;
 
       pointer-events: none;
 
-      /*
-        NO animation.
-      */
-      animation: none;
+      animation: logoRingRotateReverse 2.5s linear infinite;
+    }
 
-      transform: none;
+    @keyframes logoRingRotate {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes logoRingRotateReverse {
+      from {
+        transform: rotate(360deg);
+      }
+
+      to {
+        transform: rotate(0deg);
+      }
+    }
+
+    @keyframes logoPulse {
+      0%,100% {
+        transform: scale(1);
+
+        box-shadow:
+          inset 0 0 16px rgba(0,0,0,.70),
+          0 0 20px rgba(25,186,255,.25);
+      }
+
+      50% {
+        transform: scale(1.025);
+
+        box-shadow:
+          inset 0 0 16px rgba(0,0,0,.70),
+          0 0 30px rgba(25,186,255,.40),
+          0 0 45px rgba(155,77,255,.18);
+      }
+    }
+
+    @keyframes logoFloat {
+      0%,100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-6px);
+      }
     }
 
     /* =========================
@@ -980,16 +1009,9 @@
       }
 
       .logo {
-        width: 122px;
-        height: 122px;
-
-        object-fit: contain;
-        object-position: center center;
-
-        padding: 4px;
-
-        animation: none;
-        transform: none;
+        width: 134px;
+        height: 134px;
+        transform: scale(1.06);
       }
 
       .features {
@@ -1017,7 +1039,7 @@
 
     @media (prefers-reduced-motion: reduce) {
 
-      * ,
+      *,
       *::before,
       *::after {
         animation-duration: .01ms !important;
@@ -1061,6 +1083,9 @@
           src="assets/logo.png"
           alt="TRUE WALK Logo"
           class="logo"
+          decoding="async"
+          fetchpriority="high"
+          onerror="this.onerror=null; this.src='assets/logo.jpg';"
         >
 
         <span class="logo-ring-light"></span>
@@ -1156,4 +1181,3 @@
 
 </body>
 </html>
-```
