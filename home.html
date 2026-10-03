@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -177,18 +178,25 @@ a{
   display:flex;
   align-items:center;
   gap:11px;
+
+  min-width:0;
 }
 
 
 /* =========================
-   LOGO
+   LOGO - FIXED
 ========================= */
 
 .brand-logo{
   position:relative;
 
-  width:42px;
-  height:42px;
+  width:46px;
+  height:46px;
+
+  min-width:46px;
+  min-height:46px;
+
+  flex:0 0 46px;
 
   display:flex;
   align-items:center;
@@ -198,10 +206,10 @@ a{
 
   overflow:hidden;
 
-  background:#111827;
+  background:rgba(17,24,39,.88);
 
   border:
-    1px solid rgba(255,255,255,.15);
+    1px solid rgba(255,255,255,.16);
 
   box-shadow:
     0 0 0 1px rgba(255,255,255,.08),
@@ -211,18 +219,44 @@ a{
   animation:logoGlow 4s ease-in-out infinite;
 }
 
+/*
+  IMPORTANT:
+  Logo image keeps its original proportion.
+  It will never stretch or crop.
+*/
 .brand-logo img{
+  display:block;
+
   width:100%;
   height:100%;
 
-  display:block;
+  max-width:100%;
+  max-height:100%;
 
   object-fit:contain;
+  object-position:center;
 
-  padding:3px;
+  padding:4px;
 
   border-radius:12px;
+
+  background:transparent;
 }
+
+
+/* Logo hover */
+
+.brand-logo:hover{
+  transform:scale(1.04);
+
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.13),
+    0 0 30px rgba(53,167,255,.38),
+    0 0 45px rgba(139,92,246,.25);
+}
+
+
+/* Logo animation */
 
 @keyframes logoGlow{
 
@@ -244,10 +278,16 @@ a{
 }
 
 
+/* =========================
+   BRAND NAME
+========================= */
+
 .brand-name{
   font-size:18px;
   font-weight:900;
   letter-spacing:.5px;
+
+  white-space:nowrap;
 }
 
 .brand-name span{
@@ -811,15 +851,29 @@ a{
     padding:0 14px;
   }
 
+  /* MOBILE LOGO */
   .brand-logo{
-    width:37px;
-    height:37px;
-    border-radius:12px;
+    width:42px;
+    height:42px;
+
+    min-width:42px;
+    min-height:42px;
+
+    flex-basis:42px;
+
+    border-radius:13px;
   }
 
   .brand-logo img{
-    border-radius:10px;
-    padding:2px;
+    width:100%;
+    height:100%;
+
+    padding:3px;
+
+    border-radius:11px;
+
+    object-fit:contain;
+    object-position:center;
   }
 
   .brand-name{
@@ -901,6 +955,20 @@ a{
 
 @media(max-width:390px){
 
+  .brand-logo{
+    width:40px;
+    height:40px;
+
+    min-width:40px;
+    min-height:40px;
+
+    flex-basis:40px;
+  }
+
+  .brand-logo img{
+    padding:3px;
+  }
+
   .brand-name{
     font-size:15px;
   }
@@ -944,16 +1012,19 @@ a{
 
   <div class="brand">
 
-    <!-- ACTUAL LOGO -->
+    <!-- =========================
+         ACTUAL LOGO
+         logo.png must be in same
+         folder as home.html
+    ========================== -->
+
     <div class="brand-logo">
 
       <img
         src="./logo.png"
-        alt="TRUE WALK"
-        onerror="
-          this.style.display='none';
-          this.parentElement.innerHTML='TW';
-        "
+        alt="TRUE WALK Logo"
+        loading="eager"
+        decoding="async"
       >
 
     </div>
@@ -1461,3 +1532,4 @@ loadHome();
 
 </body>
 </html>
+```
