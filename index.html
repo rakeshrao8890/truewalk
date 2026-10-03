@@ -270,36 +270,271 @@ h1{
 
 /* MOBILE */
 @media(max-width:700px){
-  .hero{padding:14px 10px}
-  .card{padding:24px 16px 22px;border-radius:28px}
-  .card-border{border-radius:28px}
-  .logo-area{width:185px;height:185px;margin-bottom:8px}
-  .logo{width:160px;height:160px}
-  h1{font-size:clamp(42px,12vw,62px)}
-  .subtitle{font-size:14px;margin:16px 0 25px}
-  .subtitle:before,.subtitle:after{width:28px;margin:0 9px}
-  .features{gap:10px;margin-bottom:22px}
-  .feature{min-height:92px;padding:12px 10px;gap:10px;border-radius:17px}
-  .icon{width:46px;height:46px;min-width:46px;border-radius:13px;font-size:23px}
-  .feature h3{font-size:14px;margin-bottom:5px}
-  .feature p{font-size:10px}
-  .arrow{font-size:20px}
-  .get-start{min-height:64px;font-size:18px}
-  .get-start:before{left:20px;width:40px;height:40px;font-size:19px}
-  .get-start:after{right:18px;font-size:25px}
-  .support{min-height:65px;padding:9px 13px;gap:11px;border-radius:18px}
-  .telegram{width:44px;height:44px;min-width:44px;font-size:22px}
-  .support strong{font-size:14px}
-  .support small{font-size:10px}
-  .register{font-size:15px;margin-top:22px}
-  .secure{font-size:9px;letter-spacing:2.5px;margin-top:22px}
+  html,body{
+    width:100%;
+    min-width:0;
+    overflow-x:hidden;
+  }
+
+  .hero{
+    min-height:100svh;
+    width:100%;
+    padding:14px 10px;
+    align-items:center;
+  }
+
+  .card{
+    width:100%;
+    max-width:520px;
+    padding:22px 12px 20px;
+    border-radius:24px;
+  }
+
+  .card-border{
+    border-radius:24px;
+  }
+
+  .logo-area{
+    width:170px;
+    height:170px;
+    margin:0 auto 8px;
+  }
+
+  .logo-area:before{
+    inset:4px;
+  }
+
+  .logo-area:after{
+    inset:11px;
+  }
+
+  .logo{
+    width:146px;
+    height:146px;
+    border-radius:20px;
+  }
+
+  h1{
+    font-size:clamp(39px,12vw,58px);
+    letter-spacing:1px;
+    white-space:nowrap;
+  }
+
+  .subtitle{
+    font-size:13px;
+    letter-spacing:1.5px;
+    margin:14px 0 22px;
+  }
+
+  .subtitle:before,
+  .subtitle:after{
+    width:22px;
+    margin:0 7px;
+  }
+
+  .features{
+    grid-template-columns:1fr;
+    gap:10px;
+    margin-bottom:18px;
+  }
+
+  .feature{
+    width:100%;
+    min-height:78px;
+    padding:10px 11px;
+    gap:11px;
+    border-radius:17px;
+  }
+
+  .icon{
+    width:48px;
+    height:48px;
+    min-width:48px;
+    border-radius:13px;
+    font-size:23px;
+  }
+
+  .feature h3{
+    font-size:15px;
+    line-height:1.2;
+    margin-bottom:4px;
+  }
+
+  .feature p{
+    font-size:10px;
+    line-height:1.25;
+  }
+
+  .arrow{
+    font-size:22px;
+    flex-shrink:0;
+  }
+
+  .get-start{
+    min-height:62px;
+    border-radius:34px;
+    font-size:18px;
+    letter-spacing:.6px;
+  }
+
+  .get-start:before{
+    left:14px;
+    width:40px;
+    height:40px;
+    font-size:18px;
+  }
+
+  .get-start:after{
+    right:16px;
+    font-size:26px;
+  }
+
+  .support{
+    width:100%;
+    min-height:64px;
+    margin-top:12px;
+    padding:8px 11px;
+    gap:10px;
+    border-radius:17px;
+  }
+
+  .telegram{
+    width:44px;
+    height:44px;
+    min-width:44px;
+    font-size:21px;
+  }
+
+  .support strong{
+    font-size:13px;
+    line-height:1.2;
+  }
+
+  .support small{
+    margin-top:3px;
+    font-size:9px;
+  }
+
+  .register{
+    margin-top:18px;
+    font-size:14px;
+  }
+
+  .secure{
+    margin-top:18px;
+    font-size:8px;
+    letter-spacing:2px;
+  }
 }
+
 @media(max-width:390px){
-  .features{grid-template-columns:1fr}
-  .feature{min-height:78px}
-  .logo-area{width:165px;height:165px}
-  .logo{width:142px;height:142px}
+  .hero{
+    padding:9px 7px;
+  }
+
+  .card{
+    padding:18px 9px 17px;
+    border-radius:21px;
+  }
+
+  .card-border{
+    border-radius:21px;
+  }
+
+  .logo-area{
+    width:150px;
+    height:150px;
+    margin-bottom:5px;
+  }
+
+  .logo{
+    width:128px;
+    height:128px;
+  }
+
+  h1{
+    font-size:38px;
+  }
+
+  .subtitle{
+    font-size:12px;
+    margin:11px 0 17px;
+  }
+
+  .subtitle:before,
+  .subtitle:after{
+    width:17px;
+    margin:0 5px;
+  }
+
+  .feature{
+    min-height:70px;
+    padding:8px 9px;
+  }
+
+  .icon{
+    width:43px;
+    height:43px;
+    min-width:43px;
+    font-size:20px;
+  }
+
+  .feature h3{
+    font-size:13px;
+  }
+
+  .feature p{
+    font-size:9px;
+  }
+
+  .get-start{
+    min-height:57px;
+    font-size:16px;
+  }
+
+  .get-start:before{
+    left:11px;
+    width:36px;
+    height:36px;
+  }
+
+  .get-start:after{
+    right:12px;
+    font-size:23px;
+  }
+
+  .support{
+    min-height:58px;
+    margin-top:10px;
+  }
+
+  .telegram{
+    width:39px;
+    height:39px;
+    min-width:39px;
+    font-size:18px;
+  }
+
+  .support strong{
+    font-size:12px;
+  }
+
+  .support small{
+    font-size:8px;
+  }
+
+  .register{
+    margin-top:15px;
+    font-size:13px;
+  }
+
+  .secure{
+    margin-top:14px;
+    font-size:7px;
+    letter-spacing:1.7px;
+  }
 }
+
 @media(prefers-reduced-motion:reduce){
   *,*:before,*:after{animation:none!important;transition:none!important}
 }
